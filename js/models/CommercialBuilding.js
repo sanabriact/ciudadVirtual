@@ -1,0 +1,3 @@
+class ComercialBuilding extends Building{
+    
+}

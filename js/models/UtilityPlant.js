@@ -1,0 +1,3 @@
+class UtilityPlant extends Building{
+    
+}
