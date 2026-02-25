@@ -1,0 +1,3 @@
+class IndustrialBuilding extends Building{
+    
+}
