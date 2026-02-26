@@ -85,6 +85,26 @@ class City {
         this._height = height;
     }
 
+    set score(score){
+        this._score = score;
+    }
+
+    set map(map){
+        this._map = map;
+    }
+
+    set population(population) {
+        this._population = population;
+    }
+
+    set buildings(buildings) {
+        this._buildings = buildings;
+    }
+
+    set roads(roads) {
+        this._roads = roads;
+    }
+
 
 
 }
