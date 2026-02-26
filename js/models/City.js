@@ -70,19 +70,50 @@ class City {
     }
 
     set regionLat(regionLat) {
-        this._regionLat = regionLat;
+        if (regionLat >= 0) {
+            this._regionLat = regionLat;
+        }
     }
 
     set regionLon(regionLon) {
-        this._regionLon = regionLon;
+        if (regionLon >= 0) {
+            this._regionLon = regionLon;
+
+        }
     }
 
-    set width(width){
-        this._width = width;
+    set width(width) {
+        if (width >= 0) {
+            this._width = width;
+        }
     }
 
-    set height(height){
-        this._height = height;
+    set height(height) {
+        if (height >= 0) {
+            this._height = height;
+        }
+    }
+
+    set score(score) {
+        if (score>=0) {
+            this._score = score;
+        }
+    }
+
+    set map(map) {
+        this._map = map;
+    }
+
+    set population(population) {
+        this._population = population;
+    }
+
+    set buildings(buildings) {
+        this._buildings = buildings;
+    }
+
+    set roads(roads) {
+        this._roads = roads;
     }
 
 
