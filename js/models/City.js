@@ -70,26 +70,37 @@ class City {
     }
 
     set regionLat(regionLat) {
-        this._regionLat = regionLat;
+        if (regionLat >= 0) {
+            this._regionLat = regionLat;
+        }
     }
 
     set regionLon(regionLon) {
-        this._regionLon = regionLon;
+        if (regionLon >= 0) {
+            this._regionLon = regionLon;
+
+        }
     }
 
-    set width(width){
-        this._width = width;
+    set width(width) {
+        if (width >= 0) {
+            this._width = width;
+        }
     }
 
-    set height(height){
-        this._height = height;
+    set height(height) {
+        if (height >= 0) {
+            this._height = height;
+        }
     }
 
-    set score(score){
-        this._score = score;
+    set score(score) {
+        if (score>=0) {
+            this._score = score;
+        }
     }
 
-    set map(map){
+    set map(map) {
         this._map = map;
     }
 
