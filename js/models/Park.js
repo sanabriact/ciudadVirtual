@@ -1,6 +1,6 @@
 class Park extends Building{
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, active, happinessBonus) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y, active);
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, happinessBonus) {
+        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
         this._happinesBonus = happinessBonus || null;
     }
 
