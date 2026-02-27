@@ -1,6 +1,6 @@
 class ComercialBuilding extends Building {
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, active, jobs, incomePerTurn) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y, active);
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, jobs, incomePerTurn) {
+        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
         this._jobs = jobs || null;
         this._incomePerTurn = incomePerTurn || null;
     }

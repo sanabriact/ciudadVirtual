@@ -1,5 +1,8 @@
 class Building {
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, active) {
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y) {
+        if (new.target === Building) {
+            throw new Error("Building es una clase abstracta");
+        }
         this._id = id || null;
         this._name = name || "";
         this._cost = cost || null;
@@ -7,7 +10,7 @@ class Building {
         this._waterConsumption = waterConsumption || null;
         this._x = x || null;
         this._y = y || null;
-        this._active = active || null
+        this._active = true
     }
 
     // ======== GETTERS ====================
@@ -56,7 +59,7 @@ class Building {
     }
 
     set cost(cost) {
-        if(cost >= 0) {
+        if (cost >= 0) {
             this._cost = cost;
         }
     }
@@ -68,19 +71,19 @@ class Building {
     }
 
     set waterConsumption(waterConsumption) {
-        if (waterConsumption>=0) {
+        if (waterConsumption >= 0) {
             this._waterConsumption = waterConsumption;
         }
     }
 
     set x(x) {
-        if(x>=0) {
-            this._x=x;
+        if (x >= 0) {
+            this._x = x;
         }
     }
 
     set y(y) {
-        if(y>=0) {
+        if (y >= 0) {
             this._y = y;
         }
     }
