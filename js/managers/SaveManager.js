@@ -1,27 +1,47 @@
-class SaveManager{
+class CityStorage {
 
-    static key = "city"
-
-    static saveGame(city){
-        localStorage.setItem(this.key, JSON.stringify(city));
+    static save(city) {
+        const cityJSON = JSON.stringify(city);
+        localStorage.setItem("city", cityJSON);
     }
-2
-    static loadGame(){
-        let data = localStorage.getItem(this.key);
-        if (!data) return [];
 
-        let cityPlane = JSON.parse(data)
-        
-        city = new City(
-                cityPlane.name,
-                cityPlane.mayor,
-                cityPlane.regionLat,
-                cityPlane.regionLon,
-                cityPlane.width,
-                cityPlane.height,
-                cityPlane.score,
-                cityPlane.hapinessAverage,
-                cityPlane.grid
+    static load() {
+        const cityData = localStorage.getItem("city");
+        if (!cityData) return null;
+
+        const parsed = JSON.parse(cityData);
+
+        // Reconstruimos la ciudad
+        const city = new City(
+            parsed.name,
+            parsed.mayor,
+            parsed.regionLat,
+            parsed.regionLon,
+            parsed.width,
+            parsed.height
         );
+
+        city.score = parsed.score;
+        city.roads = parsed.roads || [];
+
+        // Restaurar managers
+        if (parsed.buildings) {
+            parsed.buildings.forEach(b => {
+                city.buildingManager.createBuilding(b);
+            });
+        }
+
+        //Restaurar citizens
+        if (parsed.citizens) {
+            parsed.citizens.forEach(c => {
+                city.citizenManager.createCitizen(c);
+            });
+        }
+
+        return city;
+    }
+
+    static clear() {
+        localStorage.removeItem("city");
     }
 }
