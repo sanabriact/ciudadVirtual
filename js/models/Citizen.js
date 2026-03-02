@@ -2,8 +2,8 @@ class Citizen {
     constructor(id){
         this._id = id || null;
         this._happiness = 50;
-        this._hasHome = hasHome || null;
-        this._hasJob = hasJob || null;
+        this._hasHome = null;
+        this._hasJob = null;
     }
     //==========GETTERS=============
     get id(){ 
