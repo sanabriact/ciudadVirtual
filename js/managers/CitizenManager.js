@@ -14,4 +14,8 @@ class CitizenManager {
         }
     }
 
+    get population(){
+        return this._population; 
+    }
+
 }

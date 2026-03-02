@@ -1,13 +1,14 @@
 class City {
-    constructor(name, mayor, regionLat, regionLon, width, height) {
+    constructor(name, mayor, regionLat, regionLon, width, height, score, hapinessAverage, grid) {
         this._name = name || "";
         this._mayor = mayor || "";
         this._regionLat = regionLat ?? null;
         this._regionLon = regionLon ?? null;
         this._width = width ?? 0;
         this._height = height ?? 0;
-        this._score = 0;
-        this._map = null;
+        this._score = score ?? 0;
+        this._hapinessAverage = hapinessAverage ?? 0;
+        this._grid = grid;
         this._buildingManager = new BuildingManager();
         this._citizenManager = new CitizenManager();
         this._roads = [];
@@ -49,8 +50,8 @@ class City {
 
     }
 
-    get map() {
-        return this._map;
+    get grid() {
+        return this._grid;
 
     }
 
@@ -74,6 +75,10 @@ class City {
 
     get buildingManager() {
         return this._buildingManager;
+    }
+
+    get hapinessAverage() {
+        return this._hapinessAverage;
     }
 
     // ===== SETTERS =====
@@ -111,11 +116,15 @@ class City {
             this._score = score;
     }
 
-    set map(map) {
-        this._map = map;
+    set grid(grid) {
+        this._grid = grid;
     }
 
     set roads(roads) {
         this._roads = roads;
+    }
+    
+    set hapinessAverage(hapinessAverage) {
+        this._hapinessAverage = hapinessAverage;
     }
 }

@@ -10,7 +10,7 @@ class Building {
         this._waterConsumption = waterConsumption || null;
         this._x = x || null;
         this._y = y || null;
-        this._active = true
+    
     }
 
     // ======== GETTERS ====================
@@ -34,16 +34,12 @@ class Building {
         return this._waterConsumption;
     }
 
-    get x() {
+    get xAxis() {
         return this._x;
     }
 
-    get y() {
+    get yAxis() {
         return this._y;
-    }
-
-    get active() {
-        return this._active;
     }
 
     //============SETTERS=============
@@ -76,19 +72,15 @@ class Building {
         }
     }
 
-    set x(x) {
+    set xAxis(x) {
         if (x >= 0) {
             this._x = x;
         }
     }
 
-    set y(y) {
+    set yAxis(y) {
         if (y >= 0) {
             this._y = y;
         }
-    }
-
-    set active(active) {
-        this._active = active;
     }
 }
