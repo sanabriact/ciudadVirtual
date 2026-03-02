@@ -1,4 +1,4 @@
-class CityStorage {
+class SaveManager {
 
     static save(city) {
         const cityJSON = JSON.stringify(city);
