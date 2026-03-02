@@ -3,7 +3,7 @@ class BuildingManager {
         this._buildings = []
     }
 
-    createBuilding(building) {
+    addBuilding(building) {
         this._buildings.push(building);
     }
 
@@ -13,4 +13,6 @@ class BuildingManager {
         }
     }
 
-}
+} 
+
+console.log("hola")
