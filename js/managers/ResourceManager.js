@@ -36,9 +36,9 @@ class ResourceManager {
     }
     //==========SETTERS=============
     set money(money){
-       if(money >=0){
-         this._money = money;
-       }
+        if(money >=0){
+            this._money = money;
+        }
     }
     set electricity(electricity){
         if(electricity >=0){

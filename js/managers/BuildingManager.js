@@ -3,5 +3,5 @@ class BuildingManager{
         this._buildings = []
     }
 
-    addBui
+    
 }
