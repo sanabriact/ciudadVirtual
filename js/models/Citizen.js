@@ -1,7 +1,7 @@
 class Citizen {
-    constructor(id,happiness,hasHome,hasJob){
+    constructor(id){
         this._id = id || null;
-        this._happiness = happiness || null;
+        this._happiness = 50;
         this._hasHome = hasHome || null;
         this._hasJob = hasJob || null;
     }

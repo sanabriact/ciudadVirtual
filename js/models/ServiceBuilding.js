@@ -1,6 +1,6 @@
 class ServiceBuilding extends Building{
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, active, radius, happinessBonus) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y, active);
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, radius, happinessBonus) {
+        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
         this._radius = radius || null;
         this._happinessBonus = happinessBonus|| null;
     }

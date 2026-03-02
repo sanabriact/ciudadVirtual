@@ -1,4 +1,4 @@
-class Map {
+class Grid {
     constructor(width, height, cells) {
         this._width = width || null;
         this.height = height || null;

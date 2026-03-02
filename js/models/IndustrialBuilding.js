@@ -1,8 +1,8 @@
 class IndustrialBuilding extends Building{
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, active, jobs, _productionType) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y, active);
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y,jobs, productionType) {
+        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
         this._jobs = jobs || null;
-        this._productionType = _productionType || "";
+        this._productionType = productionType || "";
     }
 //============GETTERS============
     get jobs() {
