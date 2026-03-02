@@ -23,14 +23,5 @@ class SaveManager{
                 cityPlane.hapinessAverage,
                 cityPlane.grid
         );
-
-        let citizens = cityPlane.citizenManager.population.map(e=>
-            citizen = new Citizen(
-                e.id
-            );
-            citizen.happiness = e.happiness;
-        )
-        
-
     }
 }
