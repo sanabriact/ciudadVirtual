@@ -3,7 +3,7 @@ class CitizenManager {
         this._population = []
     }
 
-    createCitizen(id) {
+    addCitizen(id) {
         this._population.push(new Citizen(id))
     }
 
