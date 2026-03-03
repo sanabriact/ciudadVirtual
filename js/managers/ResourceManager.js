@@ -1,13 +1,13 @@
 class ResourceManager {
     constructor(money,electricity,electricityProduction,electricConsumption,water,waterProduction,waterConsumption,food){
-        this._money = money || null;
-        this._electricity = electricity || null;
-        this._electricityProduction = electricityProduction|| null;
-        this._electricConsumption = electricConsumption || null;
-        this._water = water || null;
-        this._waterProduction = waterProduction || null;
-        this._waterConsumption = waterConsumption || null;
-        this._food = food || null;
+        this._money = money || 50000;
+        this._electricity = electricity || 0;
+        this._electricityProduction = electricityProduction|| 0;
+        this._electricConsumption = electricConsumption || 0;
+        this._water = water || 0;
+        this._waterProduction = waterProduction || 0;
+        this._waterConsumption = waterConsumption || 0;
+        this._food = food || 0;
     }
     //==========GETTERS=============
     get money(){

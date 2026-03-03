@@ -10,7 +10,9 @@ class BuildingManager {
     deleteBuilding(id) {
         for (building in this._buildings) {
             this._buildings.filter(building => building !== id);
+            return true;
         }
+        return false;
     }
 
     get buildings(){
