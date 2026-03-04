@@ -4,14 +4,6 @@ class IndustrialBuilding extends Building{
         this._jobs = jobs ?? 0;
         this._productionType = productionType || "";
     }
-//============GETTERS============
-    get jobs() {
-        return this._jobs;
-    }
-
-    get productionType() {
-        return this._productionType;
-    }
 
 //=========SETTERS===========
 
@@ -19,10 +11,6 @@ class IndustrialBuilding extends Building{
         if (jobs >= 0) {
             this._jobs = jobs;
         }
-    }
-
-    set productionType(productionType) {
-        this._productionType = productionType;
     }
 
 }

@@ -20,9 +20,4 @@ class CitizenManager {
         this.addCitizen(citizen);
         return true;
     }
-
-    get population(){
-        return this._population; 
-    }
-
 }

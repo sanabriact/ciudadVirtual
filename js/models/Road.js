@@ -5,23 +5,8 @@ class Road {
         this._x = x;
         this._y = y;
     }
-    //==========GETTERS=============
-    get id() {
-        return this._id;
-    }
-    get cost() {
-        return this._cost;
-    }
-    get x() {
-        return this._x;
-    }
-    get y() {
-        return this._y;
-    }
+
     //==========SETTERS=============
-    set id(id) {
-            this._id = id;
-    }
     
     set x(x) {
         if (x >= 0) {

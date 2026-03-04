@@ -5,22 +5,17 @@ class ServiceBuilding extends Building {
         this._happinessBonus = happinessBonus ?? 0;
     }
 
-    //============GETTERS=============
-    get radius() {
-        return this._radius;
-    }
-
-    get happinessBonus() {
-        return this._happinessBonus;
-    }
-
     //==========SETTERS==============
 
     set radius(radius) {
-        this._radius = radius;
+        if (radius >= 5) {
+            this._radius = radius;
+        }
     }
 
     set happinessBonus(happinessBonus) {
-        this._happinessBonus = happinessBonus;
+        if (hapinessBonus >= 0){
+            this._happinessBonus = happinessBonus;
+        }
     }
 }

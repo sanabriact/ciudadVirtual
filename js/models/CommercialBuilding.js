@@ -5,15 +5,6 @@ class CommercialBuilding extends Building {
         this._incomePerTurn = incomePerTurn ?? 0;
     }
 
-    //============GETTERS============
-    get jobs() {
-        return this._jobs;
-    }
-
-    get incomePerTurn() {
-        return this._incomePerTurn;
-    }
-
     //=========SETTERS===========
 
     set jobs(jobs) {

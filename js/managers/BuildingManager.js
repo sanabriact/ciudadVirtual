@@ -15,10 +15,6 @@ class BuildingManager {
         return false;
     }
 
-    get buildings(){
-        return this._buildings;
-    }
-
     createBuilding(buildingData){
         let building;
         switch (buildingData.type){

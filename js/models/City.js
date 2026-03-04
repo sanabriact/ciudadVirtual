@@ -14,52 +14,7 @@ class City {
         this._roads = [];
     }
 
-    // ===== GETTERS =====
-
-    get name() {
-        return this._name;
-    }
-
-
-    get mayor() {
-        return this._mayor;
-    }
-
-    get regionLat() {
-        return this._regionLat;
-
-    }
-
-    get regionLon() {
-        return this._regionLon;
-
-    }
-
-    get width() {
-        return this._width;
-
-    }
-
-    get height() {
-        return this._height;
-
-    }
-
-    get score() {
-        return this._score;
-
-    }
-
-    get grid() {
-        return this._grid;
-
-    }
-
-    get roads() {
-        return this._roads;
-
-    }
-
+    
     // Delegados a managers
     get population() {
         return this._citizenManager.population;
@@ -69,27 +24,7 @@ class City {
         return this._buildingManager.buildings;
     }
 
-    get citizenManager() {
-        return this._citizenManager;
-    }
-
-    get buildingManager() {
-        return this._buildingManager;
-    }
-
-    get hapinessAverage() {
-        return this._hapinessAverage;
-    }
-
     // ===== SETTERS =====
-
-    set name(name) {
-        this._name = name;
-    }
-
-    set mayor(mayor) {
-        this._mayor = mayor;
-    }
 
     set regionLat(regionLat) {
         if (regionLat >= 0)
@@ -116,15 +51,4 @@ class City {
             this._score = score;
     }
 
-    set grid(grid) {
-        this._grid = grid;
-    }
-
-    set roads(roads) {
-        this._roads = roads;
-    }
-    
-    set hapinessAverage(hapinessAverage) {
-        this._hapinessAverage = hapinessAverage;
-    }
 }

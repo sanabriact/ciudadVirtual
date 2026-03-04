@@ -13,40 +13,7 @@ class Building {
     
     }
 
-    // ======== GETTERS ====================
-    get id() {
-        return this._id;
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    get cost() {
-        return this._cost;
-    }
-
-    get electricityConsumption() {
-        return this._electricityConsumption;
-    }
-
-    get waterConsumption() {
-        return this._waterConsumption;
-    }
-
-    get xAxis() {
-        return this._x;
-    }
-
-    get yAxis() {
-        return this._y;
-    }
-
     //============SETTERS=============
-
-    set name(name) {
-        this._name = name;
-    }
 
     set id(id) {
         if (id >= 0) {
