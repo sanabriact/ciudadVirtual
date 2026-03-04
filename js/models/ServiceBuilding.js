@@ -1,26 +1,26 @@
-class ServiceBuilding extends Building{
+class ServiceBuilding extends Building {
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, radius, happinessBonus) {
         super(id, name, cost, electricityConsumption, waterConsumption, x, y);
-        this._radius = radius || null;
-        this._happinessBonus = happinessBonus|| null;
+        this._radius = radius ?? 0;
+        this._happinessBonus = happinessBonus ?? 0;
     }
 
-//============GETTERS=============
-    get radius(){
+    //============GETTERS=============
+    get radius() {
         return this._radius;
     }
 
-    get happinessBonus(){
+    get happinessBonus() {
         return this._happinessBonus;
     }
 
-//==========SETTERS==============
+    //==========SETTERS==============
 
-set radius(radius) {
-    this._radius = radius;
-}
+    set radius(radius) {
+        this._radius = radius;
+    }
 
-set happinessBonus(happinessBonus) {
-    this._happinessBonus = happinessBonus;
-}
+    set happinessBonus(happinessBonus) {
+        this._happinessBonus = happinessBonus;
+    }
 }

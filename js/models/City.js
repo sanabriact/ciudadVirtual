@@ -2,8 +2,8 @@ class City {
     constructor(name, mayor, regionLat, regionLon, width, height, score, hapinessAverage, grid) {
         this._name = name || "";
         this._mayor = mayor || "";
-        this._regionLat = regionLat ?? null;
-        this._regionLon = regionLon ?? null;
+        this._regionLat = regionLat ?? 0;
+        this._regionLon = regionLon ?? 0;
         this._width = width ?? 0;
         this._height = height ?? 0;
         this._score = score ?? 0;

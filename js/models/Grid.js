@@ -1,7 +1,7 @@
 class Grid {
     constructor(width, height, cells) {
-        this._width = width || null;
-        this.height = height || null;
+        this._width = width ?? 15;
+        this._height = height ?? 15;
         this._cells = cells || [];
     }
     //==========GETTERS=============
@@ -16,23 +16,18 @@ class Grid {
     }
     //==========SETTERS=============
     set width(width) {
-        if (width >= 0) {
+        if (width >= 15) {
             this._width = width;
         }
     }
     set height(height) {
-        if (height >= 0) {
+        if (height >= 15) {
             this._height = height;
         }
     }
     set cells(cells) {
         if (cells instanceof Array) {
             this._cells = cells;
-        }
-    }
-    isEmpty(x, y) {
-        if (x == null || y == null) {
-            return false;
         }
     }
 

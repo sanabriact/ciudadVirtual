@@ -1,9 +1,9 @@
 class Road {
-    constructor(id, cost, x, y) {
+    constructor(id, x, y) {
         this._id = id || null;
-        this._cost = cost || null;
-        this._x = x || null;
-        this._y = y || null;
+        this._cost = 100;
+        this._x = x;
+        this._y = y;
     }
     //==========GETTERS=============
     get id() {
@@ -20,15 +20,9 @@ class Road {
     }
     //==========SETTERS=============
     set id(id) {
-        if (id >= 0) {
             this._id = id;
-        }
     }
-    set cost(cost) {
-        if (cost >= 0) {
-            this._cost = cost;
-        }
-    }
+    
     set x(x) {
         if (x >= 0) {
             this._x = x;

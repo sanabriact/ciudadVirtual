@@ -1,7 +1,7 @@
 class UtilityPlant extends Building{
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, productionAmount) {
         super(id, name, cost, electricityConsumption, waterConsumption, x, y);
-        this._productionAmount = productionAmount || null;
+        this._productionAmount = productionAmount ?? 0;
     }
 
     //========GETTERS==========
