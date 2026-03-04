@@ -7,13 +7,13 @@ class ServiceBuilding extends Building {
 
     //==========SETTERS==============
 
-    set radius(radius) {
+    set _radius(radius) {
         if (radius >= 5) {
             this._radius = radius;
         }
     }
 
-    set happinessBonus(happinessBonus) {
+    set _happinessBonus(happinessBonus) {
         if (hapinessBonus >= 0){
             this._happinessBonus = happinessBonus;
         }

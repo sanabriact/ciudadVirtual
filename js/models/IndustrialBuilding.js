@@ -7,7 +7,7 @@ class IndustrialBuilding extends Building{
 
 //=========SETTERS===========
 
-    set jobs(jobs) {
+    set _jobs(jobs) {
         if (jobs >= 0) {
             this._jobs = jobs;
         }

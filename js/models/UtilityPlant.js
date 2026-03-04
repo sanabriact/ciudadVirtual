@@ -5,7 +5,7 @@ class UtilityPlant extends Building{
     }
     
     //=======SETTERS==========
-    set productionAmount(productionAmount){
+    set _productionAmount(productionAmount){
         if(productionAmount >= 0) {
             this._productionAmount = productionAmount;
         }

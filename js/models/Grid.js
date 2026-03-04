@@ -6,17 +6,17 @@ class Grid {
     }
 
     //==========SETTERS=============
-    set width(width) {
+    set _width(width) {
         if (width >= 15) {
             this._width = width;
         }
     }
-    set height(height) {
+    set _height(height) {
         if (height >= 15) {
             this._height = height;
         }
     }
-    set cells(cells) {
+    set _cells(cells) {
         if (cells instanceof Array) {
             this._cells = cells;
         }

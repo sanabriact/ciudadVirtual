@@ -7,13 +7,13 @@ class CommercialBuilding extends Building {
 
     //=========SETTERS===========
 
-    set jobs(jobs) {
+    set _jobs(jobs) {
         if (jobs >= 0) {
             this._jobs = jobs;
         }
     }
 
-    set incomePerTurn(incomePerTurn) {
+    set _incomePerTurn(incomePerTurn) {
         if (incomePerTurn >= 0) {
             this._incomePerTurn = incomePerTurn;
         }
