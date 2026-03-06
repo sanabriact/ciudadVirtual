@@ -1,3 +1,54 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #240b36, #c31432, #ed8f03);
+    background-size: 600% 600%;
+    animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#game-title {
+    display: flex;
+    justify-content: center;
+    font-family: 'Verdana', Geneva, sans-serif;
+    font-size: 4rem;
+    color: #640850;
+    text-shadow: 4px 4px 0px #000;
+}
+
+#game-title span {
+    display: inline-block;
+    animation: jump-wave 2.5s infinite;
+}
+
+#game-title span:nth-child(1) { animation-delay: 0.1s; }
+#game-title span:nth-child(2) { animation-delay: 0.2s; }
+#game-title span:nth-child(3) { animation-delay: 0.3s; }
+#game-title span:nth-child(4) { animation-delay: 0.4s; }
+#game-title span:nth-child(5) { animation-delay: 0.5s; }
+#game-title span:nth-child(6) { animation-delay: 0.6s; }
+#game-title span:nth-child(7) { animation-delay: 0.7s; }
+#game-title span:nth-child(8) { animation-delay: 0.8s; }
+#game-title span:nth-child(9) { animation-delay: 0.9s; }
+#game-title span:nth-child(10) { animation-delay: 1.0s; }
+#game-title span:nth-child(11) { animation-delay: 1.1s; }
+#game-title span:nth-child(12) { animation-delay: 1.2s; }
+
+@keyframes jump-wave {
+    0% { transform: translateY(0); }
+    5% { transform: translateY(-30px); }
+    10% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
 
 .d-grid .btn {
     text-transform: uppercase;
@@ -7,12 +58,10 @@
 }
 
 .d-grid .btn:hover {
-    transform: scale(1.05); /* Efecto visual al pasar el mouse */
+    transform: scale(1.05); 
 }
 
-#buttons{
+#buttons {
     justify-content: center;
-    gap: 20px; /* Espacio entre los botones */
-    /*centralo bro*/
-
+    gap: 20px; 
 }
