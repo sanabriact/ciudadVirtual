@@ -1,5 +1,18 @@
 
-#center{
-    text-align: center;
-    
+.d-grid .btn {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.d-grid .btn:hover {
+    transform: scale(1.05); /* Efecto visual al pasar el mouse */
+}
+
+#buttons{
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones */
+    /*centralo bro*/
+
 }
