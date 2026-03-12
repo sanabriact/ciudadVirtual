@@ -6,7 +6,7 @@ class Park extends Building {
 
     //========SETTERS============
     set _happinessBonus(happinessBonus) {
-        if (hapinessBonus >= 0) {
+        if (happinessBonus >= 0) {
             this._happinessBonus = happinessBonus;
         }
     }

@@ -14,7 +14,7 @@ class ServiceBuilding extends Building {
     }
 
     set _happinessBonus(happinessBonus) {
-        if (hapinessBonus >= 0){
+        if (happinessBonus >= 0){
             this._happinessBonus = happinessBonus;
         }
     }

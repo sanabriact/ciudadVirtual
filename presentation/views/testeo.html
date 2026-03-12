@@ -24,41 +24,7 @@
 </head>
 
 <body>
-    <script>
-        let myCity = new City("NeoCode", "Jero", 1000, 800);
-
-        // Crear ciudadanos
-        const c1 = new Citizen(1, "Ana", 22);
-        const c2 = new Citizen(2, "Carlos", 30);
-
-        // Agregarlos a la ciudad
-        myCity.citizenManager.addCitizen(c1);
-        myCity.citizenManager.addCitizen(c2);
-
-        // Crear edificios
-        const b1 = new ResidentialBuilding(1, "Torre Central", "Residencial");
-        const b2 = new CommercialBuilding(2, "Centro Comercial JS", "Comercial");
-
-        // Agregarlos
-        myCity.buildingManager.addBuilding(b1);
-        myCity.buildingManager.addBuilding(b2);
-
-        // ====== TESTS ======
-        console.log("Ciudad:", myCity.name);
-        console.log("Alcalde:", myCity.mayor);
-        console.log("Total ciudadanos:", myCity.population);
-        console.log("Total edificios:", myCity.buildings);
-        console.log("Lista ciudadanos:", myCity.citizenManager.population);
-        console.log("Lista edificios:", myCity.buildingManager.buildings);
-    </script>
-    <div class="title">
-        <h1 id="game-title">CITY BUILDER GAME</h1>
-    </div>
-    <div class="options">
-        <label for="">
-            <button class="btn btn-primary">Cargar partida</button>
-        </label>
-    </div>
+    
 </body>
 
 </html>
