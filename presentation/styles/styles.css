@@ -3,11 +3,6 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('../../assets/Gemini_Generated_Image_8cjzpw8cjzpw8cjz.png'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     font-family: 'Rajdhani', sans-serif;
     color: white;
     min-height: 100vh;
@@ -15,13 +10,161 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.screen-subtitle{
+    color: #ffffff;
+}
+
+#btn-back-page{
+    color: #ffffff;
+}
+
+#return{
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
+#title{
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+.screen-title{
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+.create-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;   /* menos padding vertical */
+}
+
+.form-section {
+    margin-bottom: 4rem;  /* espacio entre secciones, sin <br> */
+}
+
+.create-header {
+    margin-bottom: 0.5rem;
+}
+
+/* Títulos de sección más compactos */
+.form-section h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Inputs más pequeños */
+.form-input {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Reduce el gap entre campos del row */
+.row.g-3 {
+    --bs-gutter-y: 0.5rem;
+}
+
+/* Botón final más compacto */
+#btn-create-game {
+    padding: 12px;
+}
+
+#load-game-page{
+    background-image: url('../../assets/WhatsApp\ Image\ 2026-03-13\ at\ 12.54.27.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     overflow: hidden;
 }
+
+#initial-page.active{
+    background-image: url('../../assets/Gemini_Generated_Image_8cjzpw8cjzpw8cjz.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+#return-start-page{
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+    justify-content: center;
+    width: 100px;
+    min-height: max-content;
+}
+
+#screen-title{
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+#btn-create-game{
+    padding: 15px 15px 15px 15px;
+    justify-content: center;
+    text-align: center;
+    justify-self: center;
+    justify-content: center;
+    border-radius: 2%;
+}
+
+#city-info-page{
+    background-image: url('../../assets/Gemini_Generated_Image_1upnkq1upnkq1upn.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.city-creation{
+    font-family: 'Orbitron', sans-serif;
+}
+
+.screen {
+    display: none;
+}
+
+/* oculta por defecto */
+.screen.active {
+    display: block;
+    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+
+/* visible cuando tiene .active */
 
 body::before {
     content: '';
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 0;
 }
@@ -37,8 +180,8 @@ body::before {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #ffffff;
-    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3), 
-                0 0 20px rgba(100, 255, 218, 0.2);
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
     margin-bottom: 2rem !important;
 }
 
@@ -67,13 +210,15 @@ body::before {
 }
 
 #buttons .btn::before {
-    top: -2px; left: -2px;
+    top: -2px;
+    left: -2px;
     border-top: 2px solid transparent;
     border-left: 2px solid transparent;
 }
 
 #buttons .btn::after {
-    bottom: -2px; right: -2px;
+    bottom: -2px;
+    right: -2px;
     border-bottom: 2px solid transparent;
     border-right: 2px solid transparent;
 }
