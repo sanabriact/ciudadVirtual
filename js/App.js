@@ -1,1 +1,1 @@
-let city = null
+let city = null;

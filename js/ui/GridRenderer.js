@@ -1,33 +1,24 @@
-document.addEventListener("DOMContentLoaded", function() {
-    let createGameButton = document.getElementById("btn-create-game");
-    let gridContainer = document.getElementById("grid");
+class GridRenderer {
+    static render(grid, container) {
+        const cellSize = 40;
+        container.style.display = "grid";
+        container.style.gridTemplateColumns = `repeat(${grid.width}, ${cellSize}px)`;
+        container.style.gridTemplateRows = `repeat(${grid.height}, ${cellSize}px)`;
 
-    createGameButton.addEventListener("click", () => {
-        let gridSize = document.getElementById("input-map-size").value;
+        container.innerHTML = "";
 
-        gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 40px)`;
-        gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 40px)`;
+        for (let row = 0; row < grid.height; row++) {
+            for (let col = 0; col < grid.width; col++) {
+                const cell = grid.cells[row][col];
+                console.log(`Cell [${row}][${col}]:`, cell);
 
-        let html = "";
-        for (let row = 0; row < gridSize; row++) {
-            for (let col = 0; col < gridSize; col++) {
-                html += `<div class="cell" data-x="${row}" data-y="${col}"></div>`;
+                const div = document.createElement("div");
+                div.classList.add("cell");
+                div.dataset.x = cell._x;
+                div.dataset.y = cell._y;
 
+                container.appendChild(div);
             }
         }
-        gridContainer.innerHTML = html;
-    });
-
-    gridContainer.addEventListener("click", function (event) {
-
-        const cell = event.target.closest(".cell");
-        if (!cell) return;
-
-        if (cell.innerHTML === "") {
-            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
-        } else {
-            cell.innerHTML = "";
-        }
-
-    });
-})
+    }
+}

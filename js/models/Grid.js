@@ -5,31 +5,29 @@ class Grid {
         this._cells = cells || [];
     }
 
-    //==========SETTERS=============
-    set width(width) {
-        if (width >= 15) {
-            this._width = width;
-        }
+    // ===== GETTERS =====
+    get width() { return this._width; }
+    get height() { return this._height; }
+    get cells() { return this._cells; }
+
+    // ===== SETTERS =====
+    set width(val) {
+        if (val >= 15) this._width = val;
     }
-    set height(height) {
-        if (height >= 15) {
-            this._height = height;
-        }
+    set height(val) {
+        if (val >= 15) this._height = val;
     }
     set cells(cells) {
-        if (cells instanceof Array) {
-            this._cells = cells;
-        }
+        if (cells instanceof Array) this._cells = cells;
     }
 
     initGrid() {
         this._cells = [];
         for (let row = 0; row < this._height; row++) {
-            this._cells[row] = [];         
+            this._cells[row] = [];
             for (let col = 0; col < this._width; col++) {
                 this._cells[row][col] = new Cell(row, col);
             }
         }
     }
-
 }
