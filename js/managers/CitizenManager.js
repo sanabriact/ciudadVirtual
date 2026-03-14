@@ -8,12 +8,14 @@ class CitizenManager {
     }
 
     deleteCitizen(id) {
-        for (citizen in this._population) {
-            this._population.filter(citizen => citizen !== id)
-            return true;
-        }
-        return false;
-    }
+    const cantidadInicial = this._population.length;
+    
+    this._population = this._population.filter(citizen =>{
+        citizen._id !== id;
+    });
+    
+    return this._population.length < cantidadInicial;
+}
 
     createCitizen(id, happiness, hasHome, hasJob){
         let citizen = new Citizen(id, happiness, hasHome, hasJob);

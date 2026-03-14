@@ -8,16 +8,18 @@ class BuildingManager {
     }
 
     deleteBuilding(id) {
-        for (building in this._buildings) {
-            this._buildings.filter(building => building !== id);
-            return true;
-        }
-        return false;
+        let cuantosHabia = this._buildings.length;
+
+        this._buildings = this._buildings.filter(building => {
+            return building._id !== id;
+        });
+
+        return this._buildings.length < cuantosHabia;
     }
 
-    createBuilding(buildingData){
+    createBuilding(buildingData) {
         let building;
-        switch (buildingData.type){
+        switch (buildingData.type) {
             case "CommercialBuilding":
                 building = new CommercialBuilding(
                     buildingData._id,
@@ -31,7 +33,7 @@ class BuildingManager {
                     buildingData._incomePerTurn
                 )
                 break;
-            
+
             case "IndustrialBuilding":
                 building = new IndustrialBuilding(
                     buildingData._id,
@@ -106,7 +108,7 @@ class BuildingManager {
 
         }
 
-        if(building){
+        if (building) {
             this.addBuilding(building)
         }
     }
