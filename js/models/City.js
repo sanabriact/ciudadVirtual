@@ -16,37 +16,37 @@ class City {
 
     
     // Delegados a managers
-    get _population() {
+    get population() {
         return this._citizenManager.population;
     }
 
-    get _buildings() {
+    get buildings() {
         return this._buildingManager.buildings;
     }
 
     // ===== SETTERS =====
 
-    set _regionLat(regionLat) {
+    set regionLat(regionLat) {
         if (regionLat >= 0)
             this._regionLat = regionLat;
     }
 
-    set _regionLon(regionLon) {
+    set regionLon(regionLon) {
         if (regionLon >= 0)
             this._regionLon = regionLon;
     }
 
-    set _width(width) {
+    set width(width) {
         if (width >= 0)
             this._width = width;
     }
 
-    set _height(height) {
+    set height(height) {
         if (height >= 0)
             this._height = height;
     }
 
-    set _score(score) {
+    set score(score) {
         if (score >= 0)
             this._score = score;
     }

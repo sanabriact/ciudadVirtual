@@ -6,13 +6,13 @@ class ResidentialBuilding extends Building {
     }
     
     //=========SETTERS===========
-    set _capacity(capacity) {
+    set capacity(capacity) {
         if (capacity >= 0) {
             this._capacity = capacity;
         }
     }
 
-    set _residents(residents) {
+    set residents(residents) {
         if (residents <= capacity && residents >= 0) {
             this._residents = residents;
         }

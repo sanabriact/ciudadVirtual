@@ -279,3 +279,24 @@ body::before {
         letter-spacing: 0.05em;
     }
 }
+
+
+
+
+
+.cell-info{
+    color: rgb(15, 15, 227);
+}
+
+#grid{
+    display:grid;
+    overflow: auto;
+}
+
+.cell{
+    border: 1px solid #ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
