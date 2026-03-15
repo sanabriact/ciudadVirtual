@@ -132,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    
+
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
     })
