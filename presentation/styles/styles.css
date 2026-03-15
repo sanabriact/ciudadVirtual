@@ -24,6 +24,11 @@ body {
     color: #ffffff;
     font-family: 'Orbitron', sans-serif;
 }
+
+#return-page{
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
 #title{
     font-weight: bold;
     font-family: 'Orbitron', sans-serif;
@@ -85,6 +90,15 @@ body {
 }
 
 #load-game-page{
+    background-image: url('../../assets/WhatsApp\ Image\ 2026-03-13\ at\ 12.54.27.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+#delete-game-page{
     background-image: url('../../assets/WhatsApp\ Image\ 2026-03-13\ at\ 12.54.27.jpeg');
     background-size: cover;
     background-position: center;
