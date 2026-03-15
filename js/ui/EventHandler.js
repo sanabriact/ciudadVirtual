@@ -7,36 +7,71 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(screenId).classList.add('active');
     }
 
+    let gridContainer = document.getElementById("grid");
+    let btnNewCity = document.getElementById('btn-new-city');
+    let btnCreateGame = document.getElementById('btn-create-game');
+    let btnBackPage = document.getElementById('btn-back-page');
+    let btnLoadGame = document.getElementById('btn-load-game');
+    let btnReturn = document.getElementById('return');
+    let btnReturnStartPage = document.getElementById('return-start-page');
+
     // Intro → Crear ciudad
-    document.getElementById('btn-new-city').addEventListener('click', () => {
+    btnNewCity.addEventListener('click', () => {
         showScreen('city-info-page');
     });
 
-    document.getElementById('btn-load-game').addEventListener('click', () => {
+    btnLoadGame.addEventListener('click', () => {
         showScreen('load-game-page');
     })
 
-    document.getElementById('return').addEventListener('click', () => {
+    btnReturn.addEventListener('click', () => {
         showScreen('initial-page')
     })
 
-    document.getElementById('btn-create-game').addEventListener('click', () => {
+    btnCreateGame.addEventListener('click', () => {
+
+        const gridSize = document.getElementById("input-map-size").value;
+        console.log("gridSize:", gridSize);
+
+        const grid = new Grid(gridSize, gridSize);
+        console.log("grid creado:", grid);
+
+        grid.initGrid();
+        console.log("cells después de initGrid:", grid.cells);
+
         showScreen('game-page');
+        const gridContainer = document.getElementById("grid");
+        console.log("gridContainer:", gridContainer);
+        GridRenderer.render(grid, gridContainer);
+
     });
 
-    document.getElementById('btn-back-page').addEventListener('click', () => {
+    gridContainer.addEventListener("click", function (event) {
+
+        const cell = event.target.closest(".cell");
+        if (!cell) return;
+
+        if (cell.innerHTML === "") {
+            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
+        } else {
+            cell.innerHTML = "";
+        }
+
+    });
+
+    btnBackPage.addEventListener('click', () => {
         showScreen('initial-page')
     });
 
-    document.getElementById('return-start-page').addEventListener('click', () => {
+    btnReturnStartPage.addEventListener('click', () => {
         let response = confirm("¿Desea guardar partida?")
 
-        if(response){
+        if (response) {
             //Guardar información
-        } else{
+        } else {
             alert("¡Todo su progreso se perderá!")
         }
-    
+
         showScreen('initial-page')
     });
 
