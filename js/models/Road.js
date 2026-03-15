@@ -8,12 +8,12 @@ class Road {
 
     //==========SETTERS=============
     
-    set _x(x) {
+    set x(x) {
         if (x >= 0) {
             this._x = x;
         }
     }
-    set _y(y) {
+    set y(y) {
         if (y >= 0) {
             this._y = y;
         }
