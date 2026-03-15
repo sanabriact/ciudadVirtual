@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
+
     let gridContainer = document.getElementById("grid");
     let btnNewCity = document.getElementById('btn-new-city');
     let btnCreateGame = document.getElementById('btn-create-game');
@@ -9,23 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnReturn = document.getElementById('return');
     let btnReturnPage = document.getElementById('return-page')
     let btnReturnStartPage = document.getElementById('return-start-page');
-    let mapSizeDisplay= document.getElementById('map-size-display')
+    let mapSizeDisplay = document.getElementById('map-size-display')
     let mapSizeSlider = document.getElementById('input-map-size')
     let inputRegion = document.getElementById('input-region')
     const cityRepository = new CityRepository();
+    const weatherRepository = new WeatherService();
+    const newsRepository = new NewsService();
 
     //Funcion cargar ciudades para seleccionar ciudad en Region Geográfica
     //Muchachos, esta parte sirve para después hacer conexión a las APIS de News y Weather, y para mostrar ciudades. Voy a intentar explicarlo lo más facil posible.
     //Aclaro, esta función se llama al iniciar la pantalla de Crear Ciudad, está en las líneas 65-67.
-    function loadCities(){
+    function loadCities() {
         //Se cambia el option en index.html para mostrar mensaje de cargando ciudades
         inputRegion.innerHTML = '<option value="">— Cargando ciudades —</option>';
 
         //Se obtienen las ciudades del objeto cityRepository
         cityRepository.getCities()
-            .then(function(cities){
+            .then(function (cities) {
                 //Se organizan las ciudades en orden alfabético
-                cities.sort(function(city1,city2){
+                cities.sort(function (city1, city2) {
                     //Funcion que retorna una comparacion entre dos iteradores. En este caso, como son ciudades, retorna el orden entre city1 y city2 con una funcion interna llamada localeCompare.
                     return city1.name.localeCompare(city2.name);
                 })
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputRegion.innerHTML = '<option value="">— Selecciona una ciudad —</option>';
 
                 //Se iteran todas las ciudades(ya en orden alfabetico)
-                cities.forEach(function(city){
+                cities.forEach(function (city) {
                     //Se crea un elemento llamado option(sencillo de asimilar, ya que se estan SELECCIONANDO ciudades)
                     let option = document.createElement('option')
                     //Para este elemento, se le asignan atributos a partir del id, nombre, latitud y longitud de cada ciudad.
@@ -47,11 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             })
             //En caso de que algo salga mal, se cambia el option de index.html por Error al cargar ciudades.
-            .catch(function(error){
+            .catch(function (error) {
                 console.log("Error al cargar ciudades")
                 inputRegion.innerHTML = '<option value="">— Error al cargar ciudades —</option>';
             });
-        }
+    }
 
     function showScreen(screenId) {
         // Ocultar todas las pantallas
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnReturn.addEventListener('click', () => {
         showScreen('initial-page')
-    })
+    });
 
     btnBackPage.addEventListener('click', () => {
         showScreen('initial-page')
@@ -85,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnDeleteGame.addEventListener('click', () => {
         showScreen('delete-game-page')
-    })
+    });
     btnCreateGame.addEventListener('click', () => {
 
         const gridSize = document.getElementById("input-map-size").value;
@@ -120,17 +122,62 @@ document.addEventListener("DOMContentLoaded", () => {
     btnReturnStartPage.addEventListener('click', () => {
         let response = confirm("¿Desea guardar partida?")
 
-        if(!response){
+        if (!response) {
             response = confirm("¡Todo su progreso se perderá!")
         }
 
-        if(response){
+        if (response) {
             showScreen('initial-page')
         }
     });
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
+    })
+
+    inputRegion.addEventListener('change', function () {
+        let option = this.options[this.selectedIndex];
+        let lat = option.dataset.lat;
+        let lon = option.dataset.lon;
+        let city = option.dataset.textContent;
+        let temperatureData = document.getElementById('city-temperature');
+        let cityCondition = document.getElementById('city-condition');
+        let newsTitle = document.getElementById('news-title');
+        let newsInfo = document.getElementById('news-info')
+
+        weatherRepository.getWeather(lat, lon)
+            .then(function (data) {
+                temperatureData.textContent = `Temperatura: ${data.main.temp}°C`
+                cityCondition.textContent = `Condición: ${data.weather[0].description}`
+            })
+            .catch(function (error) {
+                temperatureData.textContent = `Temperatura: Error al conseguir temperatura.`
+                cityCondition.textContent = `Condición: Error al conseguir condición.`
+            })
+
+        newsRepository.getNews("us")
+            .then(function (data) {
+                let newsPanel = document.getElementById('news-panel');
+                newsPanel.innerHTML = '';
+
+                let news = data.articles.slice(0, 3);
+                news.forEach(function (article) {
+                    let card = document.createElement('div');
+                    card.className = 'card mb-2';
+                    card.innerHTML = `
+                <div class="card-body">
+                    <h6>${article.title}</h6>
+                    <p>${article.description}</p>
+                </div>
+            `;
+                    newsPanel.appendChild(card);
+                });
+            })
+            .catch(function (error) {
+                newsTitle.textContent = `Título noticia: Error al conseguir el titulo de la noticia`
+                newsInfo.textContent = `Descripcion: Error al conseguir descripcion de la noticia.`
+            })
+
     })
 
 })

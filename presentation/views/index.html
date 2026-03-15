@@ -13,13 +13,14 @@
     <script src="../../js/models/Cell.js"></script>
     <script src="../../js/managers/BuildingManager.js"></script>
     <script src="../../js/managers/CitizenManager.js"></script>
-    <script src=""></script>
-    <script src=""></script>
+    <script src="../../js/models/CityRepository.js"></script>
+    <script src="../../js/services/NewsService.js"></script>
+    <script src="../../js/services/WeatherService.js"></script>
     <script src="../../js/utils/helpers.js"></script>
     <script src="../../js/ui/GridRenderer.js"></script>
     <script src="../../js/ui/EventHandler.js"></script>
     <script src="../../js/utils/localStorage.js"></script>
-    <script src="../../js/models/CityRepository.js"></script>
+    
 
 </head>
 
@@ -237,16 +238,16 @@
 
                 <h5>Clima</h5>
                 <div id="weather-widget" class="mb-4">
-                    <p>Temperatura: -- °C</p>
-                    <p>Condición: --</p>
+                    <p id="city-temperature">Temperatura: -- °C</p>
+                    <p id="city-condition">Condición: --</p>
                 </div>
 
                 <h5>Noticias</h5>
                 <div id="news-panel">
                     <div class="card mb-2">
                         <div class="card-body">
-                            <h6>Título noticia</h6>
-                            <p>Descripción breve...</p>
+                            <h6 id="news-title">Título noticia</h6>
+                            <p id="news-info">Descripción breve...</p>
                         </div>
                     </div>
                 </div>

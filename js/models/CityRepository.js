@@ -7,9 +7,9 @@ class CityRepository{
         return fetch(this._url).then(function (res){
             if(!res.ok){
                 throw new Error("Error al obtener ciudades")
-            } else {
-                return res.json();
-            }
+            } 
+            
+            return res.json();
         })
     }
 }
