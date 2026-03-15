@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (response) {
+            console.clear();
             showScreen('initial-page')
         }
     });
@@ -135,45 +136,63 @@ document.addEventListener("DOMContentLoaded", () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
     })
 
+    //Muchachos, este evento hace que las noticias y el clima funcionen. 
+    //Empieza a funcionar desde que se le da click en Region Geografica a una ciudad, cuando se desea crear una CIudad Nueva.
     inputRegion.addEventListener('change', function () {
+        //Se llaman todas las etiquetas del HTML necesarias. El this.options es una propiedad de la etiqueta <select></select>. 
+        //En este caso se necesita llamar, ya que como les dije en la otra función que hice ahora, de ese select se traen los atributos de latitud y longitud para que funcione la API de noticias. 
+        //Por eso se crean variables lat, lon con dataset.lon y dataset.lat.
         let option = this.options[this.selectedIndex];
         let lat = option.dataset.lat;
         let lon = option.dataset.lon;
-        let city = option.dataset.textContent;
         let temperatureData = document.getElementById('city-temperature');
         let cityCondition = document.getElementById('city-condition');
         let newsTitle = document.getElementById('news-title');
         let newsInfo = document.getElementById('news-info')
 
+        //Del objeto weatherRepository, se asignan los datos de la API.
         weatherRepository.getWeather(lat, lon)
             .then(function (data) {
+                //Se cambia el contenido de la etiqueta temperatureData y cityCondition, por la temperatura y descripcion traída desde la API.
                 temperatureData.textContent = `Temperatura: ${data.main.temp}°C`
                 cityCondition.textContent = `Condición: ${data.weather[0].description}`
             })
             .catch(function (error) {
+                //Sino se pueden traer los datos de la API, se cambia el contenido de cada etiqueta por un mensaje.
                 temperatureData.textContent = `Temperatura: Error al conseguir temperatura.`
                 cityCondition.textContent = `Condición: Error al conseguir condición.`
             })
 
+        //Ahora, la API que nos dio el profesor, requiere del codigo del pais. En este caso, para colombia es "co", pero por ahora no salen noticias de cualquier ciudad de Colombia. Entonces, para fines demostrativos, puse el codigo para colombia "us" para que salgan noticias temporales por ahora. Después eso se cambia.
         newsRepository.getNews("us")
             .then(function (data) {
+                //Se trae el div de id="news-panel" del HTML para todas las noticias.
                 let newsPanel = document.getElementById('news-panel');
+                //Se le asigna valor de string vacío por ahora.
                 newsPanel.innerHTML = '';
 
+                //Se crea una variable, con solo las primeras 3 noticias por ahora. 
                 let news = data.articles.slice(0, 3);
+                //Se itera cada noticia
                 news.forEach(function (article) {
+                    //Se crea una carta, como una espaciado entre noticias.
+                    //Se crea esta carta como un div.
                     let card = document.createElement('div');
+                    //Se le asigna class="card mb-2"
                     card.className = 'card mb-2';
+                    //Se agrega el titulo, y la informacion de la noticia
                     card.innerHTML = `
                 <div class="card-body">
                     <h6>${article.title}</h6>
                     <p>${article.description}</p>
                 </div>
-            `;
+            `;  
+                    //Se manda esta información al div con id = "news-panel"
                     newsPanel.appendChild(card);
                 });
             })
             .catch(function (error) {
+                //Sino funciona, entonces se cambia la información de cada etiqueta del HTML, por un mensaje de error.
                 newsTitle.textContent = `Título noticia: Error al conseguir el titulo de la noticia`
                 newsInfo.textContent = `Descripcion: Error al conseguir descripcion de la noticia.`
             })
