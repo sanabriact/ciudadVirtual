@@ -3,12 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let gridContainer = document.getElementById("grid");
     let btnNewCity = document.getElementById('btn-new-city');
     let btnCreateGame = document.getElementById('btn-create-game');
-    let btnBackPage = document.getElementById('btn-back-page');
     let btnLoadGame = document.getElementById('btn-load-game');
     let btnDeleteGame = document.getElementById('btn-delete-game');
-    let btnReturn = document.getElementById('return');
-    let btnReturnPage = document.getElementById('return-page')
     let btnReturnStartPage = document.getElementById('return-start-page');
+    let btnBack = document.querySelectorAll(".btn-back")
     let mapSizeDisplay = document.getElementById('map-size-display')
     let mapSizeSlider = document.getElementById('input-map-size')
     let inputRegion = document.getElementById('input-region')
@@ -69,25 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
         loadCities();
     });
 
-    btnLoadGame.addEventListener('click', () => {
-        showScreen('load-game-page');
-    })
-
-    btnReturnPage.addEventListener('click', () => {
-        showScreen('initial-page');
-    });
-
-    btnReturn.addEventListener('click', () => {
-        showScreen('initial-page')
-    });
-
-    btnBackPage.addEventListener('click', () => {
-        showScreen('initial-page')
-    });
-
     btnDeleteGame.addEventListener('click', () => {
         showScreen('delete-game-page')
     });
+
     btnCreateGame.addEventListener('click', () => {
 
         const gridSize = document.getElementById("input-map-size").value;
@@ -107,18 +90,15 @@ document.addEventListener("DOMContentLoaded", () => {
         cityMayor.textContent = `Alcalde: ${mayorValue}`;
     });
 
-    gridContainer.addEventListener("click", function (event) {
+    btnLoadGame.addEventListener('click', () => {
+        showScreen('load-game-page');
+    })
 
-        const cell = event.target.closest(".cell");
-        if (!cell) return;
-
-        if (cell.innerHTML === "") {
-            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
-        } else {
-            cell.innerHTML = "";
-        }
-
-    });
+    btnBack.forEach(function(btn){
+        btn.addEventListener("click", function(){
+            showScreen('initial-page')
+        })
+    })
 
     btnReturnStartPage.addEventListener('click', () => {
         let response = confirm("¿Desea guardar partida?")
@@ -133,7 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    
+    gridContainer.addEventListener("click", function (event) {
+
+        const cell = event.target.closest(".cell");
+        if (!cell) return;
+
+        if (cell.innerHTML === "") {
+            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
+        } else {
+            cell.innerHTML = "";
+        }
+
+    });
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
