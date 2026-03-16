@@ -2,69 +2,52 @@ class ResourceManager {
     constructor(money, electricity, electricityProduction, electricConsumption,
                 water, waterProduction, waterConsumption, food) {
 
-        // Usamos variables con guion bajo doble para evitar recursión en setters
-        this.__money               = money               ?? 50000;
-        this.__electricity         = electricity         ?? 0;
+        // Usamos __ para evitar recursión infinita en los setters
+        this.__money                = money                ?? 50000;
+        this.__electricity          = electricity          ?? 0;
         this.__electricityProduction = electricityProduction ?? 0;
-        this.__electricConsumption = electricConsumption ?? 0;
-        this.__water               = water               ?? 0;
-        this.__waterProduction     = waterProduction     ?? 0;
-        this.__waterConsumption    = waterConsumption    ?? 0;
-        this.__food                = food                ?? 0;
+        this.__electricConsumption  = electricConsumption  ?? 0;
+        this.__water                = water                ?? 0;
+        this.__waterProduction      = waterProduction      ?? 0;
+        this.__waterConsumption     = waterConsumption     ?? 0;
+        this.__food                 = food                 ?? 0;
     }
 
     // ============ GETTERS ============
 
-    get money()                { return this.__money; }
-    get electricity()          { return this.__electricity; }
-    get electricityProduction(){ return this.__electricityProduction; }
-    get electricConsumption()  { return this.__electricConsumption; }
-    get water()                { return this.__water; }
-    get waterProduction()      { return this.__waterProduction; }
-    get waterConsumption()     { return this.__waterConsumption; }
-    get food()                 { return this.__food; }
+    get money()                 { return this.__money; }
+    get electricity()           { return this.__electricity; }
+    get electricityProduction() { return this.__electricityProduction; }
+    get electricConsumption()   { return this.__electricConsumption; }
+    get water()                 { return this.__water; }
+    get waterProduction()       { return this.__waterProduction; }
+    get waterConsumption()      { return this.__waterConsumption; }
+    get food()                  { return this.__food; }
 
-    // Balance neto de electricidad y agua (producción - consumo)
-    get electricityBalance()   { return this.__electricityProduction - this.__electricConsumption; }
-    get waterBalance()         { return this.__waterProduction - this.__waterConsumption; }
+    // Balance neto: cuánto sobra o falta de cada recurso
+    get electricityBalance() { return this.__electricityProduction - this.__electricConsumption; }
+    get waterBalance()       { return this.__waterProduction - this.__waterConsumption; }
 
     // ============ SETTERS ============
-    // Ahora sí apuntan a la variable privada (__) y no a sí mismos
 
-    set money(value) {
-        if (value >= 0) this.__money = value;
-    }
-    set electricity(value) {
-        if (value >= 0) this.__electricity = value;
-    }
-    set electricityProduction(value) {
-        if (value >= 0) this.__electricityProduction = value;
-    }
-    set electricConsumption(value) {
-        if (value >= 0) this.__electricConsumption = value;
-    }
-    set water(value) {
-        if (value >= 0) this.__water = value;
-    }
-    set waterProduction(value) {
-        if (value >= 0) this.__waterProduction = value;
-    }
-    set waterConsumption(value) {
-        if (value >= 0) this.__waterConsumption = value;
-    }
-    set food(value) {
-        if (value >= 0) this.__food = value;
-    }
+    set money(value)                 { if (value >= 0) this.__money = value; }
+    set electricity(value)           { if (value >= 0) this.__electricity = value; }
+    set electricityProduction(value) { if (value >= 0) this.__electricityProduction = value; }
+    set electricConsumption(value)   { if (value >= 0) this.__electricConsumption = value; }
+    set water(value)                 { if (value >= 0) this.__water = value; }
+    set waterProduction(value)       { if (value >= 0) this.__waterProduction = value; }
+    set waterConsumption(value)      { if (value >= 0) this.__waterConsumption = value; }
+    set food(value)                  { if (value >= 0) this.__food = value; }
 
     // ============ MÉTODOS ============
 
-    // Verificar si hay dinero suficiente para construir algo
+    // ¿Hay suficiente dinero para construir algo?
     canAfford(cost) {
         return this.__money >= cost;
     }
 
-    // Gastar dinero al construir un edificio o vía
-    // Retorna true si pudo gastar, false si no hay suficiente dinero
+    // Gastar dinero (al construir un edificio o vía)
+    // Retorna true si pudo gastar, false si no alcanzaba el dinero
     spendMoney(amount) {
         if (amount > 0 && this.canAfford(amount)) {
             this.__money -= amount;
@@ -73,18 +56,17 @@ class ResourceManager {
         return false;
     }
 
-    // Agregar ingresos (edificios comerciales/industriales)
+    // Sumar ingresos al dinero total
     addIncome(amount) {
         if (amount > 0) {
             this.__money += amount;
         }
     }
 
-    // Este es el método más importante.
-    // Se llama cada turno desde TurnSystem.
-    // Recorre todos los edificios y recalcula los recursos.
+    // Método principal: se llama cada turno desde TurnSystem.
+    // Recorre todos los edificios, calcula qué producen y qué consumen,
+    // y actualiza todos los recursos de la ciudad.
     updateResources(buildings) {
-        // Reiniciamos los contadores de producción y consumo
         let totalElectricityProduction = 0;
         let totalElectricityConsumption = 0;
         let totalWaterProduction = 0;
@@ -93,39 +75,46 @@ class ResourceManager {
         let totalIncome = 0;
 
         buildings.forEach(building => {
-            // Todos los edificios consumen electricidad y agua
+
+            // Todos los edificios consumen electricidad y agua (los parques consumen 0)
             totalElectricityConsumption += building._electricityConsumption || 0;
             totalWaterConsumption       += building._waterConsumption       || 0;
 
-            // Las plantas de utilidad producen electricidad o agua
+            // Plantas de utilidad: producen electricidad o agua
             if (building instanceof UtilityPlant) {
                 if (building._productionType === "electricity") {
                     totalElectricityProduction += building._productionAmount || 0;
                 } else if (building._productionType === "water") {
+                    // La planta de agua necesita electricidad para funcionar
+                    // (su consumo ya está sumado arriba, eso la "frena" si no hay luz)
                     totalWaterProduction += building._productionAmount || 0;
                 }
             }
 
-            // Los edificios comerciales generan dinero (solo si hay electricidad)
+            // Edificios comerciales: generan dinero solo si hay electricidad
             if (building instanceof CommercialBuilding) {
-                if (this.electricityBalance >= 0) {
+                const hayElectricidad = (totalElectricityProduction - totalElectricityConsumption) >= 0;
+                if (hayElectricidad) {
                     totalIncome += building._incomePerTurn || 0;
                 }
             }
 
-            // Las fábricas generan dinero, las granjas generan comida
+            // Edificios industriales: fábricas (dinero) o granjas (comida)
             if (building instanceof IndustrialBuilding) {
+                const hayElectricidad = (totalElectricityProduction - totalElectricityConsumption) >= 0;
+                const hayAgua         = (totalWaterProduction - totalWaterConsumption) >= 0;
+
                 if (building._productionType === "money") {
-                    // Fábrica: genera dinero si tiene agua y electricidad
-                    if (this.electricityBalance >= 0 && this.waterBalance >= 0) {
+                    // Fábrica: necesita electricidad Y agua
+                    if (hayElectricidad && hayAgua) {
                         totalIncome += building._incomePerTurn || 0;
                     } else {
-                        // Sin recursos produce al 50%
+                        // Sin algún recurso produce al 50% (según el documento)
                         totalIncome += (building._incomePerTurn || 0) * 0.5;
                     }
                 } else if (building._productionType === "food") {
-                    // Granja: genera comida si tiene agua
-                    if (this.waterBalance >= 0) {
+                    // Granja: solo necesita agua
+                    if (hayAgua) {
                         totalFoodProduction += building._productionAmount || 0;
                     } else {
                         totalFoodProduction += (building._productionAmount || 0) * 0.5;
@@ -140,21 +129,20 @@ class ResourceManager {
         this.__waterProduction       = totalWaterProduction;
         this.__waterConsumption      = totalWaterConsumption;
 
-        // Aplicamos el balance: producción - consumo
-        // Math.max(0, ...) evita que quede negativo en el stock
-        // (el juego termina si el balance es negativo, eso lo maneja TurnSystem)
+        // El stock nunca baja de 0 (Math.max lo protege)
+        // Si el balance es negativo, checkGameOver() lo detecta aparte
         this.__electricity = Math.max(0, totalElectricityProduction - totalElectricityConsumption);
         this.__water       = Math.max(0, totalWaterProduction - totalWaterConsumption);
 
-        // Comida se acumula turno a turno
+        // La comida se acumula turno a turno
         this.__food += totalFoodProduction;
 
-        // Sumamos los ingresos al dinero
+        // Sumamos los ingresos al dinero total
         this.addIncome(totalIncome);
     }
 
-    // Verifica si el juego debe terminar (electricidad o agua en negativo)
-    // Retorna un objeto con el motivo si el juego terminó
+    // Verifica si el juego debe terminar.
+    // Según el documento: electricidad o agua en balance negativo = game over.
     checkGameOver() {
         if (this.electricityBalance < 0) {
             return { gameOver: true, reason: "¡Te quedaste sin electricidad!" };
@@ -165,7 +153,7 @@ class ResourceManager {
         return { gameOver: false };
     }
 
-    // Resumen completo para guardar en LocalStorage o mostrar en UI
+    // Resumen para mostrar en la UI o guardar en localStorage
     getSummary() {
         return {
             money:                this.__money,
@@ -181,8 +169,22 @@ class ResourceManager {
         };
     }
 
-    // Para poder reconstruir el objeto desde LocalStorage
+    // JavaScript llama a este método automáticamente al hacer JSON.stringify()
     toJSON() {
         return this.getSummary();
+    }
+
+    // Reconstruye el objeto desde un JSON guardado en localStorage
+    static fromJSON(data) {
+        return new ResourceManager(
+            data.money,
+            data.electricity,
+            data.electricityProduction,
+            data.electricConsumption,
+            data.water,
+            data.waterProduction,
+            data.waterConsumption,
+            data.food
+        );
     }
 }
