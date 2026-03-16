@@ -173,18 +173,4 @@ class ResourceManager {
     toJSON() {
         return this.getSummary();
     }
-
-    // Reconstruye el objeto desde un JSON guardado en localStorage
-    static fromJSON(data) {
-        return new ResourceManager(
-            data.money,
-            data.electricity,
-            data.electricityProduction,
-            data.electricConsumption,
-            data.water,
-            data.waterProduction,
-            data.waterConsumption,
-            data.food
-        );
-    }
 }

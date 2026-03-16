@@ -1,6 +1,6 @@
 class GridRenderer {
     static render(grid, container) {
-        const cellSize = 40;
+        const cellSize = 60;
         container.style.display = "grid";
         container.style.gridTemplateColumns = `repeat(${grid.width}, ${cellSize}px)`;
         container.style.gridTemplateRows = `repeat(${grid.height}, ${cellSize}px)`;
