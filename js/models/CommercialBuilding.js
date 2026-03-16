@@ -1,6 +1,7 @@
 class CommercialBuilding extends Building {
+    static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, jobs, incomePerTurn) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
+        super(id, name+"-"+CommercialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y);
         this._jobs = jobs ?? 0;
         this._incomePerTurn = incomePerTurn ?? 0;
     }

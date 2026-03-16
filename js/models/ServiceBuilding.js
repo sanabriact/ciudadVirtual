@@ -1,6 +1,7 @@
 class ServiceBuilding extends Building {
+    static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, radius, happinessBonus) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
+        super(id, name+"-"+ServiceBuilding.number++, cost, electricityConsumption, waterConsumption, x, y);
         this._radius = radius ?? 0;
         this._happinessBonus = happinessBonus ?? 0;
     }

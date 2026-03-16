@@ -89,7 +89,7 @@ class TurnSystem {
         city._citizenManager.updateHappiness(buildings);
 
         // --- PASO 4: Crecer la población si se cumplen las condiciones ---
-        city._citizenManager.growPopulation(buildings, city._resourceManager);
+        city._citizenManager._growPopulation(buildings, city._resourceManager);
 
         // --- PASO 5: Calcular puntaje ---
         city._scoreManager.calculate(city);

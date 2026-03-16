@@ -31,10 +31,6 @@ body {
     flex-shrink: 0;
 }
 
-.card-body{
-    
-}
-
 .news-image{
     width: 100%;
     height: 150px;
@@ -360,8 +356,16 @@ body::before {
 
 .cell{
     border: 1px solid #ffffff;
-    display:flex;
+    display: flex;
     justify-content:center;
     align-items:center;
     overflow:hidden;
+}
+
+
+
+.list-group-item.active {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
 }

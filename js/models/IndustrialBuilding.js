@@ -1,11 +1,11 @@
 class IndustrialBuilding extends Building {
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, jobs, productionType, incomePerTurn, productionAmount) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
+    static number = 1;
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, jobs, productionType, incomePerTurn) {
+        super(id, name+"-"+IndustrialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y);
         this._jobs             = jobs             ?? 0;
         // productionType: "money" (fábrica) o "food" (granja)
         this._productionType   = productionType   || "money";
         this._incomePerTurn    = incomePerTurn    ?? 0;   // para fábricas
-        this._productionAmount = productionAmount ?? 0;   // para granjas (alimentos)
         this._employeesCount   = 0;
     }
 

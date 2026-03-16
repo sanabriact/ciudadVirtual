@@ -2,7 +2,6 @@ class ResourceManager {
     constructor(money, electricity, electricityProduction, electricConsumption,
         water, waterProduction, waterConsumption, food) {
 
-        // Usamos __ para evitar recursión infinita en los setters
         this._money = money ?? 50000;
         this._electricity = electricity ?? 0;
         this._electricityProduction = electricityProduction ?? 0;
