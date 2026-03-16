@@ -88,40 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
     btnDeleteGame.addEventListener('click', () => {
         showScreen('delete-game-page')
     });
-    btnCreateGame.addEventListener('click', () => {
-
-        const gridSize = document.getElementById("input-map-size").value;
-
-        const grid = new Grid(gridSize, gridSize);
-        grid.initGrid();
-
-        showScreen('game-page');
-        const gridContainer = document.getElementById("grid");
-
-        GridRenderer.render(grid, gridContainer);
-
-    });
-
-    gridContainer.addEventListener("click", function (event) {
-
-        const cell = event.target.closest(".cell");
-        if (!cell) return;
-
-        if (cell.innerHTML === "") {
-            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
-        } else {
-            cell.innerHTML = "";
-        }
-
-    });
-
+    
     btnReturnStartPage.addEventListener('click', () => {
         let response = confirm("¿Desea guardar partida?")
-
+        
         if (!response) {
             response = confirm("¡Todo su progreso se perderá!")
         }
-
+        
         if (response) {
             console.clear();
             showScreen('initial-page')
@@ -197,4 +171,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
     })
 
+
+    //Construir 
+
+    let btnHouse = document.getElementById('btn-house');
+    let btnApartment = document.getElementById('btn-apartment');
+    let btnStore = document.getElementById('btn-store');
+    let btnCommercial = document.getElementById('btn-commercial-center');
+    let btnFactory = document.getElementById('btn-factory');
+    let btnFarm = document.getElementById('btn-farm');
+    let btnPolice = document.getElementById('btn-police-station');
+    let btnFirefighters = document.getElementById('btn-firefighters');
+    let btnHospital = document.getElementById('btn-hospital');
+    let btnPowerPlant = document.getElementById('btn-power-plant');
+    let btnWaterPlant = document.getElementById('btn-water-plant');
+    let btnPark = document.getElementById('btn-park');
+    let btnRoad = document.getElementById('btn-road');
+    let btnDemolish = document.getElementById('btn-demolish');
+
+    
+    
+    btnHouse.addEventListener('click', () => {
+
+    });
+    
+    btnCreateGame.addEventListener('click', () => {
+    
+        const gridSize = document.getElementById("input-map-size").value;
+    
+        const grid = new Grid(gridSize, gridSize);
+        grid.initGrid();
+    
+        showScreen('game-page');
+        const gridContainer = document.getElementById("grid");
+    
+        GridRenderer.render(grid, gridContainer);
+    
+    });
+    
+    gridContainer.addEventListener("click", function (event) {
+    
+        const cell = event.target.closest(".cell");
+        if (!cell) return;
+    
+        if (cell.innerHTML === "") {
+            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
+        } else {
+            cell.innerHTML = "";
+        }
+    
+    });
+    
 })

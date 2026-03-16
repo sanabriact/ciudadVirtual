@@ -311,7 +311,6 @@ body::before {
 
 .cell{
     border: 1px solid #ffffff;
-    display:flex;
     justify-content:center;
     align-items:center;
     overflow:hidden;

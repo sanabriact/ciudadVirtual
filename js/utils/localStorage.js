@@ -36,7 +36,7 @@ class localStorage{
         //Restaurar citizens
         if (parsed.citizens) {
             parsed.citizens.forEach(citizen => {
-                city.citizenManager.createCitizen(c);
+                city.citizenManager.createCitizen(citizen);
             });
         }
 
