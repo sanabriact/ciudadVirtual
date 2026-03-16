@@ -6,9 +6,16 @@ class Grid {
     }
 
     // ===== GETTERS =====
-    get width() { return this._width; }
-    get height() { return this._height; }
-    get cells() { return this._cells; }
+    get width() { 
+        return this._width; 
+    }
+    get height() { 
+        return this._height; 
+    }
+    get cells() 
+    { return this._cells; 
+        
+    }
 
     // ===== SETTERS =====
     set width(val) {

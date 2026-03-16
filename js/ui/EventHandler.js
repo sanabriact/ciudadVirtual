@@ -91,17 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
     btnCreateGame.addEventListener('click', () => {
 
         const gridSize = document.getElementById("input-map-size").value;
-        console.log("gridSize:", gridSize);
 
         const grid = new Grid(gridSize, gridSize);
-        console.log("grid creado:", grid);
-
         grid.initGrid();
-        console.log("cells después de initGrid:", grid.cells);
 
         showScreen('game-page');
         const gridContainer = document.getElementById("grid");
-        console.log("gridContainer:", gridContainer);
+
         GridRenderer.render(grid, gridContainer);
 
     });

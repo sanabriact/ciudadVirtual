@@ -1,3 +1,3 @@
-class ScoreManager{
-    
+class ScoreManager {
+    constructor() {}
 }
