@@ -1,13 +1,20 @@
-class UtilityPlant extends Building{
-    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, productionAmount) {
+class UtilityPlant extends Building {
+    constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, productionType, productionAmount) {
         super(id, name, cost, electricityConsumption, waterConsumption, x, y);
+        // productionType: "electricity" o "water"
+        this._productionType   = productionType   || "electricity";
         this._productionAmount = productionAmount ?? 0;
     }
-    
-    //=======SETTERS==========
-    set productionAmount(productionAmount){
-        if(productionAmount >= 0) {
-            this._productionAmount = productionAmount;
+
+    // ============ SETTERS ============
+
+    set productionType(value) {
+        if (value === "electricity" || value === "water") {
+            this._productionType = value;
         }
+    }
+
+    set productionAmount(value) {
+        if (value >= 0) this._productionAmount = value;
     }
 }

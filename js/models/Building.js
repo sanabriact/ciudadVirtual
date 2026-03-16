@@ -15,37 +15,37 @@ class Building {
 
     //============SETTERS=============
 
-    set _id(id) {
+    set id(id) {
         if (id >= 0) {
             this._id = id;
         }
     }
 
-    set _cost(cost) {
+    set cost(cost) {
         if (cost >= 0) {
             this._cost = cost;
         }
     }
 
-    set _electricityConsumption(electricityConsumption) {
+    set electricityConsumption(electricityConsumption) {
         if (electricityConsumption >= 0) {
             this._electricityConsumption = electricityConsumption;
         }
     }
 
-    set _waterConsumption(waterConsumption) {
+    set waterConsumption(waterConsumption) {
         if (waterConsumption >= 0) {
             this._waterConsumption = waterConsumption;
         }
     }
 
-    set _xAxis(x) {
+    set xAxis(x) {
         if (x >= 0) {
             this._x = x;
         }
     }
 
-    set _yAxis(y) {
+    set yAxis(y) {
         if (y >= 0) {
             this._y = y;
         }
