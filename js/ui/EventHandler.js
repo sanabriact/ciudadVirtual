@@ -71,25 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showScreen('delete-game-page')
     });
 
-    /* btnCreateGame.addEventListener('click', () => {
-
-        const gridSize = document.getElementById("input-map-size").value;
-        const grid = new Grid(gridSize, gridSize);
-        grid.initGrid();
-
-        showScreen('game-page');
-        const gridContainer = document.getElementById("grid");
-        GridRenderer.render(grid, gridContainer);
-
-        let cityName = document.getElementById("city-name")
-        let cityMayor = document.getElementById("city-mayor")
-        let cityValue = document.getElementById("input-city-name").value;
-        let mayorValue = document.getElementById("input-mayor-name").value;
-
-        cityName.textContent = `Ciudad: ${cityValue}`;
-        cityMayor.textContent = `Alcalde: ${mayorValue}`;
-    }); */
-
     btnLoadGame.addEventListener('click', () => {
         showScreen('load-game-page');
     })
@@ -112,19 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
             showScreen('initial-page')
         }
     });
-
-    /* gridContainer.addEventListener("click", function (event) {
-
-        const cell = event.target.closest(".cell");
-        if (!cell) return;
-
-        if (cell.innerHTML === "") {
-            cell.innerHTML = `<h5 class="cell-info">🏢</h3>`;
-        } else {
-            cell.innerHTML = "";
-        }
-
-    }); */
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
@@ -320,7 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    
     buttonList.forEach((btn) => {
         btn.addEventListener('click', () => {
             if (btn === btnDemolish) {
