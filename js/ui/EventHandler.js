@@ -91,19 +91,20 @@ document.addEventListener("DOMContentLoaded", () => {
     btnCreateGame.addEventListener('click', () => {
 
         const gridSize = document.getElementById("input-map-size").value;
-        console.log("gridSize:", gridSize);
-
         const grid = new Grid(gridSize, gridSize);
-        console.log("grid creado:", grid);
-
         grid.initGrid();
-        console.log("cells después de initGrid:", grid.cells);
 
         showScreen('game-page');
         const gridContainer = document.getElementById("grid");
-        console.log("gridContainer:", gridContainer);
         GridRenderer.render(grid, gridContainer);
 
+        let cityName = document.getElementById("city-name")
+        let cityMayor = document.getElementById("city-mayor")
+        let cityValue = document.getElementById("input-city-name").value;
+        let mayorValue = document.getElementById("input-mayor-name").value;
+
+        cityName.textContent = `Ciudad: ${cityValue}`;
+        cityMayor.textContent = `Alcalde: ${mayorValue}`;
     });
 
     gridContainer.addEventListener("click", function (event) {
@@ -147,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let lon = option.dataset.lon;
         let temperatureData = document.getElementById('city-temperature');
         let cityCondition = document.getElementById('city-condition');
+        let cityHumidity = document.getElementById("city-humidity");
+        let cityWindVelocity = document.getElementById("city-wind-velocity");
         let newsTitle = document.getElementById('news-title');
         let newsInfo = document.getElementById('news-info')
 
@@ -156,6 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 //Se cambia el contenido de la etiqueta temperatureData y cityCondition, por la temperatura y descripcion traída desde la API.
                 temperatureData.textContent = `Temperatura: ${data.main.temp}°C`
                 cityCondition.textContent = `Condición: ${data.weather[0].description}`
+                cityHumidity.textContent = `Humedad: ${data.main.humidity}%`
+                cityWindVelocity.textContent = `Velocidad del viento: ${data.wind.speed}m/s`
+
             })
             .catch(function (error) {
                 //Sino se pueden traer los datos de la API, se cambia el contenido de cada etiqueta por un mensaje.
@@ -166,13 +172,14 @@ document.addEventListener("DOMContentLoaded", () => {
         //Ahora, la API que nos dio el profesor, requiere del codigo del pais. En este caso, para colombia es "co", pero por ahora no salen noticias de cualquier ciudad de Colombia. Entonces, para fines demostrativos, puse el codigo para colombia "us" para que salgan noticias temporales por ahora. Después eso se cambia.
         newsRepository.getNews("us")
             .then(function (data) {
+                console.log(data)
                 //Se trae el div de id="news-panel" del HTML para todas las noticias.
                 let newsPanel = document.getElementById('news-panel');
                 //Se le asigna valor de string vacío por ahora.
                 newsPanel.innerHTML = '';
 
                 //Se crea una variable, con solo las primeras 3 noticias por ahora. 
-                let news = data.articles.slice(0, 3);
+                let news = data.articles.slice(0, 5);
                 //Se itera cada noticia
                 news.forEach(function (article) {
                     //Se crea una carta, como una espaciado entre noticias.
@@ -183,8 +190,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se agrega el titulo, y la informacion de la noticia
                     card.innerHTML = `
                 <div class="card-body">
-                    <h6>${article.title}</h6>
+                    <h5 class="article-title">${article.title}</h6>
                     <p>${article.description}</p>
+                    <a href="${article.url}">Link</a>
+                    <img src="${article.urlToImage}" alt="news image" class="news-image">
                 </div>
             `;  
                     //Se manda esta información al div con id = "news-panel"
