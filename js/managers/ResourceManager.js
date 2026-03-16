@@ -11,42 +11,42 @@ class ResourceManager {
     }
 
     //==========SETTERS=============
-    set _money(money){
+    set money(money){
         if(money >=0){
             this._money = money;
         }
     }
-    set _electricity(electricity){
+    set electricity(electricity){
         if(electricity >=0){
             this._electricity = electricity;
         }
     }
-    set _electricityProduction(electricityProduction){
+    set electricityProduction(electricityProduction){
         if(electricityProduction >=0){
             this._electricityProduction = electricityProduction;
         }
     }
-    set _electricConsumption(electricConsumption){
+    set electricConsumption(electricConsumption){
         if(electricConsumption >=0){
             this._electricConsumption = electricConsumption;
         }
     }
-    set _water(water){
+    set water(water){
         if(water >=0){
             this._water = water;
         }
     }
-    set _waterProduction(waterProduction){
+    set waterProduction(waterProduction){
         if(waterProduction >=0){
             this._waterProduction = waterProduction;
         }
     }
-    set _waterConsumption(waterConsumption){
+    set waterConsumption(waterConsumption){
         if(waterConsumption >=0){
             this._waterConsumption = waterConsumption;
         }
     }
-    set _food(food){
+    set food(food){
         if(food >=0){
             this._food = food;
         }
