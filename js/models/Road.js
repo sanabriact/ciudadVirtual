@@ -1,6 +1,8 @@
 class Road {
-    constructor(id, x, y) {
+    static number = 1;
+    constructor(id, name, x, y) {
         this._id = id || null;
+        this._name = name+"-"+Road.number++;
         this._cost = 100;
         this._x = x;
         this._y = y;

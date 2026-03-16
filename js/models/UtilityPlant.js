@@ -1,6 +1,7 @@
 class UtilityPlant extends Building {
+    static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, productionType, productionAmount) {
-        super(id, name, cost, electricityConsumption, waterConsumption, x, y);
+        super(id, name+"-"+UtilityPlant.number++, cost, electricityConsumption, waterConsumption, x, y);
         // productionType: "electricity" o "water"
         this._productionType   = productionType   || "electricity";
         this._productionAmount = productionAmount ?? 0;

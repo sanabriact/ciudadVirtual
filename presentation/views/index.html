@@ -212,38 +212,54 @@
             <div class="container-fluid d-flex justify-content-between align-items-center">
                 <div class="d-flex flex-column">
                     <h3 id="screen-title">City Builder Game</h3>
-                    <button type="button" class="btn btn-dark" id="return-start-page">Menú principal</button>
+                    <div class="city-info d-flex flex-row">
+                        <button type="button" class="btn btn-dark" id="return-start-page">Menú principal</button>
+                        <div id="container-city-info" class="d-flex flex-column justify-content-center">
+                            <h6 id="city-name"></h6>
+                            <h6 id="city-mayor"></h6>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div id="resource-panel" class="d-flex gap-3">
-                    <span id="money">$50,000</span>
-                    <span id="electricity">⚡ 0</span>
-                    <span id="water">💧 0</span>
-                    <span id="food">🌾 0</span>
-                    <span id="population">👥 0</span>
-                    <span id="happiness">😊 0%</span>
+                <div id="resource-panel" class="d-flex flex-column">
+                    <div class="d-flex flex-row">
+                        <span id="money">$50,000</span>
+                        <span id="electricity">⚡ 0</span>
+                        <span id="water">💧 0</span>
+                        <span id="food">🌾 0</span>
+                        <span id="population">👥 0</span>
+                        <span id="happiness">😊 0%</span>
+                    </div>
+                    <div class="puntuation d-flex flex-row">
+                        <h5 class="subtitles">Puntuación</h5>
+                        <div id="score-panel">
+                            <h4>0</h4>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
-                <h5>Construcción</h5>
+                <h5 class="subtitles">Construcción</h5>
 
                 <div class="list-group">
-                    <button id="btn-house" class="list-group-item list-group-item-action">Casa</button>
-                    <button id="btn-apartment" class="list-group-item list-group-item-action">Apartamento</button>
-                    <button id="btn-store" class="list-group-item list-group-item-action">Tienda</button>
-                    <button id="btn-commercial-center" class="list-group-item list-group-item-action">Centro Comercial</button>
-                    <button id="btn-factory" class="list-group-item list-group-item-action">Fábrica</button>
-                    <button id="btn-farm" class="list-group-item list-group-item-action">Granja</button>
-                    <button id="btn-police-station" class="list-group-item list-group-item-action">Policía</button>
-                    <button id="btn-firefighters" class="list-group-item list-group-item-action">Bomberos</button>
-                    <button id="btn-hospital" class="list-group-item list-group-item-action">Hospital</button>
-                    <button id="btn-power-plant" class="list-group-item list-group-item-action">Planta Eléctrica</button>
-                    <button id="btn-water-plant" class="list-group-item list-group-item-action">Planta de Agua</button>
-                    <button id="btn-park" class="list-group-item list-group-item-action">Parque</button>
-                    <button id="btn-road" class="list-group-item list-group-item-action">Vía</button>
-                    <button id="btn-demolish" class="list-group-item list-group-item-action text-danger">Demoler</button>
+                    <button id="btn-house" class="list-group-item list-group-item-action" data-emoji="🏠">Casa</button>
+                    <button id="btn-apartment" class="list-group-item list-group-item-action" data-emoji="🏢">Apartamento</button>
+                    <button id="btn-store" class="list-group-item list-group-item-action" data-emoji="🏬">Tienda</button>
+                    <button id="btn-commercial-center" class="list-group-item list-group-item-action" data-emoji="🏣">Centro Comercial</button>
+                    <button id="btn-factory" class="list-group-item list-group-item-action" data-emoji="🏭">Fábrica</button>
+                    <button id="btn-farm" class="list-group-item list-group-item-action" data-emoji="🌾">Granja</button>
+                    <button id="btn-police-station" class="list-group-item list-group-item-action" data-emoji="👮">Policía</button>
+                    <button id="btn-firefighters" class="list-group-item list-group-item-action" data-emoji="🚒">Bomberos</button>
+                    <button id="btn-hospital" class="list-group-item list-group-item-action" data-emoji="🏥">Hospital</button>
+                    <button id="btn-power-plant" class="list-group-item list-group-item-action" data-emoji="⚡">Planta Eléctrica</button>
+                    <button id="btn-water-plant" class="list-group-item list-group-item-action" data-emoji="💧">Planta de Agua</button>
+                    <button id="btn-park" class="list-group-item list-group-item-action" data-emoji="🌳">Parque</button>
+                    <button id="btn-road" class="list-group-item list-group-item-action" data-emoji="🛣">Vía</button>
+                    <button id="btn-demolish" class="list-group-item list-group-item-action text-danger" data-emoji="">Demoler</button>
 
                     <hr>
 
@@ -261,13 +277,15 @@
             <!-- Sidebar Derecho -->
             <aside class="col-lg-3 bg-light p-3">
 
-                <h5>Clima</h5>
+                <h5 class="subtitles">Clima</h5>
                 <div id="weather-widget" class="mb-4">
                     <p id="city-temperature">Temperatura: -- °C</p>
                     <p id="city-condition">Condición: --</p>
+                    <p id="city-humidity">Humedad: --%</p>
+                    <p id="city-wind-velocity">Velocidad del viento: --</p>
                 </div>
 
-                <h5>Noticias</h5>
+                <h5 class="subtitles">Noticias</h5>
                 <div id="news-panel">
                     <div class="card mb-2">
                         <div class="card-body">
@@ -279,39 +297,12 @@
 
                 <hr>
 
-                <h5>Puntuación</h5>
-                <div id="score-panel">
-                    <h4>0</h4>
-                </div>
-
             </aside>
 
         </div>
     </div>
 </body>
 <script>
-
-    // Crear ciudad → Juego (al fundar)
-    /*document.getElementById('btn-create-city').addEventListener('click', () => {
-        const cityName = document.getElementById('input-city-name').value.trim();
-        const mayorName = document.getElementById('input-mayor-name').value.trim();
-
-        if (!cityName || !mayorName) {
-            alert('Completa los campos obligatorios');
-            return;
-        }
-
-        const size = parseInt(document.getElementById('input-map-size').value);
-        buildMap(size); // construyes el mapa antes de mostrar la pantalla
-
-        showScreen('screen-game');
-    });
-
-    // Volver de crear → Intro
-    document.getElementById('btn-back-intro').addEventListener('click', () => {
-        showScreen('screen-intro');
-    });*/
-
 </script>
 
 </html>
