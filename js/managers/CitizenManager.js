@@ -7,9 +7,9 @@ class CitizenManager {
 
     // ============ GETTERS ============
 
-    get population()    { return this._population; }
+    get population() { return this._population; }
     get totalCitizens() { return this._population.length; }
-    get growthRate()    { return this._growthRate; }
+    get growthRate() { return this._growthRate; }
 
     // Felicidad promedio de todos los ciudadanos (0 si no hay nadie)
     get averageHappiness() {
@@ -71,12 +71,12 @@ class CitizenManager {
 
             // Factores positivos (según el documento)
             if (citizen._hasHome) happiness += 20;
-            if (citizen._hasJob)  happiness += 15;
+            if (citizen._hasJob) happiness += 15;
             happiness += happinessBonus; // suma parques, policía, bomberos, hospitales
 
             // Factores negativos
             if (!citizen._hasHome) happiness -= 20;
-            if (!citizen._hasJob)  happiness -= 15;
+            if (!citizen._hasJob) happiness -= 15;
 
             // La felicidad nunca sale del rango 0-100
             citizen._happiness = Math.min(100, Math.max(0, happiness));
@@ -101,8 +101,8 @@ class CitizenManager {
 
     // Asigna empleo a ciudadanos desempleados, si hay vacantes
     assignJobs(buildings) {
-        const comerciales   = buildings.filter(b => b instanceof CommercialBuilding);
-        const industriales  = buildings.filter(b => b instanceof IndustrialBuilding);
+        const comerciales = buildings.filter(b => b instanceof CommercialBuilding);
+        const industriales = buildings.filter(b => b instanceof IndustrialBuilding);
         const edificiosConEmpleo = [...comerciales, ...industriales];
 
         this._population.forEach(citizen => {
@@ -123,7 +123,7 @@ class CitizenManager {
     growPopulation(buildings, resourceManager) {
         const hayVivienda = this._hayCapacidadResidencial(buildings);
         const felicidadOk = this.averageHappiness > 60;
-        const hayEmpleo   = this._hayEmpleosDisponibles(buildings);
+        const hayEmpleo = this._hayEmpleosDisponibles(buildings);
 
         if (!hayVivienda || !felicidadOk || !hayEmpleo) return;
 

@@ -1,21 +1,21 @@
 class City {
     constructor(name, mayor, regionLat, regionLon, width, height, score, hapinessAverage, grid) {
-        this._name           = name           || "";
-        this._mayor          = mayor          || "";
-        this._regionLat      = regionLat      ?? 0;
-        this._regionLon      = regionLon      ?? 0;
-        this._width          = width          ?? 0;
-        this._height         = height         ?? 0;
-        this._score          = score          ?? 0;
+        this._name = name || "";
+        this._mayor = mayor || "";
+        this._regionLat = regionLat ?? 0;
+        this._regionLon = regionLon ?? 0;
+        this._width = width ?? 0;
+        this._height = height ?? 0;
+        this._score = score ?? 0;
         this._hapinessAverage = hapinessAverage ?? 0;
-        this._grid           = grid;
-        this._roads          = [];
+        this._grid = grid;
+        this._roads = [];
 
         // Managers: cada uno controla un aspecto de la ciudad
-        this._buildingManager  = new BuildingManager();
-        this._citizenManager   = new CitizenManager();
-        this._resourceManager  = new ResourceManager();
-        this._scoreManager     = new ScoreManager();
+        this._buildingManager = new BuildingManager();
+        this._citizenManager = new CitizenManager();
+        this._resourceManager = new ResourceManager();
+        this._scoreManager = new ScoreManager();
     }
 
     // ============ GETTERS (delegados a los managers) ============
@@ -42,11 +42,31 @@ class City {
 
     // ============ SETTERS ============
 
-    set regionLat(value) { if (value >= 0) this._regionLat = value; }
-    set regionLon(value) { if (value >= 0) this._regionLon = value; }
-    set width(value)     { if (value >= 0) this._width = value; }
-    set height(value)    { if (value >= 0) this._height = value; }
-    set score(value)     { if (value >= 0) this._score = value; }
+    set regionLat(value) {
+        if (value >= 0) {
+            this._regionLat = value;
+        }
+    }
+    set regionLon(value) { 
+        if (value >= 0) {
+            this._regionLon = value;
+        }
+    }
+    set width(value) { 
+        if (value >= 0) {
+            this._width = value;
+        }
+    }
+    set height(value) { 
+        if (value >= 0) {
+            this._height = value;
+        }
+    }
+    set score(value) { 
+        if (value >= 0) {
+            this._score = value;
+        }
+    }
 
     // ============ MÉTODOS ============
 
@@ -87,17 +107,17 @@ class City {
     // Serializa la ciudad completa para localStorage
     toJSON() {
         return {
-            name:          this._name,
-            mayor:         this._mayor,
-            regionLat:     this._regionLat,
-            regionLon:     this._regionLon,
-            width:         this._width,
-            height:        this._height,
-            roads:         this._roads,
-            resources:     this._resourceManager.toJSON(),
-            buildings:     this._buildingManager._buildings,
-            citizens:      this._citizenManager.toJSON(),
-            score:         this._scoreManager.toJSON()
+            name: this._name,
+            mayor: this._mayor,
+            regionLat: this._regionLat,
+            regionLon: this._regionLon,
+            width: this._width,
+            height: this._height,
+            roads: this._roads,
+            resources: this._resourceManager.toJSON(),
+            buildings: this._buildingManager._buildings,
+            citizens: this._citizenManager.toJSON(),
+            score: this._scoreManager.toJSON()
         };
     }
 }

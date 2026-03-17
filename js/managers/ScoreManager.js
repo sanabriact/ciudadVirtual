@@ -1,3 +1,5 @@
 class ScoreManager {
-    constructor() {}
+    constructor(buildingManger, citizenManeger, resourceManager ) {
+        
+    }
 }
