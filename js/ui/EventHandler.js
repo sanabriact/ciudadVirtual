@@ -27,12 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 cities.forEach(function (city) {
                     let option = document.createElement('option')
- 
+
                     option.value = city.id;
                     option.textContent = city.name;
                     option.dataset.lat = city.latitude;
                     option.dataset.lon = city.longitude;
-  
+
                     inputRegion.appendChild(option);
                 })
             })
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 news.forEach(function (article) {
                     let card = document.createElement('div');
-  
+
                     card.className = 'card mb-2';
                     card.innerHTML = `
                 <div class="card-body">
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
 
     })
-    
+
     let btnHouse = document.getElementById('btn-house');
     let btnApartment = document.getElementById('btn-apartment');
     let btnStore = document.getElementById('btn-store');
@@ -157,25 +157,43 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnDemolish = document.getElementById('btn-demolish');
 
     let buttonList = [btnDemolish, btnHouse, btnApartment, btnStore, btnCommercial, btnFactory, btnFarm, btnPolice, btnFirefighters, btnHospital, btnPowerPlant, btnWaterPlant, btnPark, btnRoad]
-    let selectedButton = null; 
+    let selectedButton = null;
 
     btnCreateGame.addEventListener('click', () => {
         const gridSize = parseInt(document.getElementById("input-map-size").value);
+        const cityName = document.getElementById("input-city-name");
+        const cityMayor = document.getElementById("input-mayor-name");
+        const cityValue = cityName.value.trim();
+        const mayorName = cityMayor.value.trim();
+
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
+
+        // ← Crear la ciudad aquí
+        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid);
 
         showScreen('game-page');
 
         const gridContainer = document.getElementById("grid");
         GridRenderer.render(grid, gridContainer);
 
-        gridContainer.addEventListener("click", (event) => {
+        gridContainer.addEventListener("click", function (event) {
             const cell = event.target.closest(".cell");
             if (!cell) return;
 
+            const x = cell.dataset.x;
+            const y = cell.dataset.y;
+
             if (selectedButton === null) {
-                cell.innerHTML = "";
-            } else if (selectedButton !== null && cell.innerHTML.trim() === "") {
+                // DEMOLER
+                if (cell.innerHTML.trim() !== "") {
+                    city._buildingManager.deleteBuilding(grid.cells[x][y]._id);
+                    grid.cells[x][y]._id = "g";
+                    cell.innerHTML = "";
+                    console.log("Se demolio el edificio en", x, y);
+                }
+            } else if (cell.innerHTML.trim() === "") {
+                // CONSTRUIR
                 cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
                 const x = cell.dataset.x;
                 const y = cell.dataset.y;
@@ -183,86 +201,81 @@ document.addEventListener("DOMContentLoaded", () => {
                 switch (selectedButton.type) {
                     case "house":
                         grid.cells[x][y].id = "R1";
-                        const house = new ResidentialBuilding("R1","house",1000,5,3,x,y,4);
+                        const house = new ResidentialBuilding("R1", "house", 1000, 5, 3, x, y, 4);
                         city._buildingManager.addBuilding(house);
 
                         break;
                     case "apartment":
                         grid.cells[x][y].id = "R2";
-                        const apartment = new ResidentialBuilding("R2","apartment",3000,15,10,x,y,12);
+                        const apartment = new ResidentialBuilding("R2", "apartment", 3000, 15, 10, x, y, 12);
                         city._buildingManager.addBuilding(apartment);
                         break;
                     case "store":
                         grid.cells[x][y].id = "C1";
-                        const store = new CommercialBuilding("C1","store",2000,8,8,x,y,6,500);
+                        const store = new CommercialBuilding("C1", "store", 2000, 8, 8, x, y, 6, 500);
                         city._buildingManager.addBuilding(store);
                         break;
                     case "commercial-center":
                         grid.cells[x][y].id = "C2";
-                        const commercial = new CommercialBuilding("C2","commercial-center",8000,25,25,x,y,20,2000);
+                        const commercial = new CommercialBuilding("C2", "commercial-center", 8000, 25, 25, x, y, 20, 2000);
                         city._buildingManager.addBuilding(commercial);
                         break;
                     case "factory":
                         grid.cells[x][y].id = "I1";
-                        const factory = new IndustrialBuilding("I1","factory",5000,20,15,x,y,15,"money",800);
+                        const factory = new IndustrialBuilding("I1", "factory", 5000, 20, 15, x, y, 15, "money", 800);
                         city._buildingManager.addBuilding(factory);
                         break;
                     case "farm":
                         grid.cells[x][y].id = "I2";
-                        const farm = new IndustrialBuilding("I2","farm",3000,0,10,x,y,8,"food",50);
+                        const farm = new IndustrialBuilding("I2", "farm", 3000, 0, 10, x, y, 8, "food", 50);
                         city._buildingManager.addBuilding(farm);
                         break;
                     case "police-station":
                         grid.cells[x][y].id = "S1";
-                        const police = new ServiceBuilding("S1","police-station",4000,15,0,x,y,5,10);
+                        const police = new ServiceBuilding("S1", "police-station", 4000, 15, 0, x, y, 5, 10);
                         city._buildingManager.addBuilding(police);
                         break;
                     case "firefighter-station":
                         grid.cells[x][y].id = "S2";
-                        const firefighters = new ServiceBuilding("S2","fire-fighters",4000,15,0,x,y,5,10);
+                        const firefighters = new ServiceBuilding("S2", "fire-fighters", 4000, 15, 0, x, y, 5, 10);
                         city._buildingManager.addBuilding(firefighters);
                         break;
                     case "hospital":
                         grid.cells[x][y].id = "S3";
-                        const hospital = new ServiceBuilding("S3","hospital",6000,20,10,x,y,7,10);
+                        const hospital = new ServiceBuilding("S3", "hospital", 6000, 20, 10, x, y, 7, 10);
                         city._buildingManager.addBuilding(hospital);
                         break;
                     case "power-plant":
                         grid.cells[x][y].id = "U1";
-                        const powerPlant = new UtilityPlant("U1","power-plant",10000,0,0,x,y,"electricity",200);
+                        const powerPlant = new UtilityPlant("U1", "power-plant", 10000, 0, 0, x, y, "electricity", 200);
                         city._buildingManager.addBuilding(powerPlant);
                         break;
                     case "water-plant":
                         grid.cells[x][y].id = "U2";
-                        const waterPlant = new UtilityPlant("U2","water-plant",8000,20,0,x,y,"water",150);
+                        const waterPlant = new UtilityPlant("U2", "water-plant", 8000, 20, 0, x, y, "water", 150);
                         city._buildingManager.addBuilding(waterPlant);
                         break;
                     case "park":
                         grid.cells[x][y].id = "P1";
-                        const park = new Park("P1","park",1500,0,0,x,y,5);
+                        const park = new Park("P1", "park", 1500, 0, 0, x, y, 5);
                         city._buildingManager.addBuilding(park);
                         break;
                     case "road":
                         grid.cells[x][y].id = "R";
-                        const road = new Road("R","road",x,y);
+                        const road = new Road("R", "road", x, y);
                         city._buildingManager.addBuilding(road);
                         break;
                 }
-
+                console.log(city.buildings);
             }
         });
 
-        let cityName = document.getElementById("city-name")
-        let cityMayor = document.getElementById("city-mayor")
-        let cityValue = document.getElementById("input-city-name").value;
-        let mayorValue = document.getElementById("input-mayor-name").value;
 
         cityName.textContent = `Ciudad: ${cityValue}`;
-        cityMayor.textContent = `Alcalde: ${mayorValue}`;
+        cityMayor.textContent = `Alcalde: ${mayorName}`;
     });
-
     buttonList.forEach((btn) => {
-        btn.addEventListener('click', (event) => {
+        btn.addEventListener('click', () => {
             if (btn === btnDemolish) {
                 selectedButton = null;
             } else {
@@ -271,11 +284,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     type: btn.dataset.type
                 };
             }
-            //Para color del boton seleccionado
             buttonList.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         });
     });
-
-    
 });
+
+

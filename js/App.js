@@ -1,4 +1,4 @@
-let city       = null;
+let  city       = null;
 let turnSystem = null;
 
 // ─── Inicializar el juego ───────────────────────────────────────────────────
