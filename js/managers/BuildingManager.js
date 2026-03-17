@@ -8,13 +8,13 @@ class BuildingManager {
     }
 
     deleteBuilding(id) {
-        let cuantosHabia = this._buildings.length;
+        let buildingsNumber = this._buildings.length;
 
         this._buildings = this._buildings.filter(building => {
             return building._id !== id;
         });
 
-        return this._buildings.length < cuantosHabia;
+        return this._buildings.length < buildingsNumber;
     }
 
     createBuilding(buildingData) {

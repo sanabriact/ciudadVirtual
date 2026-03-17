@@ -18,9 +18,9 @@ class ScoreManager {
             return 300;
         }
         if(happinessAverage < 40){
-            
+            return -300;
         }
-        return ;
+        return happinessAverage;
     }
 
 

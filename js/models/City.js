@@ -19,7 +19,9 @@ class City {
     }
 
     // ============ GETTERS (delegados a los managers) ============
-
+    get buildingManager(){
+        return this._buildingManager;
+    }
     get population() {
         return this._citizenManager.population;
     }

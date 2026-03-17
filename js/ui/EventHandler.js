@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     buttonList.forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (event) => {
             if (btn === btnDemolish) {
                 selectedEmoji = null;
             } else {
