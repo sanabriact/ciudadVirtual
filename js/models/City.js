@@ -16,7 +16,7 @@ class City {
         this._citizenManager = new CitizenManager();
         this._resourceManager = new ResourceManager();
         this._scoreManager = new ScoreManager(this._buildingManager, this._citizenManager, this._resourceManager);
-
+        this._turnSystem = null;
     }
 
     // ============ GETTERS (delegados a los managers) ============

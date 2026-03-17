@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    let gridContainer = document.getElementById("grid");
     let btnNewCity = document.getElementById('btn-new-city');
     let btnCreateGame = document.getElementById('btn-create-game');
     let btnLoadGame = document.getElementById('btn-load-game');
@@ -9,64 +7,27 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnBack = document.querySelectorAll(".btn-back")
     let mapSizeDisplay = document.getElementById('map-size-display')
     let mapSizeSlider = document.getElementById('input-map-size')
-    let inputRegion = document.getElementById('input-region')
-    const cityRepository = new CityRepository();
+    let inputRegion = document.getElementById('input-region');
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
-    function loadCities() {
-        inputRegion.innerHTML = '<option value="">— Cargando ciudades —</option>';
-
-        cityRepository.getCities()
-            .then(function (cities) {
-                cities.sort(function (city1, city2) {
-                    return city1.name.localeCompare(city2.name);
-                })
-
-                inputRegion.innerHTML = '<option value="">— Selecciona una ciudad —</option>';
-
-                cities.forEach(function (city) {
-                    let option = document.createElement('option')
-
-                    option.value = city.id;
-                    option.textContent = city.name;
-                    option.dataset.lat = city.latitude;
-                    option.dataset.lon = city.longitude;
-
-                    inputRegion.appendChild(option);
-                })
-            })
-            .catch(function (error) {
-                console.log("Error al cargar ciudades")
-                inputRegion.innerHTML = '<option value="">— Error al cargar ciudades —</option>';
-            });
-    }
-
-    function showScreen(screen_id) {
-        // Ocultar todas las pantallas
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-
-        // Mostrar la que se pide
-        document.getElementById(screen_id).classList.add('active');
-    }
-
     // Intro → Crear ciudad
     btnNewCity.addEventListener('click', () => {
-        showScreen('city-info-page');
-        loadCities();
+        helpers.showScreen('city-info-page');
+        helpers.loadCities();
     });
 
     btnDeleteGame.addEventListener('click', () => {
-        showScreen('delete-game-page')
+        helpers.showScreen('delete-game-page')
     });
 
     btnLoadGame.addEventListener('click', () => {
-        showScreen('load-game-page');
+        helpers.showScreen('load-game-page');
     })
 
     btnBack.forEach(function (btn) {
         btn.addEventListener("click", function () {
-            showScreen('initial-page')
+            helpers.showScreen('initial-page')
         })
     })
 
@@ -79,13 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (response) {
             console.clear();
-            showScreen('initial-page')
+            helpers.showScreen('initial-page')
         }
     });
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
     })
+
 
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];
@@ -125,12 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     card.className = 'card mb-2';
                     card.innerHTML = `
                 <div class="card-body">
-                    <h5 class="article-title">${article.title}</h6>
-                    <p>${article.description}</p>
-                    <a href="${article.url}">Link</a>
+                <h5 class="article-title">${article.title}</h6>
+                <p>${article.description}</p>
+                <a href="${article.url}">Link</a>
                     <img src="${article.urlToImage}" alt="news image" class="news-image">
-                </div>
-            `;
+                    </div>
+                    `;
                     newsPanel.appendChild(card);
                 });
             })
@@ -165,16 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const cityMayor = document.getElementById("input-mayor-name");
         const cityValue = cityName.value.trim();
         const mayorName = cityMayor.value.trim();
+        const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
+        const gridContainer = document.getElementById("grid");
+        const growthRate = parseInt(document.getElementById("input-growth-rate").value);
 
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
 
         // ← Crear la ciudad aquí
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid);
-
-        showScreen('game-page');
-
-        const gridContainer = document.getElementById("grid");
+        helpers.showScreen('game-page');
+        city._turnSystem = new TurnSystem(city, turnDuration);
+        city._turnSystem.start();
+        city._citizenManager.growthRate = growthRate;
         GridRenderer.render(grid, gridContainer);
 
         gridContainer.addEventListener("click", function (event) {
@@ -187,85 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (selectedButton === null) {
                 // DEMOLER
                 if (cell.innerHTML.trim() !== "") {
-                    city._buildingManager.deleteBuilding(x,y);
-                    grid.cells[x][y]._id = "g";
+                    city._buildingManager.deleteBuilding(x, y);
+                    grid.setCellId(x, y, "g");
                     cell.innerHTML = "";
-                    console.log("Se demolio el edificio en", x, y);
                 }
             } else if (cell.innerHTML.trim() === "") {
                 // CONSTRUIR
                 cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                const x = cell.dataset.x;
-                const y = cell.dataset.y;
-
-                switch (selectedButton.type) {
-                    case "house":
-                        grid.cells[x][y].id = "R1";
-                        const house = new ResidentialBuilding("R1", "house", 1000, 5, 3, x, y, 4);
-                        city._buildingManager.addBuilding(house);
-
-                        break;
-                    case "apartment":
-                        grid.cells[x][y].id = "R2";
-                        const apartment = new ResidentialBuilding("R2", "apartment", 3000, 15, 10, x, y, 12);
-                        city._buildingManager.addBuilding(apartment);
-                        break;
-                    case "store":
-                        grid.cells[x][y].id = "C1";
-                        const store = new CommercialBuilding("C1", "store", 2000, 8, 8, x, y, 6, 500);
-                        city._buildingManager.addBuilding(store);
-                        break;
-                    case "commercial-center":
-                        grid.cells[x][y].id = "C2";
-                        const commercial = new CommercialBuilding("C2", "commercial-center", 8000, 25, 25, x, y, 20, 2000);
-                        city._buildingManager.addBuilding(commercial);
-                        break;
-                    case "factory":
-                        grid.cells[x][y].id = "I1";
-                        const factory = new IndustrialBuilding("I1", "factory", 5000, 20, 15, x, y, 15, "money", 800);
-                        city._buildingManager.addBuilding(factory);
-                        break;
-                    case "farm":
-                        grid.cells[x][y].id = "I2";
-                        const farm = new IndustrialBuilding("I2", "farm", 3000, 0, 10, x, y, 8, "food", 50);
-                        city._buildingManager.addBuilding(farm);
-                        break;
-                    case "police-station":
-                        grid.cells[x][y].id = "S1";
-                        const police = new ServiceBuilding("S1", "police-station", 4000, 15, 0, x, y, 5, 10);
-                        city._buildingManager.addBuilding(police);
-                        break;
-                    case "firefighter-station":
-                        grid.cells[x][y].id = "S2";
-                        const firefighters = new ServiceBuilding("S2", "fire-fighters", 4000, 15, 0, x, y, 5, 10);
-                        city._buildingManager.addBuilding(firefighters);
-                        break;
-                    case "hospital":
-                        grid.cells[x][y].id = "S3";
-                        const hospital = new ServiceBuilding("S3", "hospital", 6000, 20, 10, x, y, 7, 10);
-                        city._buildingManager.addBuilding(hospital);
-                        break;
-                    case "power-plant":
-                        grid.cells[x][y].id = "U1";
-                        const powerPlant = new UtilityPlant("U1", "power-plant", 10000, 0, 0, x, y, "electricity", 200);
-                        city._buildingManager.addBuilding(powerPlant);
-                        break;
-                    case "water-plant":
-                        grid.cells[x][y].id = "U2";
-                        const waterPlant = new UtilityPlant("U2", "water-plant", 8000, 20, 0, x, y, "water", 150);
-                        city._buildingManager.addBuilding(waterPlant);
-                        break;
-                    case "park":
-                        grid.cells[x][y].id = "P1";
-                        const park = new Park("P1", "park", 1500, 0, 0, x, y, 5);
-                        city._buildingManager.addBuilding(park);
-                        break;
-                    case "road":
-                        grid.cells[x][y].id = "R";
-                        const road = new Road("R", "road", x, y);
-                        city._buildingManager.addBuilding(road);
-                        break;
-                }
+                helpers.buildNewBuilding(selectedButton.type, x, y);
                 console.log(city.buildings);
             }
         });
@@ -274,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cityName.textContent = `Ciudad: ${cityValue}`;
         cityMayor.textContent = `Alcalde: ${mayorName}`;
     });
+
     buttonList.forEach((btn) => {
         btn.addEventListener('click', () => {
             if (btn === btnDemolish) {
@@ -288,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add('active');
         });
     });
+
 });
 
 

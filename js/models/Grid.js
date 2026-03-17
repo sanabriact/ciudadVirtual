@@ -37,4 +37,8 @@ class Grid {
             }
         }
     }
+
+    setCellId(x,y,id){
+        this._cells[x][y]._id = id;
+    }
 }
