@@ -17,43 +17,43 @@ class ResourceManager {
     set money(value) {
         if (value >= 0) {
 
-            this.__money = value;
+            this._money = value;
         }
     }
     set electricity(value) {
         if (value >= 0) {
-            this.__electricity = value;
+            this._electricity = value;
         }
     }
     set electricityProduction(value) {
         if (value >= 0) {
-            this.__electricityProduction = value;
+            this._electricityProduction = value;
         }
     }
     set electricConsumption(value) {
-        if (value >= 0) { 
-            this.__electricConsumption = value; 
-        
+        if (value >= 0) {
+            this._electricConsumption = value;
+
         }
     }
     set water(value) {
-        if (value >= 0) { 
-            this.__water = value; 
+        if (value >= 0) {
+            this._water = value;
         }
     }
     set waterProduction(value) {
-        if (value >= 0) { 
-            this.__waterProduction = value;
+        if (value >= 0) {
+            this._waterProduction = value;
         }
     }
     set waterConsumption(value) {
-        if (value >= 0) { 
-            this.__waterConsumption = value; 
+        if (value >= 0) {
+            this._waterConsumption = value;
         }
     }
     set food(value) {
-        if (value >= 0) { 
-            this.__food = value; 
+        if (value >= 0) {
+            this._food = value;
         }
     }
 
@@ -61,14 +61,14 @@ class ResourceManager {
 
     // ¿Hay suficiente dinero para construir algo?
     canAfford(cost) {
-        return this.__money >= cost;
+        return this._money >= cost;
     }
 
     // Gastar dinero (al construir un edificio o vía)
     // Retorna true si pudo gastar, false si no alcanzaba el dinero
     spendMoney(amount) {
         if (amount > 0 && this.canAfford(amount)) {
-            this.__money -= amount;
+            this._money -= amount;
             return true;
         }
         return false;
@@ -77,7 +77,7 @@ class ResourceManager {
     // Sumar ingresos al dinero total
     addIncome(amount) {
         if (amount > 0) {
-            this.__money += amount;
+            this._money += amount;
         }
     }
 
@@ -103,8 +103,6 @@ class ResourceManager {
                 if (building._productionType === "electricity") {
                     totalElectricityProduction += building._productionAmount || 0;
                 } else if (building._productionType === "water") {
-                    // La planta de agua necesita electricidad para funcionar
-                    // (su consumo ya está sumado arriba, eso la "frena" si no hay luz)
                     totalWaterProduction += building._productionAmount || 0;
                 }
             }
@@ -142,18 +140,18 @@ class ResourceManager {
         });
 
         // Guardamos los totales de producción y consumo
-        this.__electricityProduction = totalElectricityProduction;
-        this.__electricConsumption = totalElectricityConsumption;
-        this.__waterProduction = totalWaterProduction;
-        this.__waterConsumption = totalWaterConsumption;
+        this._electricityProduction = totalElectricityProduction;
+        this._electricConsumption = totalElectricityConsumption;
+        this._waterProduction = totalWaterProduction;
+        this._waterConsumption = totalWaterConsumption;
 
-        // El stock nunca baja de 0 (Math.max lo protege)
+        // El stock nunca baja de 0 (Math.max hace que no sea negativo)
         // Si el balance es negativo, checkGameOver() lo detecta aparte
-        this.__electricity = Math.max(0, totalElectricityProduction - totalElectricityConsumption);
-        this.__water = Math.max(0, totalWaterProduction - totalWaterConsumption);
+        this._electricity = Math.max(0, totalElectricityProduction - totalElectricityConsumption);
+        this._water = Math.max(0, totalWaterProduction - totalWaterConsumption);
 
         // La comida se acumula turno a turno
-        this.__food += totalFoodProduction;
+        this._food += totalFoodProduction;
 
         // Sumamos los ingresos al dinero total
         this.addIncome(totalIncome);
@@ -163,11 +161,19 @@ class ResourceManager {
     // Según el documento: electricidad o agua en balance negativo = game over.
     checkGameOver() {
         if (this.electricityBalance < 0) {
-            return { gameOver: true, reason: "¡Te quedaste sin electricidad!" };
+            return { 
+                gameOver: true, 
+                reason: "¡Te quedaste sin electricidad!" 
+            };
         }
         if (this.waterBalance < 0) {
-            return { gameOver: true, reason: "¡Te quedaste sin agua!" };
+            return { 
+                gameOver: true, 
+                reason: "¡Te quedaste sin agua!" 
+            };
         }
-        return { gameOver: false };
+        return { 
+            gameOver: false 
+        };
     }
 }

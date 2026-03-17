@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const gridContainer = document.getElementById("grid");
         GridRenderer.render(grid, gridContainer);
 
-        gridContainer.addEventListener("click", function (event) {
+        gridContainer.addEventListener("click", (event) => {
             const cell = event.target.closest(".cell");
             if (!cell) return;
 
@@ -185,9 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     case "🏠":
                         grid.cells[x][y].id = "R1";
                         const house = new ResidentialBuilding("R1","house",1000,5,3,x,y,4);
-                        if (house){
-                            console.log("Casa construida exitosamente" + house);
-                        }
                         city._buildingManager.addBuilding(house);
 
                         break;
@@ -252,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         city._buildingManager.addBuilding(road);
                         break;
                 }
-                console.log(city.buildings);
+
             }
         });
 
