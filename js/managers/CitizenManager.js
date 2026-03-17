@@ -12,7 +12,7 @@ class CitizenManager {
     get growthRate() { return this._growthRate; }
 
     // Felicidad promedio de todos los ciudadanos (0 si no hay nadie)
-    get averageHappiness() {
+    get happinessAverage() {
         if (this._population.length === 0) return 0;
         const total = this._population.reduce((suma, c) => suma + c._happiness, 0);
         return Math.round(total / this._population.length);
