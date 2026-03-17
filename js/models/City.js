@@ -15,6 +15,7 @@ class City {
         this._buildingManager = new BuildingManager();
         this._citizenManager = new CitizenManager();
         this._resourceManager = new ResourceManager();
+        this._scoreManager = new ScoreManager(this._buildingManager, this._citizenManager, this._resourceManager);
 
     }
 

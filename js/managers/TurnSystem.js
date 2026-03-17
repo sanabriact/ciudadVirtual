@@ -1,4 +1,4 @@
-class TurnSystem {
+/*class TurnSystem {
     constructor(city, onTurnEnd) {
         this._city         = city;
         this._currentTurn  = 0;
@@ -127,4 +127,4 @@ class TurnSystem {
             console.warn("No se pudo guardar en localStorage:", e);
         }
     }
-}
+}*/

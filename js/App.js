@@ -3,7 +3,7 @@ let turnSystem = null;
 
 // ─── Inicializar el juego ───────────────────────────────────────────────────
 
-function iniciarJuego(nombre, alcalde, lat, lon, ancho, alto) {
+/*function iniciarJuego(nombre, alcalde, lat, lon, ancho, alto) {
     // 1. Crear la ciudad
     city = new City(nombre, alcalde, lat, lon, ancho, alto);
 
@@ -95,4 +95,4 @@ function togglePausa() {
 // Cambiar la duración del turno (en milisegundos) — configurable según el documento
 function cambiarVelocidadTurno(segundos) {
     turnSystem.turnDuration = segundos * 1000;
-}
+}*/

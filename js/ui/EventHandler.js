@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (selectedButton === null) {
                 // DEMOLER
                 if (cell.innerHTML.trim() !== "") {
-                    city._buildingManager.deleteBuilding(grid.cells[x][y]._id);
+                    city._buildingManager.deleteBuilding(x,y);
                     grid.cells[x][y]._id = "g";
                     cell.innerHTML = "";
                     console.log("Se demolio el edificio en", x, y);

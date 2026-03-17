@@ -7,15 +7,11 @@ class BuildingManager {
         this._buildings.push(building)
     }
 
-    deleteBuilding(id) {
-        let buildingsNumber = this._buildings.length;
-
-        this._buildings = this._buildings.filter(building => {
-            return building._id !== id;
-        });
-
-        return this._buildings.length < buildingsNumber;
-    }
+    deleteBuilding(x,y) {
+    let buildingsNumber = this._buildings.length;
+    this._buildings = this._buildings.filter(building => !(building._x === x && building._y === y));
+    return this._buildings.length < buildingsNumber;
+}
 
     createBuilding(buildingData) {
         let building;
