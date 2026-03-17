@@ -20,6 +20,7 @@ class ResourceManager {
             this._money = value;
         }
     }
+
     set electricity(value) {
         if (value >= 0) {
             this._electricity = value;
@@ -57,18 +58,30 @@ class ResourceManager {
         }
     }
 
+    get electricityBalance() {
+        return this._electricityProduction - this._electricConsumption;
+    }
+
+    get waterBalance() {
+        return this._waterProduction - this._waterConsumption;
+    }
+
     // ============ MÉTODOS ============
 
-    // ¿Hay suficiente dinero para construir algo?
-    canAfford(cost) {
-        return this._money >= cost;
+    // ¿Hay suficiente dinero para construir edificio?
+    canAfford(building) {
+        if (this._money >= building._cost){
+            return true;
+        };
+        alert("No tienes suficiente dinero para construir este edificio.");
+        return false;
     }
 
     // Gastar dinero (al construir un edificio o vía)
     // Retorna true si pudo gastar, false si no alcanzaba el dinero
-    spendMoney(amount) {
-        if (amount > 0 && this.canAfford(amount)) {
-            this._money -= amount;
+    spendMoney(building) {
+        if (building._cost > 0 && this.canAfford(building)) {
+            this._money -= building._cost;
             return true;
         }
         return false;
@@ -161,19 +174,19 @@ class ResourceManager {
     // Según el documento: electricidad o agua en balance negativo = game over.
     checkGameOver() {
         if (this.electricityBalance < 0) {
-            return { 
-                gameOver: true, 
-                reason: "¡Te quedaste sin electricidad!" 
+            return {
+                gameOver: true,
+                reason: "¡Te quedaste sin electricidad!"
             };
         }
         if (this.waterBalance < 0) {
-            return { 
-                gameOver: true, 
-                reason: "¡Te quedaste sin agua!" 
+            return {
+                gameOver: true,
+                reason: "¡Te quedaste sin agua!"
             };
         }
-        return { 
-            gameOver: false 
+        return {
+            gameOver: false
         };
     }
 }
