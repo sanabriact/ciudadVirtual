@@ -1,197 +1,227 @@
 document.addEventListener("DOMContentLoaded", () => {
     let btnNewCity = document.getElementById('btn-new-city');
     let btnCreateGame = document.getElementById('btn-create-game');
-    let btnLoadGame = document.getElementById('btn-load-game');
+    let btnLoadGamePage = document.getElementById('btn-load-game-page');
     let btnDeleteGame = document.getElementById('btn-delete-game');
     let btnReturnStartPage = document.getElementById('return-start-page');
-    let btnBack = document.querySelectorAll(".btn-back")
-    let mapSizeDisplay = document.getElementById('map-size-display')
-    let mapSizeSlider = document.getElementById('input-map-size')
+    let btnBack = document.querySelectorAll(".btn-back");
+    let mapSizeDisplay = document.getElementById('map-size-display');
+    let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
-    // Intro → Crear ciudad
+    let buttonList = [
+        document.getElementById('btn-demolish'),
+        document.getElementById('btn-house'),
+        document.getElementById('btn-apartment'),
+        document.getElementById('btn-store'),
+        document.getElementById('btn-commercial-center'),
+        document.getElementById('btn-factory'),
+        document.getElementById('btn-farm'),
+        document.getElementById('btn-police-station'),
+        document.getElementById('btn-firefighters'),
+        document.getElementById('btn-hospital'),
+        document.getElementById('btn-power-plant'),
+        document.getElementById('btn-water-plant'),
+        document.getElementById('btn-park'),
+        document.getElementById('btn-road')
+    ];
+    let selectedButton = null;
+    const gridContainer = document.getElementById("grid");
+
+    // ===== FUNCIONES =====
+    function loadSavedGames() {
+        let savedGamesList = document.getElementById('saved-games-list');
+        savedGamesList.innerHTML = "";
+
+        if (window.localStorage.getItem(CityBuilderStorage.keyCity) &&
+            window.localStorage.getItem(CityBuilderStorage.keyResource)) {
+            savedGamesList.innerHTML = `
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>🏙️ Partida guardada</span>
+                </div>
+            `;
+        } else {
+            savedGamesList.innerHTML = `<h2 class="screen-subtitle">No hay ciudades guardadas</h2>`;
+        }
+    }
+
+    function setupGridListener() {
+        // Clonar el contenedor para eliminar listeners anteriores
+        const newContainer = gridContainer.cloneNode(true);
+        gridContainer.parentNode.replaceChild(newContainer, gridContainer);
+
+        newContainer.addEventListener("click", function (event) {
+            const cell = event.target.closest(".cell");
+            if (!cell) return;
+
+            const x = cell.dataset.x;
+            const y = cell.dataset.y;
+
+            if (selectedButton === null) {
+                if (cell.innerHTML.trim() !== "") {
+                    city._buildingManager.deleteBuilding(x, y);
+                    city._grid.setCellId(x, y, "g");
+                    cell.innerHTML = "";
+                }
+            } else if (cell.innerHTML.trim() === "") {
+                if (selectedButton.type === "road") {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                    if (building !== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+                } else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                    if (building !== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+                } else {
+                    alert("No puedes construir aquí porque no hay una vía adyacente.");
+                }
+            }
+        });
+
+        return newContainer;
+    }
+
+    // ===== LISTENERS =====
     btnNewCity.addEventListener('click', () => {
         helpers.showScreen('city-info-page');
         helpers.loadCities();
     });
 
     btnDeleteGame.addEventListener('click', () => {
-        helpers.showScreen('delete-game-page')
+        helpers.showScreen('delete-game-page');
     });
 
-    btnLoadGame.addEventListener('click', () => {
+    // ← UN SOLO listener para btnLoadGamePage
+    btnLoadGamePage.addEventListener('click', () => {
         helpers.showScreen('load-game-page');
-    })
+        loadSavedGames();
+    });
 
-    btnBack.forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            helpers.showScreen('initial-page')
-        })
-    })
+    document.getElementById('btn-load-game').addEventListener('click', () => {
+        let loadedCity = CityBuilderStorage.loadCity();
+        let loadedResources = CityBuilderStorage.loadResources();
+        if (loadedCity && loadedResources) {
+            if (city && city._turnSystem) city._turnSystem.stop();
+            city = loadedCity;
+            city._resourceManager = loadedResources;
+            city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
+            city._turnSystem.start();
+            helpers.showScreen('game-page');
+            const container = setupGridListener();
+            GridRenderer.render(city._grid, container);
+        } else {
+            alert("No se encontró ninguna partida guardada.");
+        }
+    });
+
+    btnBack.forEach(btn => {
+        btn.addEventListener("click", () => helpers.showScreen('initial-page'));
+    });
 
     btnReturnStartPage.addEventListener('click', () => {
-        let response = confirm("¿Desea guardar partida?")
-
+        let response = confirm("¿Desea guardar partida?");
         if (!response) {
-            response = confirm("¡Todo su progreso se perderá!")
+            response = confirm("¡Todo su progreso se perderá!");
         }
-
         if (response) {
-            console.clear();
-            helpers.showScreen('initial-page')
+            if (city && city._turnSystem) city._turnSystem.stop();
+            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
+            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+            helpers.showScreen('initial-page');
         }
     });
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
-    })
-
+    });
 
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];
         let lat = option.dataset.lat;
         let lon = option.dataset.lon;
-        let temperatureData = document.getElementById('city-temperature');
-        let cityCondition = document.getElementById('city-condition');
-        let cityHumidity = document.getElementById("city-humidity");
-        let cityWindVelocity = document.getElementById("city-wind-velocity");
-        let newsTitle = document.getElementById('news-title');
-        let newsInfo = document.getElementById('news-info')
 
         weatherRepository.getWeather(lat, lon)
-            .then(function (data) {
-                temperatureData.textContent = `Temperatura: ${data.main.temp}°C`
-                cityCondition.textContent = `Condición: ${data.weather[0].description}`
-                cityHumidity.textContent = `Humedad: ${data.main.humidity}%`
-                cityWindVelocity.textContent = `Velocidad del viento: ${data.wind.speed}m/s`
-
+            .then(data => {
+                document.getElementById('city-temperature').textContent = `Temperatura: ${data.main.temp}°C`;
+                document.getElementById('city-condition').textContent = `Condición: ${data.weather[0].description}`;
+                document.getElementById('city-humidity').textContent = `Humedad: ${data.main.humidity}%`;
+                document.getElementById('city-wind-velocity').textContent = `Velocidad del viento: ${data.wind.speed}m/s`;
             })
-            .catch(function (error) {
-                temperatureData.textContent = `Temperatura: Error al conseguir temperatura.`
-                cityCondition.textContent = `Condición: Error al conseguir condición.`
-            })
+            .catch(() => {
+                document.getElementById('city-temperature').textContent = `Temperatura: Error al conseguir temperatura.`;
+                document.getElementById('city-condition').textContent = `Condición: Error al conseguir condición.`;
+            });
 
         newsRepository.getNews("co")
-            .then(function (data) {
-                console.log(data)
+            .then(data => {
                 let newsPanel = document.getElementById('news-panel');
                 newsPanel.innerHTML = '';
-
-                let news = data.articles.slice(0, 5);
-
-                news.forEach(function (article) {
+                data.articles.slice(0, 5).forEach(article => {
                     let card = document.createElement('div');
-
                     card.className = 'card mb-2';
                     card.innerHTML = `
-                <div class="card-body">
-                <h5 class="article-title">${article.title}</h6>
-                <p>${article.description}</p>
-                <a href="${article.url}">Link</a>
-                    <img src="${article.urlToImage}" alt="news image" class="news-image">
-                    </div>
+                        <div class="card-body">
+                            <h5 class="article-title">${article.title}</h5>
+                            <p>${article.description}</p>
+                            <a href="${article.url}">Link</a>
+                            <img src="${article.urlToImage}" alt="news image" class="news-image">
+                        </div>
                     `;
                     newsPanel.appendChild(card);
                 });
             })
-            .catch(function (error) {
-                newsTitle.textContent = `Título noticia: Error al conseguir el titulo de la noticia`
-                newsInfo.textContent = `Descripcion: Error al conseguir descripcion de la noticia.`
-            })
+            .catch(() => {
+                document.getElementById('news-title').textContent = `Título noticia: Error al conseguir el titulo`;
+                document.getElementById('news-info').textContent = `Descripcion: Error al conseguir descripcion.`;
+            });
+    });
 
-    })
-
-    let btnHouse = document.getElementById('btn-house');
-    let btnApartment = document.getElementById('btn-apartment');
-    let btnStore = document.getElementById('btn-store');
-    let btnCommercial = document.getElementById('btn-commercial-center');
-    let btnFactory = document.getElementById('btn-factory');
-    let btnFarm = document.getElementById('btn-farm');
-    let btnPolice = document.getElementById('btn-police-station');
-    let btnFirefighters = document.getElementById('btn-firefighters');
-    let btnHospital = document.getElementById('btn-hospital');
-    let btnPowerPlant = document.getElementById('btn-power-plant');
-    let btnWaterPlant = document.getElementById('btn-water-plant');
-    let btnPark = document.getElementById('btn-park');
-    let btnRoad = document.getElementById('btn-road');
-    let btnDemolish = document.getElementById('btn-demolish');
-
-    let buttonList = [btnDemolish, btnHouse, btnApartment, btnStore, btnCommercial, btnFactory, btnFarm, btnPolice, btnFirefighters, btnHospital, btnPowerPlant, btnWaterPlant, btnPark, btnRoad]
-    let selectedButton = null;
-
+    // ← UN SOLO listener para btnCreateGame
     btnCreateGame.addEventListener('click', () => {
+        if (city && city._turnSystem) city._turnSystem.stop();
+
         const gridSize = parseInt(document.getElementById("input-map-size").value);
-        const cityName = document.getElementById("input-city-name");
-        const cityMayor = document.getElementById("input-mayor-name");
-        const cityValue = cityName.value.trim();
-        const mayorName = cityMayor.value.trim();
+        const cityNameInput = document.getElementById("input-city-name");
+        const cityMayorInput = document.getElementById("input-mayor-name");
+        const cityValue = cityNameInput.value.trim();
+        const mayorName = cityMayorInput.value.trim();
         const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
-        const gridContainer = document.getElementById("grid");
         const growthRate = parseInt(document.getElementById("input-growth-rate").value);
 
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
 
-        // ← Crear la ciudad aquí
-        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid);
-        helpers.showScreen('game-page');
+        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
         city._turnSystem = new TurnSystem(city, turnDuration);
         city._turnSystem.start();
         city._citizenManager.growthRate = growthRate;
-        GridRenderer.render(grid, gridContainer);
 
-        gridContainer.addEventListener("click", function (event) {
-            const cell = event.target.closest(".cell");
-            if (!cell) return;
+        helpers.showScreen('game-page');
 
-            const x = cell.dataset.x;
-            const y = cell.dataset.y;
-            if (selectedButton === null) {
-                // DEMOLER
-                if (cell.innerHTML.trim() !== "") {
-                    city._buildingManager.deleteBuilding(x, y);
-                    grid.setCellId(x, y, "g");
-                    cell.innerHTML = "";
-                }
-            } else if (cell.innerHTML.trim() === "") {
-                if (selectedButton.type === "road") {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                    if (building!== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-                }
-                else if (helpers.buildValidation(x, y, selectedButton.type)) {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-                    
-                }
-                else {
-                        alert("No puedes construir aquí porque no hay una vía adyacente.");
-                    }
-            };
-        });
-            cityName.textContent = `Ciudad: ${cityValue}`;
-            cityMayor.textContent = `Alcalde: ${mayorName}`;
+        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
+        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
 
-        buttonList.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                if (btn === btnDemolish) {
-                    selectedButton = null;
-                } else {
-                    selectedButton = {
-                        img: btn.dataset.image,
-                        type: btn.dataset.type
-                    };
-                }
-                buttonList.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-
+        const container = setupGridListener();
+        GridRenderer.render(grid, container);
     });
 
+    // Botones de construcción — fuera del btnCreateGame
+    buttonList.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.id === 'btn-demolish') {
+                selectedButton = null;
+            } else {
+                selectedButton = {
+                    img: btn.dataset.image,
+                    type: btn.dataset.type
+                };
+            }
+            buttonList.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
 });

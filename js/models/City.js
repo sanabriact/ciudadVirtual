@@ -50,22 +50,22 @@ class City {
             this._regionLat = value;
         }
     }
-    set regionLon(value) { 
+    set regionLon(value) {
         if (value >= 0) {
             this._regionLon = value;
         }
     }
-    set width(value) { 
+    set width(value) {
         if (value >= 0) {
             this._width = value;
         }
     }
-    set height(value) { 
+    set height(value) {
         if (value >= 0) {
             this._height = value;
         }
     }
-    set score(value) { 
+    set score(value) {
         if (value >= 0) {
             this._score = value;
         }
@@ -107,20 +107,23 @@ class City {
         return true;
     }
 
-    // Serializa la ciudad completa para localStorage
     toJSON() {
         return {
-            name: this._name,
-            mayor: this._mayor,
-            regionLat: this._regionLat,
-            regionLon: this._regionLon,
-            width: this._width,
-            height: this._height,
-            roads: this._roads,
-            resources: this._resourceManager.toJSON(),
-            buildings: this._buildingManager._buildings,
-            citizens: this._citizenManager.toJSON(),
-            score: this._scoreManager.toJSON()
+            _name: this._name,
+            _mayor: this._mayor,
+            _regionLat: this._regionLat,
+            _regionLon: this._regionLon,
+            _width: this._width,
+            _height: this._height,
+            _score: this._score,
+            _hapinessAverage: this._hapinessAverage,
+            _grid: this._grid,
+            _roads: this._roads,
+            _buildingManager: this._buildingManager,
+            _citizenManager: this._citizenManager,
+            _resourceManager: this._resourceManager,
+            _scoreManager: this._scoreManager
+            // _turnSystem se omite intencionalmente
         };
     }
 }

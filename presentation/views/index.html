@@ -41,7 +41,7 @@
 
     <!-- UTILS -->
     <script src="../../js/utils/helpers.js"></script>
-    <script src="../../js/utils/localStorage.js"></script>
+    <script src="../../js/utils/CityBuilderStorage.js"></script>
 
     <!-- APP (va de último, usa todo lo anterior) -->
     <script src="../../js/App.js"></script>
@@ -58,7 +58,7 @@
                 </h1>
             </div>
             <div id="buttons" class="d-grid gap-3 col-11 col-sm-8 col-md-6 col-lg-4 mx-auto">
-                <button id="btn-load-game" type="button" class="btn btn-primary btn-lg shadow-sm">Cargar
+                <button id="btn-load-game-page" type="button" class="btn btn-primary btn-lg shadow-sm">Cargar
                     partida</button>
                 <button id="btn-new-city" type="button" class="btn btn-light btn-lg shadow-sm">Crear nueva
                     partida</button>
@@ -76,6 +76,20 @@
                 <h1 class="screen-title d-flex flex-column justify-content-center text-center">
                     Cargar partida
                 </h1>
+            </div>
+
+            <div class="form-section">
+                <h2 class="screen-title">Selecciona una ciudad guardada</h2>
+                <div id="saved-games-list" class="list-group">
+                    <h2 class="screen-subtitle">No hay ciudades guardadas</h2>
+                </div>
+
+            </div>
+
+            <div class="d-grid mt-3" id="button-div">
+                <button class="btn-primary btn-xl btn-full" id="btn-load-game">
+                    Cargar Ciudad
+                </button>
             </div>
         </div>
     </div>

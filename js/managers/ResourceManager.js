@@ -70,7 +70,7 @@ class ResourceManager {
 
     // ¿Hay suficiente dinero para construir edificio?
     canAfford(building) {
-        if (this._money >= building._cost){
+        if (this._money >= building._cost) {
             return true;
         };
         return false;
@@ -97,6 +97,8 @@ class ResourceManager {
     // Recorre todos los edificios, calcula qué producen y qué consumen,
     // y actualiza todos los recursos de la ciudad.
     updateResources(buildings) {
+        console.log("Buildings recibidos:", buildings);
+        console.log("¿Es UtilityPlant?:", buildings[0] instanceof UtilityPlant);
         let totalElectricityProduction = 0;
         let totalElectricityConsumption = 0;
         let totalWaterProduction = 0;
@@ -184,7 +186,7 @@ class ResourceManager {
                 reason: "¡Te quedaste sin electricidad!"
             };
         }
-        if (this.water <= 0 && this._waterConsumption > 0) {
+        if (this._water <= 0 && this._waterConsumption > 0) {
             return {
                 gameOver: true,
                 reason: "¡Te quedaste sin agua!"
