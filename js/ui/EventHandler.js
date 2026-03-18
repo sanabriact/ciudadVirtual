@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnDeleteGame = document.getElementById('btn-delete-game');
     let btnReturnStartPage = document.getElementById('return-start-page');
     let btnBack = document.querySelectorAll(".btn-back")
+    let btnGameInfo = document.getElementById('btn-game-info')
     let mapSizeDisplay = document.getElementById('map-size-display')
     let mapSizeSlider = document.getElementById('input-map-size')
     let inputRegion = document.getElementById('input-region');
@@ -17,19 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
         helpers.loadCities();
     });
 
+    btnLoadGame.addEventListener('click', () => {
+        helpers.showScreen('load-game-page');
+    });
+
+    btnGameInfo.addEventListener('click', () => {
+        helpers.showScreen('game-info-page')
+    });
+
     btnDeleteGame.addEventListener('click', () => {
         helpers.showScreen('delete-game-page')
     });
-
-    btnLoadGame.addEventListener('click', () => {
-        helpers.showScreen('load-game-page');
-    })
 
     btnBack.forEach(function (btn) {
         btn.addEventListener("click", function () {
             helpers.showScreen('initial-page')
         })
-    })
+    });
 
     btnReturnStartPage.addEventListener('click', () => {
         let response = confirm("¿Desea guardar partida?")
@@ -46,8 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
-    })
-
+    });
 
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];
@@ -101,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 newsInfo.textContent = `Descripcion: Error al conseguir descripcion de la noticia.`
             })
 
-    })
+    });
 
     let btnHouse = document.getElementById('btn-house');
     let btnApartment = document.getElementById('btn-apartment');
@@ -134,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
 
-        // ← Crear la ciudad aquí
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid);
         helpers.showScreen('game-page');
         city._turnSystem = new TurnSystem(city, turnDuration);
@@ -149,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const x = cell.dataset.x;
             const y = cell.dataset.y;
             if (selectedButton === null) {
-                // DEMOLER
                 if (cell.innerHTML.trim() !== "") {
                     city._buildingManager.deleteBuilding(x, y);
                     grid.setCellId(x, y, "g");
@@ -158,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (cell.innerHTML.trim() === "") {
                 if (selectedButton.type === "road") {
                     let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                    if (building!== null) {
+                    if (building !== null) {
                         cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
                     }
                 }
@@ -167,15 +169,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (building !== null) {
                         cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
                     }
-                    
+
                 }
                 else {
-                        alert("No puedes construir aquí porque no hay una vía adyacente.");
-                    }
+                    alert("No puedes construir aquí porque no hay una vía adyacente.");
+                }
             };
         });
-            cityName.textContent = `Ciudad: ${cityValue}`;
-            cityMayor.textContent = `Alcalde: ${mayorName}`;
+        
+        cityName.textContent = `Ciudad: ${cityValue}`;
+        cityMayor.textContent = `Alcalde: ${mayorName}`;
 
         buttonList.forEach((btn) => {
             btn.addEventListener('click', () => {

@@ -1,0 +1,32 @@
+#news-panel {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 10px;
+    padding-right: 1000px;
+    padding-bottom: 1px;
+}
+
+#news-panel .card {
+    min-width: 200px;
+    max-width: 250px;
+    flex-shrink: 0;
+}
+
+#resource-panel {
+    gap: 30px;
+}
+
+.news-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.puntuation {
+    gap: 10px;
+}
+
+.city-info {
+    gap: 15px;
+}
