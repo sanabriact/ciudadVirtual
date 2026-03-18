@@ -26,6 +26,7 @@ class helpers {
         if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
+            console.log(`setCellId(${x}, ${y}, ${building._id})`); // ← agrega esto
             city._grid.setCellId(x, y, building._id);
             document.getElementById('money').textContent = `$${city._resourceManager._money}`;
             return building;
