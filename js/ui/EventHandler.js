@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // CONSTRUIR
                 cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
                 helpers.buildNewBuilding(selectedButton.type, x, y);
+                
                 console.log(city.buildings);
             }
         });

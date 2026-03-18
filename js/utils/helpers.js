@@ -1,4 +1,4 @@
-class helpers{
+class helpers {
     static updateUI() {
         console.log("city:", city);
         console.log("resourceManager:", city._resourceManager);
@@ -16,16 +16,19 @@ class helpers{
         document.getElementById('electricity').textContent = `⚡ ${city._resourceManager._electricity}`;
         document.getElementById('water').textContent = `💧 ${city._resourceManager._water}`;
         document.getElementById('food').textContent = `🌾 ${city._resourceManager._food}`;
+        document.getElementById('population').textContent = `👥 ${city._citizenManager._population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city._citizenManager.calculateHappiness(city._buildingManager._buildings)}%`;
         document.getElementById('score-panel').textContent = `${city._scoreManager.calculateScore()}`;
     }
 
     static buildNewBuilding(type, x, y) {
-        const building = city._buildingManager.buildBuilding(type,x,y);
+        const building = city._buildingManager.buildBuilding(type, x, y);
         if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
             city._grid.setCellId(x, y, building._id);
+            document.getElementById('money').textContent = `$${city._resourceManager._money}`;
+
         }
     }
 

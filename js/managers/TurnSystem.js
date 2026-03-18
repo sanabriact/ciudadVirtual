@@ -21,13 +21,13 @@ class TurnSystem {
         this._turnNumber++;
         console.log(`Turno ${this._turnNumber}`);
 
-        const buildings = this._city._buildingManager._buildings;
+        let buildings = this._city._buildingManager._buildings;
 
         // 1. Actualizar recursos
         this._city._resourceManager.updateResources(buildings);
 
         // 2. Hacer crecer población
-        this._city._citizenManager.growPopulation(buildings, this._city._resourceManager);
+        this._city._citizenManager.growPopulation(buildings);
 
         // 3. Asignar hogares y empleos
         this._city._citizenManager.assignHomes(buildings);
