@@ -1,0 +1,78 @@
+#title {
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+.screen-title {
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+#screen-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+#game-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+#money-info {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: aquamarine;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 0, 0, 0.2);
+}
+.parragraph-info-page{
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color:white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem !important;
+}
+
+.subtitles {
+    font-weight: bold;
+}
+
+.article-title {
+    width: 100%;
+    font-weight: bold;
+}
+
+.screen-subtitle {
+    color: #ffffff;
+}

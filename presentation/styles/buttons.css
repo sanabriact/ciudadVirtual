@@ -1,0 +1,123 @@
+#return {
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#return-page {
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#btn-back-page {
+    color: #ffffff;
+}
+
+#btn-info-back-page {
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#return-start-page {
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+    justify-content: center;
+    width: 100px;
+    min-height: max-content;
+}
+
+#btn-create-game {
+    padding: 15px 15px 15px 15px;
+    justify-content: center;
+    text-align: center;
+    justify-self: center;
+    justify-content: center;
+    border-radius: 2%;
+}
+
+#buttons .btn {
+    background: transparent;
+    border: 2px solid;
+    border-radius: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 20px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+#buttons .btn::before,
+#buttons .btn::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+}
+
+#buttons .btn::before {
+    top: -2px;
+    left: -2px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+}
+
+#buttons .btn::after {
+    bottom: -2px;
+    right: -2px;
+    border-bottom: 2px solid transparent;
+    border-right: 2px solid transparent;
+}
+
+#buttons .btn-primary,
+#buttons .btn-light {
+    border-color: rgba(100, 255, 218, 0.6);
+    color: rgba(100, 255, 218, 0.9);
+}
+
+#buttons .btn-primary:hover,
+#buttons .btn-light:hover {
+    background-color: rgba(100, 255, 218, 0.1);
+    border-color: #64ffda;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+    transform: translateY(-2px);
+}
+
+#buttons .btn-primary:hover::before,
+#buttons .btn-light:hover::before {
+    border-top-color: #64ffda;
+    border-left-color: #64ffda;
+}
+
+#buttons .btn-primary:hover::after,
+#buttons .btn-light:hover::after {
+    border-bottom-color: #64ffda;
+    border-right-color: #64ffda;
+}
+
+#buttons .btn-danger {
+    border-color: rgba(255, 82, 82, 0.5);
+    color: rgba(255, 82, 82, 0.8);
+}
+
+#buttons .btn-danger:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    border-color: #ff5252;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 82, 82, 0.5);
+    transform: translateY(-2px);
+}
+
+#buttons .btn-danger:hover::before {
+    border-top-color: #ff5252;
+    border-left-color: #ff5252;
+}
+
+#buttons .btn-danger:hover::after {
+    border-bottom-color: #ff5252;
+    border-right-color: #ff5252;
+}
