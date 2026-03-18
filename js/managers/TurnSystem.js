@@ -37,7 +37,7 @@ class TurnSystem {
         this._city._citizenManager.calculateHappiness(buildings);
 
         // 5. Calcular puntuación
-        this._city._scoreManager.calculateScore();
+        this._city._scoreManager.calculateScore();  
 
         // 6. Actualizar UI
         helpers.updateUI();

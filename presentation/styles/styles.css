@@ -57,6 +57,7 @@ body {
 .city-info{
     gap: 15px
 }
+
 #resource-panel{
     gap: 30px
 }
@@ -70,6 +71,7 @@ body {
     color: #ffffff;
     font-family: 'Orbitron', sans-serif;
 }
+
 #title{
     font-weight: bold;
     font-family: 'Orbitron', sans-serif;
@@ -94,43 +96,42 @@ body {
         0 0 20px rgba(100, 255, 218, 0.2);
     margin-bottom: 2rem !important;
 }
+
 .create-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 1rem 1.5rem;   /* menos padding vertical */
+    padding: 1rem 1.5rem;   
 }
 
 .form-section {
-    margin-bottom: 4rem;  /* espacio entre secciones, sin <br> */
+    margin-bottom: 4rem; 
 }
 
 .create-header {
     margin-bottom: 0.5rem;
 }
 
-/* Títulos de sección más compactos */
 .form-section h3 {
     font-size: 1rem;
     margin-bottom: 1rem;
 }
 
-/* Inputs más pequeños */
 .form-input {
     padding: 0.3rem 0.5rem;
     font-size: 0.9rem;
 }
 
-/* Reduce el gap entre campos del row */
 .row.g-3 {
     --bs-gutter-y: 0.5rem;
 }
 
-/* Botón final más compacto */
 #btn-create-game {
     padding: 12px;
 }
 
 #game-page{
+    padding-left: 0px;
+    padding-right: 0px;
     overflow-x: hidden;
 }
 
@@ -213,9 +214,6 @@ body {
     min-height: 100vh;
     overflow-y: auto;
 }
-
-
-/* visible cuando tiene .active */
 
 body::before {
     content: '';
@@ -377,8 +375,6 @@ body::before {
     background-color: rgba(6, 25, 145, 0.8);
     cursor: pointer;
 }
-
-
 
 .list-group-item.active {
     background-color: #0d6efd;

@@ -165,8 +165,8 @@ class ResourceManager {
 
         // El stock nunca baja de 0 (Math.max hace que no sea negativo)
         // Si el balance es negativo, checkGameOver() lo detecta aparte
-        this._electricity += Math.max(0, totalElectricityProduction - totalElectricityConsumption);
-        this._water += Math.max(0, totalWaterProduction - totalWaterConsumption);
+        this._electricity = Math.max(0, this._electricity + totalElectricityProduction - totalElectricityConsumption);
+        this._water = Math.max(0, this._water + totalWaterProduction - totalWaterConsumption);
 
         // La comida se acumula turno a turno
         this._food += totalFoodProduction;
@@ -178,13 +178,13 @@ class ResourceManager {
     // Verifica si el juego debe terminar.
     // Según el documento: electricidad o agua en balance negativo = game over.
     checkGameOver() {
-        if (this.electricityBalance < 0) {
+        if (this._electricity <= 0 && this._electricConsumption > 0) {
             return {
                 gameOver: true,
                 reason: "¡Te quedaste sin electricidad!"
             };
         }
-        if (this.waterBalance < 0) {
+        if (this.water <= 0 && this._waterConsumption > 0) {
             return {
                 gameOver: true,
                 reason: "¡Te quedaste sin agua!"
