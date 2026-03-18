@@ -20,7 +20,7 @@
 }
 
 #load-game-page {
-    background-image: url('../../assets/FondoCargarBorrar.jpeg');
+    background-image: url('../../assets/FondoCargarBorrarInfo.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -29,7 +29,7 @@
 }
 
 #delete-game-page {
-    background-image: url('../../assets/FondoCargarBorrar.jpeg');
+    background-image: url('../../assets/FondoCargarBorrarInfo.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -38,7 +38,7 @@
 }
 
 #game-info-page{
-    background-image: url('../../assets/FondoCargarBorrar.jpeg');
+    background-image: url('../../assets/FondoCargarBorrarInfo.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -46,7 +46,7 @@
 }
 
 #city-info-page {
-    background-image: url('../../assets/FondoMenu.png');
+    background-image: url('../../assets/FondoCrearCiudad.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
