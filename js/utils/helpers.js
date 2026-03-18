@@ -21,7 +21,7 @@ class helpers{
     }
 
     static buildNewBuilding(type, x, y) {
-        const building = city._buildingManager.buildBuilding(type);
+        const building = city._buildingManager.buildBuilding(type,x,y);
         if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);

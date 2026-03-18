@@ -137,16 +137,11 @@ class ResourceManager {
                     // Fábrica: necesita electricidad Y agua
                     if (thereIsElectricity && thereIsWater) {
                         totalIncome += building._incomePerTurn || 0;
-                    } else {
-                        // Sin algún recurso produce al 50% (según el documento)
-                        totalIncome += (building._incomePerTurn || 0) * 0.5;
                     }
                 } else if (building._productionType === "food") {
                     // Granja: solo necesita agua
                     if (thereIsWater) {
                         totalFoodProduction += building._productionAmount || 0;
-                    } else {
-                        totalFoodProduction += (building._productionAmount || 0) * 0.5;
                     }
                 }
             }
