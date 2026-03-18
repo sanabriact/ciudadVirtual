@@ -115,8 +115,10 @@ class ResourceManager {
             if (building instanceof UtilityPlant) {
                 if (building._productionType === "electricity") {
                     totalElectricityProduction += building._productionAmount || 0;
+                    console.log("Se produjo electricidad en la planta");
                 } else if (building._productionType === "water") {
                     totalWaterProduction += building._productionAmount || 0;
+                    console.log("Se produjo agua en la planta");
                 }
             }
 
@@ -137,16 +139,20 @@ class ResourceManager {
                     // Fábrica: necesita electricidad Y agua
                     if (thereIsElectricity && thereIsWater) {
                         totalIncome += building._incomePerTurn || 0;
+                        console.log("Se produjo dinero en la fábrica");
                     } else {
                         // Sin algún recurso produce al 50% (según el documento)
                         totalIncome += (building._incomePerTurn || 0) * 0.5;
+                        console.log("Se produjo dinero en la fábrica (50%)");
                     }
                 } else if (building._productionType === "food") {
                     // Granja: solo necesita agua
                     if (thereIsWater) {
-                        totalFoodProduction += building._productionAmount || 0;
+                        totalFoodProduction += building._incomePerTurn || 0;
+                        console.log("Se produjo comida en la granja");
                     } else {
-                        totalFoodProduction += (building._productionAmount || 0) * 0.5;
+                        totalFoodProduction += (building._incomePerTurn || 0) * 0.5;
+                        console.log("Se produjo comida en la granja");
                     }
                 }
             }
@@ -160,8 +166,8 @@ class ResourceManager {
 
         // El stock nunca baja de 0 (Math.max hace que no sea negativo)
         // Si el balance es negativo, checkGameOver() lo detecta aparte
-        this._electricity = Math.max(0, totalElectricityProduction - totalElectricityConsumption);
-        this._water = Math.max(0, totalWaterProduction - totalWaterConsumption);
+        this._electricity += Math.max(0, totalElectricityProduction - totalElectricityConsumption);
+        this._water += Math.max(0, totalWaterProduction - totalWaterConsumption);
 
         // La comida se acumula turno a turno
         this._food += totalFoodProduction;

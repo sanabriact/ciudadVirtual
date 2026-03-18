@@ -102,7 +102,7 @@ class CitizenManager {
 
         this._population.forEach(citizen => {
             if (!citizen._hasJob) {
-                const building = buildingsWithJobs.find(b => b._employeesCount < b._jobs);
+                const building = buildingsWithJobs.find(building => building._employeesCount < building._jobs);
                 if (building) {
                     building._employeesCount = (building._employeesCount || 0) + 1;
                     citizen._hasJob = true;
@@ -111,30 +111,36 @@ class CitizenManager {
         });
     }
 
-    growPopulation(buildings, resourceManager) {
-        const thereIsHouse = this.thereIsResidentialCapacity(buildings);
-        const thereIsJob = this.thereIsJobAvailability(buildings);
-        const thereIsResources = resourceManager._electricity > 0 && resourceManager._water > 0;
+    growPopulation(buildings) {
+    const thereIsHouse = this.thereIsResidentialCapacity(buildings);
+    const thereIsJob = this.thereIsJobAvailability(buildings);
+    const happinessOk = this._population.length === 0 ? true : this.happinessAverage > 60;
 
-        // Primer ciudadano no necesita felicidad, los siguientes sí
-        const happinessOk = this._population.length === 0
-            ? true
-            : this.happinessAverage > 60;
-
-        if (!thereIsHouse || !happinessOk || !thereIsJob || !thereIsResources) return;
-
-        const nuevos = Math.floor(Math.random() * this._growthRate) + 1;
-
-        for (let i = 0; i < nuevos; i++) {
-            if (!this.thereIsResidentialCapacity(buildings)) break;
-
-            const id = `citizen_${Date.now()}_${i}`;
-            this.createCitizen(id, 50, false, false);
-
-            this.assignHomes(buildings);
-            this.assignJobs(buildings);
-        }
+    if (!thereIsHouse) {
+        console.log("No hay capacidad residencial");
+        return;
     }
+    if (!thereIsJob) {
+        console.log("No hay empleos disponibles");
+        return;
+    }
+    if (!happinessOk) {
+        console.log("Felicidad muy baja");
+        return;
+    }
+
+    const news = Math.floor(Math.random() * this._growthRate) + 1;
+    console.log("Nuevos ciudadanos a agregar:", news);
+
+    for (let i = 0; i < news; i++) {
+        if (!this.thereIsResidentialCapacity(buildings)) {
+            console.log("Se acabó la capacidad residencial durante el crecimiento");
+            break;
+        }
+        this.createCitizen(`citizen`, 50, false, false);
+        
+    }
+}
 
     thereIsResidentialCapacity(buildings) {
         return buildings
