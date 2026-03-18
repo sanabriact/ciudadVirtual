@@ -23,12 +23,18 @@ class helpers {
 
     static buildNewBuilding(type, x, y) {
         const building = city._buildingManager.buildBuilding(type, x, y);
-        if (city._resourceManager.canAfford(building)) {
+        if (city._resourceManager.canAfford(building) && helpers.buildValidation(x, y)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
             city._grid.setCellId(x, y, building._id);
             document.getElementById('money').textContent = `$${city._resourceManager._money}`;
 
+        }
+        else if (!helpers.buildValidation(x, y)) {
+            alert("No puedes construir aquí porque no hay una via adayacente.");
+        }
+        else if (!city._resourceManager.canAfford(building)) {
+            alert("No tienes suficiente dinero para construir esto.");
         }
     }
 
@@ -68,5 +74,14 @@ class helpers {
 
         // Mostrar la que se pide
         document.getElementById(screen_id).classList.add('active');
+    }
+
+    static buildValidation(x, y) {
+        const adyacent = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+        for (const [dx, dy] of adyacent) {
+            const cell = city._grid.cells(x + dx, y + dy);
+            if (cell && cell._id === 'R') return true;
+        }
+        return false;
     }
 }
