@@ -73,7 +73,6 @@ class ResourceManager {
         if (this._money >= building._cost){
             return true;
         };
-        alert("No tienes suficiente dinero para construir este edificio.");
         return false;
     }
 

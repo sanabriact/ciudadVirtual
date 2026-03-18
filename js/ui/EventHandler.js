@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const x = cell.dataset.x;
             const y = cell.dataset.y;
-
             if (selectedButton === null) {
                 // DEMOLER
                 if (cell.innerHTML.trim() !== "") {
@@ -157,34 +156,42 @@ document.addEventListener("DOMContentLoaded", () => {
                     cell.innerHTML = "";
                 }
             } else if (cell.innerHTML.trim() === "") {
-                // CONSTRUIR
-                cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                helpers.buildNewBuilding(selectedButton.type, x, y);
-                
-                console.log(city.buildings);
-            }
+                if (selectedButton.type === "road") {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                    if (building!== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+                }
+                else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                    if (building !== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+                    
+                }
+                else {
+                        alert("No puedes construir aquí porque no hay una vía adyacente.");
+                    }
+            };
+        });
+            cityName.textContent = `Ciudad: ${cityValue}`;
+            cityMayor.textContent = `Alcalde: ${mayorName}`;
+
+        buttonList.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (btn === btnDemolish) {
+                    selectedButton = null;
+                } else {
+                    selectedButton = {
+                        img: btn.dataset.image,
+                        type: btn.dataset.type
+                    };
+                }
+                buttonList.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
         });
 
-
-        cityName.textContent = `Ciudad: ${cityValue}`;
-        cityMayor.textContent = `Alcalde: ${mayorName}`;
-    });
-
-    buttonList.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            if (btn === btnDemolish) {
-                selectedButton = null;
-            } else {
-                selectedButton = {
-                    img: btn.dataset.image,
-                    type: btn.dataset.type
-                };
-            }
-            buttonList.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
     });
 
 });
-
-

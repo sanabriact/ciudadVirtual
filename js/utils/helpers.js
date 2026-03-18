@@ -23,18 +23,16 @@ class helpers {
 
     static buildNewBuilding(type, x, y) {
         const building = city._buildingManager.buildBuilding(type, x, y);
-        if (city._resourceManager.canAfford(building) && helpers.buildValidation(x, y)) {
+        if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
             city._grid.setCellId(x, y, building._id);
             document.getElementById('money').textContent = `$${city._resourceManager._money}`;
-
+            return building;
         }
-        else if (!helpers.buildValidation(x, y)) {
-            alert("No puedes construir aquí porque no hay una via adayacente.");
-        }
-        else if (!city._resourceManager.canAfford(building)) {
+        else {
             alert("No tienes suficiente dinero para construir esto.");
+            return null;
         }
     }
 
@@ -76,10 +74,20 @@ class helpers {
         document.getElementById(screen_id).classList.add('active');
     }
 
-    static buildValidation(x, y) {
+    static buildValidation(x, y, type) {
+        if (type === "Road") return true; // Las vías pueden construirse en cualquier lugar
+        // Convertir a número porque dataset devuelve strings
+        x = parseInt(x);
+        y = parseInt(y);
+
         const adyacent = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+
         for (const [dx, dy] of adyacent) {
-            const cell = city._grid.cells(x + dx, y + dy);
+            // Primero verifica que la fila exista (evita explotar en bordes)
+            const row = city._grid.cells[y + dy];
+            const cell = row ? row[x + dx] : undefined;
+
+            // 'R' mayúscula, igual que como se guarda en setCellId
             if (cell && cell._id === 'R') return true;
         }
         return false;

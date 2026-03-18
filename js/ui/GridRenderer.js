@@ -12,8 +12,8 @@ class GridRenderer {
 
                 const div = document.createElement("div");
                 div.classList.add("cell");
-                div.dataset.x = cell._x;
-                div.dataset.y = cell._y;
+                div.dataset.x = col;   // columna = x horizontal
+                div.dataset.y = row;   // fila = y vertical
 
                 container.appendChild(div);
             }
