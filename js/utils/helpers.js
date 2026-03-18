@@ -26,12 +26,10 @@ class helpers {
         if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
-            console.log(`setCellId(${x}, ${y}, ${building._id})`); // ← agrega esto
             city._grid.setCellId(x, y, building._id);
             document.getElementById('money').textContent = `$${city._resourceManager._money}`;
             return building;
-        }
-        else {
+        } else {
             alert("No tienes suficiente dinero para construir esto.");
             return null;
         }
@@ -68,10 +66,7 @@ class helpers {
     }
 
     static showScreen(screen_id) {
-        // Ocultar todas las pantallas
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-
-        // Mostrar la que se pide
         document.getElementById(screen_id).classList.add('active');
     }
 
@@ -91,6 +86,67 @@ class helpers {
             // 'R' mayúscula, igual que como se guarda en setCellId
             if (cell && cell._id === 'R') return true;
         }
+
         return false;
     }
+
+    static loadSavedGames() {
+        let savedGamesList = document.getElementById('saved-games-list');
+        savedGamesList.innerHTML = "";
+
+        if (window.localStorage.getItem(CityBuilderStorage.keyCity) &&
+            window.localStorage.getItem(CityBuilderStorage.keyResource)) {
+            savedGamesList.innerHTML = `
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>🏙️ Partida guardada</span>
+                </div>
+            `;
+        } else {
+            savedGamesList.innerHTML = `<h2 class="screen-subtitle">No hay ciudades guardadas</h2>`;
+        }
+    }
+
+    static setupGridListener() {
+        const gridContainer = document.getElementById("grid");
+        const newContainer = gridContainer.cloneNode(true);
+        gridContainer.parentNode.replaceChild(newContainer, gridContainer);
+
+        newContainer.addEventListener("click", function (event) {
+            const cell = event.target.closest(".cell");
+            if (!cell) return;
+
+            const x = cell.dataset.x;
+            const y = cell.dataset.y;
+
+            if (selectedButton === null) {
+                if (cell.innerHTML.trim() !== "") {
+                    city._buildingManager.deleteBuilding(x, y);
+                    city._grid.setCellId(x, y, "g");
+                    cell.innerHTML = "";
+                }
+
+            } else if (cell.innerHTML.trim() === "") {
+                if (selectedButton.type === "road") {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+
+                    if (building !== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+
+                } else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+
+                    if (building !== null) {
+                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                    }
+                    
+                } else {
+                    alert("No puedes construir aquí porque no hay una vía adyacente.");
+                }
+            }
+        });
+
+        return newContainer;
+    }
+
 }

@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
+    let saveGameButton = document.getElementById('save-game-button')
+    let selectedButton = null;
+    const gridContainer = document.getElementById("grid");
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
@@ -29,65 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('btn-park'),
         document.getElementById('btn-road')
     ];
-    let selectedButton = null;
-    const gridContainer = document.getElementById("grid");
 
-    // ===== FUNCIONES =====
-    function loadSavedGames() {
-        let savedGamesList = document.getElementById('saved-games-list');
-        savedGamesList.innerHTML = "";
-
-        if (window.localStorage.getItem(CityBuilderStorage.keyCity) &&
-            window.localStorage.getItem(CityBuilderStorage.keyResource)) {
-            savedGamesList.innerHTML = `
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>🏙️ Partida guardada</span>
-                </div>
-            `;
-        } else {
-            savedGamesList.innerHTML = `<h2 class="screen-subtitle">No hay ciudades guardadas</h2>`;
+    saveGameButton.addEventListener('click', () => {
+        try {
+            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
+            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+            alert("Partida guardada exitosamente.")
+        } catch (e) {
+            alert("Error al guardar partida", e)
         }
-    }
+    });
 
-    function setupGridListener() {
-        // Clonar el contenedor para eliminar listeners anteriores
-        const newContainer = gridContainer.cloneNode(true);
-        gridContainer.parentNode.replaceChild(newContainer, gridContainer);
-
-        newContainer.addEventListener("click", function (event) {
-            const cell = event.target.closest(".cell");
-            if (!cell) return;
-
-            const x = cell.dataset.x;
-            const y = cell.dataset.y;
-
-            if (selectedButton === null) {
-                if (cell.innerHTML.trim() !== "") {
-                    city._buildingManager.deleteBuilding(x, y);
-                    city._grid.setCellId(x, y, "g");
-                    cell.innerHTML = "";
-                }
-            } else if (cell.innerHTML.trim() === "") {
-                if (selectedButton.type === "road") {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-                } else if (helpers.buildValidation(x, y, selectedButton.type)) {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-                } else {
-                    alert("No puedes construir aquí porque no hay una vía adyacente.");
-                }
-            }
-        });
-
-        return newContainer;
-    }
-
-    // ===== LISTENERS =====
     btnNewCity.addEventListener('click', () => {
         helpers.showScreen('city-info-page');
         helpers.loadCities();
@@ -95,12 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnDeleteGame.addEventListener('click', () => {
         helpers.showScreen('delete-game-page');
+        helpers.loadSavedGames();
     });
 
-    // ← UN SOLO listener para btnLoadGamePage
     btnLoadGamePage.addEventListener('click', () => {
         helpers.showScreen('load-game-page');
-        loadSavedGames();
+        helpers.loadSavedGames();
+    });
+
+    btnGameInfo.addEventListener('click', () => {
+        helpers.showScreen('game-info-page')
     });
 
     btnLoadGame.addEventListener('click', () => {
@@ -113,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
             city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
             city._turnSystem.start();
             helpers.showScreen('game-page');
-            const container = setupGridListener();
+            const container = helpers.setupGridListener();
             GridRenderer.render(city._grid, container);
         } else {
             alert("No se encontró ninguna partida guardada.");
@@ -184,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
-    // ← UN SOLO listener para btnCreateGame
     btnCreateGame.addEventListener('click', () => {
         if (city && city._turnSystem) city._turnSystem.stop();
 
@@ -209,11 +167,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
         document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
 
-        const container = setupGridListener();
+        const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
     });
 
-    // Botones de construcción — fuera del btnCreateGame
     buttonList.forEach(btn => {
         btn.addEventListener('click', () => {
             if (btn.id === 'btn-demolish') {
