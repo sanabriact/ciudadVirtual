@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnDeleteGame = document.getElementById('btn-delete-game');
     let btnReturnStartPage = document.getElementById('return-start-page');
     let btnBack = document.querySelectorAll(".btn-back");
+    let btnGameInfo = document.getElementById('btn-game-info');
+    let btnLoadGame = document.getElementById('btn-load-game');
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
@@ -101,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loadSavedGames();
     });
 
-    document.getElementById('btn-load-game').addEventListener('click', () => {
+    btnLoadGame.addEventListener('click', () => {
         let loadedCity = CityBuilderStorage.loadCity();
         let loadedResources = CityBuilderStorage.loadResources();
         if (loadedCity && loadedResources) {
@@ -118,8 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    btnBack.forEach(btn => {
-        btn.addEventListener("click", () => helpers.showScreen('initial-page'));
+    btnBack.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            helpers.showScreen('initial-page')
+        })
     });
 
     btnReturnStartPage.addEventListener('click', () => {
