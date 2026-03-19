@@ -1,7 +1,6 @@
 class CityBuilderStorage {
 
     static keyCity = "city"
-    static keyResource = "resources"
 
     static save(object, key) {
         const json = JSON.stringify(object);
