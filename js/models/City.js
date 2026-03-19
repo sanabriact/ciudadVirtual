@@ -115,7 +115,7 @@ class City {
             _regionLon: this._regionLon,
             _width: this._width,
             _height: this._height,
-            _score: this._score,
+            _score: this._scoreManager._score,
             _hapinessAverage: this._hapinessAverage,
             _grid: this._grid,
             _roads: this._roads,

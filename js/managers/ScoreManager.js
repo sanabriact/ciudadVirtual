@@ -3,7 +3,7 @@ class ScoreManager {
         this._buildingManager = buildingManager || null;
         this._citizenManager = citizenManager || null;
         this._resourceManager = resourceManager || null;
-        this._score = 0;
+        this._score = 0;    
     }
     allHasJob() {
         return this._citizenManager._population.every(c => c._hasJob);
