@@ -41,8 +41,6 @@ class CityBuilderStorage {
             grid
         );
 
-        city._roads = parsed._roads || [];
-
         // Restaurar buildings
         if (parsed._buildingManager && parsed._buildingManager._buildings) {
             parsed._buildingManager._buildings.forEach(b => {

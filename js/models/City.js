@@ -9,7 +9,6 @@ class City {
         this._score = score ?? 0;
         this._hapinessAverage = hapinessAverage ?? 0;
         this._grid = grid;
-        this._roads = [];
 
         // Managers: cada uno controla un aspecto de la ciudad
         this._buildingManager = new BuildingManager();
@@ -73,39 +72,6 @@ class City {
 
     // ============ MÉTODOS ============
 
-    // Intenta construir un edificio: descuenta el dinero y lo registra
-    // Retorna true si se pudo construir, false si no había dinero
-    buildBuilding(buildingData) {
-        const costo = buildingData._cost || 0;
-
-        if (!this._resourceManager.canAfford(costo)) {
-            return false;
-        }
-
-        this._resourceManager.spendMoney(costo);
-        this._buildingManager.createBuilding(buildingData);
-        return true;
-    }
-
-    // Demuele un edificio y devuelve el 50% del costo (según el documento)
-    demolishBuilding(id) {
-        const edificio = this._buildingManager._buildings.find(b => b._id === id);
-        if (!edificio) return false;
-
-        const reembolso = Math.floor((edificio._cost || 0) * 0.5);
-        this._resourceManager.addIncome(reembolso);
-        return this._buildingManager.deleteBuilding(id);
-    }
-
-    // Construye una vía ($100 por celda según el documento)
-    buildRoad(x, y) {
-        const costoPorCelda = 100;
-        if (!this._resourceManager.canAfford(costoPorCelda)) return false;
-
-        this._resourceManager.spendMoney(costoPorCelda);
-        this._roads.push({ x, y });
-        return true;
-    }
 
     toJSON() {
         return {
