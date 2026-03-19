@@ -10,9 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
-    let saveGameButton = document.getElementById('save-game-button')
-    let selectedButton = null;
-    const gridContainer = document.getElementById("grid");
+    let saveGameButton = document.getElementById('save-game-button');
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
@@ -72,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
             city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
             city._turnSystem.start();
             helpers.showScreen('game-page');
-            const container = helpers.setupGridListener();
+            const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city._grid, container);
         } else {
             alert("No se encontró ninguna partida guardada.");
