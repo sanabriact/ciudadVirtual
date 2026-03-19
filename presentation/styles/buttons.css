@@ -17,6 +17,10 @@
     font-family: 'Orbitron', sans-serif;
 }
 
+#delete-game-button{
+    font-family: 'Orbitron', sans-serif;
+}
+
 #return-start-page {
     padding: 5px 5px 5px 5px;
     text-align: center;

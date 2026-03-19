@@ -93,7 +93,7 @@ class CityBuilderStorage {
         return resources;
     }
  */
-    static clear(object) {
-        localStorage.removeItem(object);
+    static clear() {
+        localStorage.removeItem(this.keyCity);
     }
 }

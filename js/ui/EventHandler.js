@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
     let saveGameButton = document.getElementById('save-game-button');
+    let deleteGameButton = document.getElementById('delete-game-button');
+
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
@@ -48,13 +50,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnDeleteGame.addEventListener('click', () => {
         helpers.showScreen('delete-game-page');
-        helpers.loadSavedGames();
+        helpers.loadSavedGames('delete-games-list');
     });
 
     btnLoadGamePage.addEventListener('click', () => {
         helpers.showScreen('load-game-page');
-        helpers.loadSavedGames();
+        helpers.loadSavedGames('saved-games-list');
     });
+
+    deleteGameButton.addEventListener('click', () => {
+        if(helpers.deleteGame()){
+            helpers.showScreen('initial-page');
+        }
+    })  
 
     btnGameInfo.addEventListener('click', () => {
         helpers.showScreen('game-info-page')
