@@ -94,8 +94,8 @@ class helpers {
         let savedGamesList = document.getElementById('saved-games-list');
         savedGamesList.innerHTML = "";
 
-        if (window.localStorage.getItem(CityBuilderStorage.keyCity) &&
-            window.localStorage.getItem(CityBuilderStorage.keyResource)) {
+        if (window.localStorage.getItem(CityBuilderStorage.keyCity)/*  &&
+            window.localStorage.getItem(CityBuilderStorage.keyResource) */) {
             savedGamesList.innerHTML = `
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <span>🏙️ Partida guardada</span>

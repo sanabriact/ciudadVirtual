@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveGameButton.addEventListener('click', () => {
         try {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+            /* CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
             alert("Partida guardada exitosamente.")
         } catch (e) {
             alert("Error al guardar partida", e)
@@ -62,11 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         let loadedCity = CityBuilderStorage.loadCity();
-        let loadedResources = CityBuilderStorage.loadResources();
-        if (loadedCity && loadedResources) {
-            if (city && city._turnSystem) city._turnSystem.stop();
+        /* let loadedResources = CityBuilderStorage.loadResources(); */
+        if (loadedCity /* && loadedResources */) {
             city = loadedCity;
-            city._resourceManager = loadedResources;
+            /* city._resourceManager = loadedResources; */
             city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
             city._turnSystem.start();
             helpers.showScreen('game-page');
@@ -84,14 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnReturnStartPage.addEventListener('click', () => {
-        let response = confirm("¿Desea guardar partida?");
-        if (!response) {
-            response = confirm("¡Todo su progreso se perderá!");
-        }
-        if (response) {
-            if (city && city._turnSystem) city._turnSystem.stop();
+        let response = confirm("¿Desea salir de la partida?")
+        if(response){
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+/*             CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
+            alert("Partida guardada exitosamente.")
+            city._turnSystem.stop();
             helpers.showScreen('initial-page');
         }
     });

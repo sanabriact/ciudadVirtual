@@ -64,16 +64,16 @@ class CitizenManager {
         });
 
         this._population.forEach(citizen => {
-            let happiness = 0; // sin base, como dice el enunciado
+            let happiness = 0; 
 
             // Factores positivos
             if (citizen._hasHome) happiness += 20;
             if (citizen._hasJob) happiness += 15;
-            happiness += happinessBonus;
-
             // Factores negativos
             if (!citizen._hasHome) happiness -= 20;
             if (!citizen._hasJob) happiness -= 15;
+
+            happiness += happinessBonus;
 
             citizen._happiness = Math.min(100, Math.max(0, happiness));
         });

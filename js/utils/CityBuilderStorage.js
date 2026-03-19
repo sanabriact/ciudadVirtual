@@ -74,13 +74,13 @@ class CityBuilderStorage {
         return city;
     }
 
-    static loadResources() {
+    /* static loadResources() {
         let resourcesData = localStorage.getItem(this.keyResource);
         if (!resourcesData) return null;
 
         const parsed = JSON.parse(resourcesData);
         const resources = new ResourceManager(
-            parsed._money,           // ← con _
+            parsed._money,           
             parsed._electricity,
             parsed._electricityProduction,
             parsed._electricConsumption,
@@ -92,7 +92,7 @@ class CityBuilderStorage {
 
         return resources;
     }
-
+ */
     static clear(object) {
         localStorage.removeItem(object);
     }
