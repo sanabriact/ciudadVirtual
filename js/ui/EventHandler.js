@@ -70,10 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         let loadedCity = CityBuilderStorage.loadCity();
-        /* let loadedResources = CityBuilderStorage.loadResources(); */
-        if (loadedCity /* && loadedResources */) {
+        if (loadedCity) {
             city = loadedCity;
-            /* city._resourceManager = loadedResources; */
             city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
             city._turnSystem.start();
             helpers.showScreen('game-page');
@@ -94,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let response = confirm("¿Desea salir de la partida?")
         if(response){
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-/*             CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
             alert("Partida guardada exitosamente.")
             city._turnSystem.stop();
             helpers.showScreen('initial-page');
