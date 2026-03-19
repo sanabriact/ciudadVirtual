@@ -5,8 +5,6 @@ class helpers {
         console.log("buildingManager:", city._buildingManager);
         console.log("buildings:", city._buildingManager._buildings);
 
-        city._resourceManager.updateResources(city._buildingManager._buildings);
-
         console.log("money:", city._resourceManager._money);
         console.log("electricity:", city._resourceManager._electricity);
         console.log("water:", city._resourceManager._water);
@@ -94,8 +92,7 @@ class helpers {
         let savedGamesList = document.getElementById(id);
         savedGamesList.innerHTML = "";
 
-        if (localStorage.getItem(CityBuilderStorage.keyCity)/*  &&
-            window.localStorage.getItem(CityBuilderStorage.keyResource) */) {
+        if (localStorage.getItem(CityBuilderStorage.keyCity)) {
             savedGamesList.innerHTML = `
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <span>🏙️ Partida guardada</span>

@@ -157,8 +157,8 @@ class CitizenManager {
 
     toJSON() {
         return {
-            population: this._population,
-            growthRate: this._growthRate
+            _population: this._population,
+            _growthRate: this._growthRate
         };
     }
 }

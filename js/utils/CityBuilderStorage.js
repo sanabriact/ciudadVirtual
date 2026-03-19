@@ -54,12 +54,15 @@ class CityBuilderStorage {
                 }
             });
         }
+        console.log("¿Hay ResidentialBuilding?:", city._buildingManager._buildings.some(b => b instanceof ResidentialBuilding));
+        console.log("¿Hay UtilityPlant?:", city._buildingManager._buildings.some(b => b instanceof UtilityPlant));
+        console.log("Tipos restaurados:", city._buildingManager._buildings.map(b => b.constructor.name));
 
         if (parsed._citizenManager && parsed._citizenManager._population) {
             parsed._citizenManager._population.forEach(c => {
                 const name = c._name.replace(/-\d+$/, "");
                 const citizen = new Citizen(name, c._happiness, c._hasHome, c._hasJob);
-                city._citizenManager._population.addCitizen(citizen);
+                city._citizenManager.addCitizen(citizen);
             });
         }
 
@@ -68,28 +71,21 @@ class CityBuilderStorage {
             city._citizenManager._growthRate = parsed._citizenManager._growthRate;
         }
 
+        // Restaurar resourceManager
+        if (parsed._resourceManager) {
+            city._resourceManager._money = parsed._resourceManager._money;
+            city._resourceManager._electricity = parsed._resourceManager._electricity;
+            city._resourceManager._electricityProduction = parsed._resourceManager._electricityProduction;
+            city._resourceManager._electricConsumption = parsed._resourceManager._electricConsumption;
+            city._resourceManager._water = parsed._resourceManager._water;
+            city._resourceManager._waterProduction = parsed._resourceManager._waterProduction;
+            city._resourceManager._waterConsumption = parsed._resourceManager._waterConsumption;
+            city._resourceManager._food = parsed._resourceManager._food;
+        }
+
         return city;
     }
 
-    /* static loadResources() {
-        let resourcesData = localStorage.getItem(this.keyResource);
-        if (!resourcesData) return null;
-
-        const parsed = JSON.parse(resourcesData);
-        const resources = new ResourceManager(
-            parsed._money,           
-            parsed._electricity,
-            parsed._electricityProduction,
-            parsed._electricConsumption,
-            parsed._water,
-            parsed._waterProduction,
-            parsed._waterConsumption,
-            parsed._food
-        );
-
-        return resources;
-    }
- */
     static clear() {
         localStorage.removeItem(this.keyCity);
     }
