@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
-    let saveGameButton = document.getElementById('save-game-button')
-    let selectedButton = null;
-    const gridContainer = document.getElementById("grid");
+    let saveGameButton = document.getElementById('save-game-button');
+    let deleteGameButton = document.getElementById('delete-game-button');
+
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveGameButton.addEventListener('click', () => {
         try {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+            /* CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
             alert("Partida guardada exitosamente.")
         } catch (e) {
             alert("Error al guardar partida", e)
@@ -50,13 +50,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnDeleteGame.addEventListener('click', () => {
         helpers.showScreen('delete-game-page');
-        helpers.loadSavedGames();
+        helpers.loadSavedGames('delete-games-list');
     });
 
     btnLoadGamePage.addEventListener('click', () => {
         helpers.showScreen('load-game-page');
-        helpers.loadSavedGames();
+        helpers.loadSavedGames('saved-games-list');
     });
+
+    deleteGameButton.addEventListener('click', () => {
+        if(helpers.deleteGame()){
+            helpers.showScreen('initial-page');
+        }
+    })  
 
     btnGameInfo.addEventListener('click', () => {
         helpers.showScreen('game-info-page')
@@ -64,15 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         let loadedCity = CityBuilderStorage.loadCity();
-        let loadedResources = CityBuilderStorage.loadResources();
-        if (loadedCity && loadedResources) {
-            if (city && city._turnSystem) city._turnSystem.stop();
+        /* let loadedResources = CityBuilderStorage.loadResources(); */
+        if (loadedCity /* && loadedResources */) {
             city = loadedCity;
-            city._resourceManager = loadedResources;
+            /* city._resourceManager = loadedResources; */
             city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
             city._turnSystem.start();
             helpers.showScreen('game-page');
-            const container = helpers.setupGridListener();
+            const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city._grid, container);
         } else {
             alert("No se encontró ninguna partida guardada.");
@@ -86,14 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnReturnStartPage.addEventListener('click', () => {
-        let response = confirm("¿Desea guardar partida?");
-        if (!response) {
-            response = confirm("¡Todo su progreso se perderá!");
-        }
-        if (response) {
-            if (city && city._turnSystem) city._turnSystem.stop();
+        let response = confirm("¿Desea salir de la partida?")
+        if(response){
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource);
+/*             CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
+            alert("Partida guardada exitosamente.")
+            city._turnSystem.stop();
             helpers.showScreen('initial-page');
         }
     });

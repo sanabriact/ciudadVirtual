@@ -90,12 +90,12 @@ class helpers {
         return false;
     }
 
-    static loadSavedGames() {
-        let savedGamesList = document.getElementById('saved-games-list');
+    static loadSavedGames(id) {
+        let savedGamesList = document.getElementById(id);
         savedGamesList.innerHTML = "";
 
-        if (window.localStorage.getItem(CityBuilderStorage.keyCity) &&
-            window.localStorage.getItem(CityBuilderStorage.keyResource)) {
+        if (localStorage.getItem(CityBuilderStorage.keyCity)/*  &&
+            window.localStorage.getItem(CityBuilderStorage.keyResource) */) {
             savedGamesList.innerHTML = `
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <span>🏙️ Partida guardada</span>
@@ -103,6 +103,19 @@ class helpers {
             `;
         } else {
             savedGamesList.innerHTML = `<h2 class="screen-subtitle">No hay ciudades guardadas</h2>`;
+        }
+    }
+
+    static deleteGame(){
+        if(localStorage.getItem(CityBuilderStorage.keyCity)){
+            CityBuilderStorage.clear()
+            document.getElementById('delete-games-list').innerHTML = `
+            <h2 class="screen-subtitle">Ciudades eliminadas</h2>`
+            alert("Partida borrada exitosamente.")
+            return true;
+        } else {
+            alert("No hay ciudades para borrar.")
+            return false;
         }
     }
 

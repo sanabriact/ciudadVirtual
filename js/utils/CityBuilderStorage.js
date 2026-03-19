@@ -47,8 +47,8 @@ class CityBuilderStorage {
         // Restaurar buildings
         if (parsed._buildingManager && parsed._buildingManager._buildings) {
             parsed._buildingManager._buildings.forEach(b => {
-                const type = b._name.replace(/-\d+$/, "");
-                const building = city._buildingManager.buildBuilding(type, b._x, b._y);
+                const name = b._name.replace(/-\d+$/, "");
+                const building = city._buildingManager.buildBuilding(name, b._x, b._y);
 
                 if (building) {
                     building._residents = b._residents || 0;
@@ -60,8 +60,9 @@ class CityBuilderStorage {
 
         if (parsed._citizenManager && parsed._citizenManager._population) {
             parsed._citizenManager._population.forEach(c => {
-                const citizen = new Citizen(c._name, c._happiness, c._hasHome, c._hasJob);
-                city._citizenManager._population.push(citizen);
+                const name = c._name.replace(/-\d+$/, "");
+                const citizen = new Citizen(name, c._happiness, c._hasHome, c._hasJob);
+                city._citizenManager._population.addCitizen(citizen);
             });
         }
 
@@ -73,13 +74,13 @@ class CityBuilderStorage {
         return city;
     }
 
-    static loadResources() {
+    /* static loadResources() {
         let resourcesData = localStorage.getItem(this.keyResource);
         if (!resourcesData) return null;
 
         const parsed = JSON.parse(resourcesData);
         const resources = new ResourceManager(
-            parsed._money,           // ← con _
+            parsed._money,           
             parsed._electricity,
             parsed._electricityProduction,
             parsed._electricConsumption,
@@ -91,8 +92,8 @@ class CityBuilderStorage {
 
         return resources;
     }
-
-    static clear(object) {
-        localStorage.removeItem(object);
+ */
+    static clear() {
+        localStorage.removeItem(this.keyCity);
     }
 }
