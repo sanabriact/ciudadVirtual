@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
     let saveGameButton = document.getElementById('save-game-button')
-    let selectedButton = null;
     const gridContainer = document.getElementById("grid");
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();

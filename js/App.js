@@ -1,5 +1,6 @@
 let  city       = null;
 let turnSystem = null;
+let selectedButton = null;
 
 // ─── Inicializar el juego ───────────────────────────────────────────────────
 
