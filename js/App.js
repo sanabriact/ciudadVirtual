@@ -1,6 +1,10 @@
-let  city       = null;
+let city = null;
 let turnSystem = null;
 let selectedButton = null;
+
+// 🗺️ NUEVO: Variables globales para el modo ruta
+let routeMode = false;
+let routeOrigin = null;
 
 // ─── Inicializar el juego ───────────────────────────────────────────────────
 

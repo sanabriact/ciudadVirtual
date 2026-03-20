@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
+    // =====================================================
+    // 🗺️ NUEVO: Variables para el modo de rutas
+    // ====================================================
+    btnRoute = document.getElementById('btn-route'); // Botón de ruta en el HTML
+    // =====================================================
+
     let buttonList = [
         document.getElementById('btn-demolish'),
         document.getElementById('btn-house'),
@@ -36,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveGameButton.addEventListener('click', () => {
         try {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            /* CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
             alert("Partida guardada exitosamente.")
         } catch (e) {
             alert("Error al guardar partida", e)
@@ -185,4 +190,111 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add('active');
         });
     });
+
+    // =====================================================
+    // 🗺️ NUEVO: Listener del botón "Calcular Ruta"
+    // Al hacer clic activa/desactiva el modo ruta
+    // =====================================================
+    btnRoute.addEventListener('click', () => {
+        routeMode = !routeMode;  // Encender o apagar el modo ruta
+        routeOrigin = null;      // Reiniciar origen cada vez
+
+        RoutingService.clearRoute(); // Limpiar ruta pintada anterior
+
+        if (routeMode) {
+            // Modo ruta encendido: desactivar botones de construcción
+            buttonList.forEach(b => b.classList.remove('active'));
+            selectedButton = null;
+            btnRoute.classList.add('active');
+            btnRoute.textContent = '🗺️ Selecciona origen...';
+        } else {
+            // Modo ruta apagado
+            btnRoute.classList.remove('active');
+            btnRoute.textContent = '🗺️ Calcular Ruta';
+        }
+    });
+    // =====================================================
+
 });
+
+
+// =====================================================
+// 🗺️ NUEVO: setupGridListener en helpers.js
+// Reemplaza el setupGridListener existente en helpers.js
+// con esta versión que incluye el manejo del modo ruta.
+//
+// IMPORTANTE: Esto va en helpers.js, NO aquí.
+// Lo dejamos como referencia:
+// =====================================================
+/*
+static setupGridListener() {
+    const gridContainer = document.getElementById("grid");
+    const newContainer = gridContainer.cloneNode(true);
+    gridContainer.parentNode.replaceChild(newContainer, gridContainer);
+
+    newContainer.addEventListener("click", function (event) {
+        const cell = event.target.closest(".cell");
+        if (!cell) return;
+
+        const x = parseInt(cell.dataset.x);
+        const y = parseInt(cell.dataset.y);
+
+        // 🗺️ NUEVO: Modo ruta — intercepta el clic antes que todo lo demás
+        if (routeMode) {
+            const cellData = city._grid.cells[y][x];
+
+            // Solo se pueden seleccionar celdas con edificio (no pasto "g", no vía "R")
+            if (cellData._id === "g" || cellData._id === "R") {
+                alert("Selecciona un edificio como origen o destino.");
+                return;
+            }
+
+            if (!routeOrigin) {
+                // Primer clic → guardar como origen y resaltar
+                routeOrigin = { x, y };
+                cell.classList.add("route-highlight");
+                document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
+            } else {
+                // Segundo clic → calcular ruta hacia el destino
+                RoutingService.calculateRoute(city._grid, routeOrigin.x, routeOrigin.y, x, y)
+                    .then(route => {
+                        if (route) RoutingService.highlightRoute(route);
+                    });
+
+                // Apagar modo ruta
+                routeMode = false;
+                routeOrigin = null;
+                document.getElementById('btn-route').classList.remove('active');
+                document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
+            }
+            return; // Salir para no construir nada
+        }
+        // 🗺️ FIN bloque nuevo
+
+        // Lo que ya existía (demoler / construir):
+        if (selectedButton === null) {
+            if (cell.innerHTML.trim() !== "") {
+                city._buildingManager.deleteBuilding(x, y);
+                city._grid.setCellId(x, y, "g");
+                cell.innerHTML = "";
+            }
+        } else if (cell.innerHTML.trim() === "") {
+            if (selectedButton.type === "road") {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else {
+                alert("No puedes construir aquí porque no hay una vía adyacente.");
+            }
+        }
+    });
+
+    return newContainer;
+}
+*/
