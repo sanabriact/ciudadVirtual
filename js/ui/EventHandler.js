@@ -12,9 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let inputRegion = document.getElementById('input-region');
     let saveGameButton = document.getElementById('save-game-button');
     let deleteGameButton = document.getElementById('delete-game-button');
+    let btnRoute = document.getElementById('btn-route');
 
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
+
+    // =====================================================
 
     let buttonList = [
         document.getElementById('btn-demolish'),
@@ -34,13 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     saveGameButton.addEventListener('click', () => {
-        try {
-            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            /* CityBuilderStorage.save(city._resourceManager, CityBuilderStorage.keyResource); */
-            alert("Partida guardada exitosamente.")
-        } catch (e) {
-            alert("Error al guardar partida", e)
-        }
+        helpers.saveCityToStorage();
     });
 
     btnNewCity.addEventListener('click', () => {
@@ -69,17 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnLoadGame.addEventListener('click', () => {
-        let loadedCity = CityBuilderStorage.loadCity();
-        if (loadedCity) {
-            city = loadedCity;
-            city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
-            city._turnSystem.start();
-            helpers.showScreen('game-page');
-            const container = helpers.setupGridListener(selectedButton);
-            GridRenderer.render(city._grid, container);
-        } else {
-            alert("No se encontró ninguna partida guardada.");
-        }
+        helpers.loadCityFromStorage();
     });
 
     btnBack.forEach(function (btn) {
@@ -89,13 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnReturnStartPage.addEventListener('click', () => {
-        let response = confirm("¿Desea salir de la partida?")
-        if(response){
-            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            alert("Partida guardada exitosamente.")
-            city._turnSystem.stop();
-            helpers.showScreen('initial-page');
-        }
+        helpers.returnToStartPage();
     });
 
     mapSizeSlider.addEventListener('input', () => {
@@ -144,31 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnCreateGame.addEventListener('click', () => {
-        if (city && city._turnSystem) city._turnSystem.stop();
-
-        const gridSize = parseInt(document.getElementById("input-map-size").value);
-        const cityNameInput = document.getElementById("input-city-name");
-        const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim();
-        const mayorName = cityMayorInput.value.trim();
-        const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
-        const growthRate = parseInt(document.getElementById("input-growth-rate").value);
-
-        const grid = new Grid(gridSize, gridSize);
-        grid.initGrid();
-
-        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
-        city._turnSystem = new TurnSystem(city, turnDuration);
-        city._turnSystem.start();
-        city._citizenManager.growthRate = growthRate;
-
-        helpers.showScreen('game-page');
-
-        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
-        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
-
-        const container = helpers.setupGridListener();
-        GridRenderer.render(grid, container);
+        helpers.createNewGame();
     });
 
     buttonList.forEach(btn => {
@@ -185,4 +142,24 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add('active');
         });
     });
+
+    btnRoute.addEventListener('click', () => {
+        routeMode = !routeMode;  // Encender o apagar el modo ruta
+        routeOrigin = null;      // Reiniciar origen cada vez
+
+        RoutingService.clearRoute(); // Limpiar ruta pintada anterior
+
+        if (routeMode) {
+            // Modo ruta encendido: desactivar botones de construcción
+            buttonList.forEach(b => b.classList.remove('active'));
+            selectedButton = null;
+            btnRoute.classList.add('active');
+            btnRoute.textContent = '🗺️ Selecciona origen...';
+        } else {
+            // Modo ruta apagado
+            btnRoute.classList.remove('active');
+            btnRoute.textContent = '🗺️ Calcular Ruta';
+        }
+    });
+
 });

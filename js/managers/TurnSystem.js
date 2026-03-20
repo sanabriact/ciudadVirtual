@@ -21,6 +21,7 @@ class TurnSystem {
         this._turnNumber++;
         console.log(`Turno ${this._turnNumber}`);
 
+        helpers.updateUI();
         let buildings = this._city._buildingManager._buildings;
 
         // 1. Actualizar recursos
@@ -40,7 +41,6 @@ class TurnSystem {
         this._city._scoreManager.calculateScore();  
 
         // 6. Actualizar UI
-        helpers.updateUI();
 
         // 7. Verificar game over
         const gameOver = this._city._resourceManager.checkGameOver();

@@ -1,7 +1,6 @@
 class CityBuilderStorage {
 
     static keyCity = "city"
-    static keyResource = "resources"
 
     static save(object, key) {
         const json = JSON.stringify(object);
@@ -41,8 +40,6 @@ class CityBuilderStorage {
             parsed._hapinessAverage,
             grid
         );
-
-        city._roads = parsed._roads || [];
 
         // Restaurar buildings
         if (parsed._buildingManager && parsed._buildingManager._buildings) {
