@@ -34,9 +34,7 @@ class GridRenderer {
             div.dataset.y = row;
 
             if (cell._id !== "g") {
-                console.log(`Celda [${row}][${col}] tiene id: "${cell._id}"`);
                 const img = GridRenderer.buildingImages[cell._id];
-                console.log(`Imagen encontrada:`, img);
                 if (img) {
                     div.innerHTML = `<img src="${img}" class="cell-icon"/>`;
                 }

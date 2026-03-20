@@ -13,7 +13,7 @@ class BuildingManager {
         return this._buildings.length < buildingsNumber;
     }
 
-    buildBuilding(type, x, y) {
+    createBuilding(type, x, y) {
         let building;
         switch (type) {
             case "house":

@@ -12,14 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let inputRegion = document.getElementById('input-region');
     let saveGameButton = document.getElementById('save-game-button');
     let deleteGameButton = document.getElementById('delete-game-button');
+    let btnRoute = document.getElementById('btn-route');
 
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
 
-    // =====================================================
-    // 🗺️ NUEVO: Variables para el modo de rutas
-    // ====================================================
-    btnRoute = document.getElementById('btn-route'); // Botón de ruta en el HTML
     // =====================================================
 
     let buttonList = [
@@ -40,12 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     saveGameButton.addEventListener('click', () => {
-        try {
-            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            alert("Partida guardada exitosamente.")
-        } catch (e) {
-            alert("Error al guardar partida", e)
-        }
+        helpers.saveCityToStorage();
     });
 
     btnNewCity.addEventListener('click', () => {
@@ -74,17 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnLoadGame.addEventListener('click', () => {
-        let loadedCity = CityBuilderStorage.loadCity();
-        if (loadedCity) {
-            city = loadedCity;
-            city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
-            city._turnSystem.start();
-            helpers.showScreen('game-page');
-            const container = helpers.setupGridListener(selectedButton);
-            GridRenderer.render(city._grid, container);
-        } else {
-            alert("No se encontró ninguna partida guardada.");
-        }
+        helpers.loadCityFromStorage();
     });
 
     btnBack.forEach(function (btn) {
@@ -94,13 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnReturnStartPage.addEventListener('click', () => {
-        let response = confirm("¿Desea salir de la partida?")
-        if(response){
-            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
-            alert("Partida guardada exitosamente.")
-            city._turnSystem.stop();
-            helpers.showScreen('initial-page');
-        }
+        helpers.returnToStartPage();
     });
 
     mapSizeSlider.addEventListener('input', () => {
@@ -149,31 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnCreateGame.addEventListener('click', () => {
-        if (city && city._turnSystem) city._turnSystem.stop();
-
-        const gridSize = parseInt(document.getElementById("input-map-size").value);
-        const cityNameInput = document.getElementById("input-city-name");
-        const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim();
-        const mayorName = cityMayorInput.value.trim();
-        const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
-        const growthRate = parseInt(document.getElementById("input-growth-rate").value);
-
-        const grid = new Grid(gridSize, gridSize);
-        grid.initGrid();
-
-        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
-        city._turnSystem = new TurnSystem(city, turnDuration);
-        city._turnSystem.start();
-        city._citizenManager.growthRate = growthRate;
-
-        helpers.showScreen('game-page');
-
-        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
-        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
-
-        const container = helpers.setupGridListener();
-        GridRenderer.render(grid, container);
+        helpers.createNewGame();
     });
 
     buttonList.forEach(btn => {
@@ -191,10 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // =====================================================
-    // 🗺️ NUEVO: Listener del botón "Calcular Ruta"
-    // Al hacer clic activa/desactiva el modo ruta
-    // =====================================================
     btnRoute.addEventListener('click', () => {
         routeMode = !routeMode;  // Encender o apagar el modo ruta
         routeOrigin = null;      // Reiniciar origen cada vez
@@ -213,88 +161,5 @@ document.addEventListener("DOMContentLoaded", () => {
             btnRoute.textContent = '🗺️ Calcular Ruta';
         }
     });
-    // =====================================================
 
 });
-
-
-// =====================================================
-// 🗺️ NUEVO: setupGridListener en helpers.js
-// Reemplaza el setupGridListener existente en helpers.js
-// con esta versión que incluye el manejo del modo ruta.
-//
-// IMPORTANTE: Esto va en helpers.js, NO aquí.
-// Lo dejamos como referencia:
-// =====================================================
-/*
-static setupGridListener() {
-    const gridContainer = document.getElementById("grid");
-    const newContainer = gridContainer.cloneNode(true);
-    gridContainer.parentNode.replaceChild(newContainer, gridContainer);
-
-    newContainer.addEventListener("click", function (event) {
-        const cell = event.target.closest(".cell");
-        if (!cell) return;
-
-        const x = parseInt(cell.dataset.x);
-        const y = parseInt(cell.dataset.y);
-
-        // 🗺️ NUEVO: Modo ruta — intercepta el clic antes que todo lo demás
-        if (routeMode) {
-            const cellData = city._grid.cells[y][x];
-
-            // Solo se pueden seleccionar celdas con edificio (no pasto "g", no vía "R")
-            if (cellData._id === "g" || cellData._id === "R") {
-                alert("Selecciona un edificio como origen o destino.");
-                return;
-            }
-
-            if (!routeOrigin) {
-                // Primer clic → guardar como origen y resaltar
-                routeOrigin = { x, y };
-                cell.classList.add("route-highlight");
-                document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
-            } else {
-                // Segundo clic → calcular ruta hacia el destino
-                RoutingService.calculateRoute(city._grid, routeOrigin.x, routeOrigin.y, x, y)
-                    .then(route => {
-                        if (route) RoutingService.highlightRoute(route);
-                    });
-
-                // Apagar modo ruta
-                routeMode = false;
-                routeOrigin = null;
-                document.getElementById('btn-route').classList.remove('active');
-                document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
-            }
-            return; // Salir para no construir nada
-        }
-        // 🗺️ FIN bloque nuevo
-
-        // Lo que ya existía (demoler / construir):
-        if (selectedButton === null) {
-            if (cell.innerHTML.trim() !== "") {
-                city._buildingManager.deleteBuilding(x, y);
-                city._grid.setCellId(x, y, "g");
-                cell.innerHTML = "";
-            }
-        } else if (cell.innerHTML.trim() === "") {
-            if (selectedButton.type === "road") {
-                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                if (building !== null) {
-                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                }
-            } else if (helpers.buildValidation(x, y, selectedButton.type)) {
-                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-                if (building !== null) {
-                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                }
-            } else {
-                alert("No puedes construir aquí porque no hay una vía adyacente.");
-            }
-        }
-    });
-
-    return newContainer;
-}
-*/

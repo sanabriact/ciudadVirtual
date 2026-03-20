@@ -20,7 +20,7 @@ class helpers {
     }
 
     static buildNewBuilding(type, x, y) {
-        const building = city._buildingManager.buildBuilding(type, x, y);
+        const building = city._buildingManager.createBuilding(type, x, y);
         if (city._resourceManager.canAfford(building)) {
             city._resourceManager.spendMoney(building);
             city._buildingManager.addBuilding(building);
@@ -131,10 +131,6 @@ class helpers {
             const y = parseInt(cell.dataset.y);
 
             // -------------------------------------------------------
-            // 🗺️ NUEVO: Bloque modo ruta
-            // Si routeMode está activo, este bloque maneja el clic
-            // y sale con "return" para no construir/demoler nada.
-            // -------------------------------------------------------
             if (routeMode) {
                 const cellData = city._grid.cells[y][x];
 
@@ -164,8 +160,6 @@ class helpers {
                 }
                 return; // ← Importante: evita que construya o demuela
             }
-            // -------------------------------------------------------
-            // 🗺️ FIN bloque modo ruta
             // -------------------------------------------------------
 
             // Lo que ya existía — sin cambios:
@@ -202,4 +196,69 @@ class helpers {
         return newContainer;
     }
 
+    static loadCityFromStorage() {
+        let loadedCity = CityBuilderStorage.loadCity();
+        if (loadedCity) {
+            city = loadedCity;
+            city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
+            city._turnSystem.start();
+            helpers.showScreen('game-page');
+            const container = helpers.setupGridListener(selectedButton);
+            GridRenderer.render(city._grid, container);
+        } else {
+            alert("No se encontró ninguna partida guardada.");
+        }
+    }
+
+    static saveCityToStorage(){
+        try {
+            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
+            alert("Partida guardada exitosamente.")
+        } catch (e) {
+            alert("Error al guardar partida", e)
+        }
+    }
+
+    static createNewGame() {
+        if (city && city._turnSystem) city._turnSystem.stop();
+
+        const gridSize = parseInt(document.getElementById("input-map-size").value);
+        const cityNameInput = document.getElementById("input-city-name");
+        const cityMayorInput = document.getElementById("input-mayor-name");
+        const cityValue = cityNameInput.value.trim();
+        const mayorName = cityMayorInput.value.trim();
+        const electricity = parseInt(document.getElementById("input-init-electricity").value);
+        const water = parseInt(document.getElementById("input-init-water").value);
+        const food = parseInt(document.getElementById("input-init-food").value);
+        const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
+        const growthRate = parseInt(document.getElementById("input-growth-rate").value);
+
+        const grid = new Grid(gridSize, gridSize);
+        grid.initGrid();
+
+        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
+        city._turnSystem = new TurnSystem(city, turnDuration);
+        city._turnSystem.start();
+        city._citizenManager.growthRate = growthRate;
+        city._resourceManager._electricity = electricity;
+        city._resourceManager._water = water;
+        city._resourceManager._food = food;
+        helpers.showScreen('game-page');
+
+        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
+        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
+
+        const container = helpers.setupGridListener();
+        GridRenderer.render(grid, container);
+    }
+
+    static returnToStartPage(){
+        let response = confirm("¿Desea salir de la partida?")
+        if(response){
+            CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
+            alert("Partida guardada exitosamente.")
+            city._turnSystem.stop();
+            helpers.showScreen('initial-page');
+        }
+    }
 }

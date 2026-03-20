@@ -97,8 +97,6 @@ class ResourceManager {
     // Recorre todos los edificios, calcula qué producen y qué consumen,
     // y actualiza todos los recursos de la ciudad.
     updateResources(buildings) {
-        console.log("Buildings recibidos:", buildings);
-        console.log("¿Es UtilityPlant?:", buildings[0] instanceof UtilityPlant);
         let totalElectricityProduction = 0;
         let totalElectricityConsumption = 0;
         let totalWaterProduction = 0;
@@ -116,10 +114,8 @@ class ResourceManager {
             if (building instanceof UtilityPlant) {
                 if (building._productionType === "electricity") {
                     totalElectricityProduction += building._productionAmount || 0;
-                    console.log("Se produjo electricidad en la planta");
                 } else if (building._productionType === "water") {
                     totalWaterProduction += building._productionAmount || 0;
-                    console.log("Se produjo agua en la planta");
                 }
             }
 
@@ -140,21 +136,12 @@ class ResourceManager {
                     // Fábrica: necesita electricidad Y agua
                     if (thereIsElectricity && thereIsWater) {
                         totalIncome += building._incomePerTurn || 0;
-                        console.log("Se produjo dinero en la fábrica");
-                    } else {
-                        // Sin algún recurso produce al 50% (según el documento)
-                        totalIncome += (building._incomePerTurn || 0) * 0.5;
-                        console.log("Se produjo dinero en la fábrica (50%)");
                     }
                 } else if (building._productionType === "food") {
                     // Granja: solo necesita agua
                     if (thereIsWater) {
                         totalFoodProduction += building._incomePerTurn || 0;
-                        console.log("Se produjo comida en la granja");
-                    } else {
-                        totalFoodProduction += (building._incomePerTurn || 0) * 0.5;
-                        console.log("Se produjo comida en la granja");
-                    }
+                    } 
                 }
             }
         });

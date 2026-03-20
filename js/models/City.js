@@ -82,7 +82,7 @@ class City {
             _width: this._width,
             _height: this._height,
             _score: this._scoreManager._score,
-            _hapinessAverage: this._hapinessAverage,
+            _hapinessAverage: this._citizenManager.hapinessAverage,
             _grid: this._grid,
             _roads: this._roads,
             _buildingManager: this._buildingManager,
