@@ -38,8 +38,28 @@
 
 /* Celda de la ruta calculada por Dijkstra */
 .route-highlight {
-    background-color: rgba(255, 215, 0, 0.75) !important; /* amarillo dorado */
+    background-color: rgba(255, 215, 0, 0.75) !important;
+    /* amarillo dorado */
     box-shadow: inset 0 0 6px 2px rgba(255, 165, 0, 0.8);
     transition: background-color 0.3s ease;
     z-index: 2;
+}
+
+/*hace que el header no tape los primeros botones*/
+.row {
+    margin-top: 100px;
+    /* ajusta según la altura de tu header */
+}
+/*si el ancho de la pantalla es menor o igual a 768px, aplica estos estilos*/
+@media (max-width: 768px) {
+    .row {
+        margin-top: 180px;
+        /* más espacio porque el header crece en móvil */
+    }
+}
+
+@media (max-width: 480px) {
+    .row {
+        margin-top: 220px;
+    }
 }
