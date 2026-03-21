@@ -45,7 +45,7 @@ class CityBuilderStorage {
         if (parsed._buildingManager && parsed._buildingManager._buildings) {
             parsed._buildingManager._buildings.forEach(b => {
                 const name = b._name.replace(/-\d+$/, "");
-                const building = city._buildingManager.buildBuilding(name, b._x, b._y);
+                const building = city._buildingManager.createBuilding(name, b._x, b._y);
 
                 if (building) {
                     building._residents = b._residents || 0;
