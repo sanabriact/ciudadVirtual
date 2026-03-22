@@ -20,6 +20,7 @@ class TurnSystem {
     nextTurn() {
         this._turnNumber++;
         console.log(`Turno ${this._turnNumber}`);
+        CityBuilderStorage.save(this._city, "city")
 
         helpers.updateUI();
         let buildings = this._city._buildingManager._buildings;
