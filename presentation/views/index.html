@@ -265,37 +265,43 @@
 
     <!--  ==================== PANTALLA DE JUEGO  ====================-->
     <div id="game-page" class=" screen container-fluid city-creation">
-        <header id="header" class="bg-dark text-white p-2 p-md-3">
-            <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <div class="d-flex flex-column">
-                    <h3 id="screen-title">City Builder Game</h3>
-                    <div class="city-info d-flex flex-row align-items-center gap-2">
-                        <button type="button" class="btn btn-dark btn-sm" id="return-start-page">Menú principal</button>
-                        <div id="container-city-info" class="d-flex flex-column justify-content-center">
-                            <h6 id="city-name" class="mb-0"></h6>
-                            <h6 id="city-mayor" class="mb-0"></h6>
-                        </div>
-                    </div>
-                </div>
+        <header id="header">
+    <div id="header-inner">
 
-                <div id="resource-panel" class="d-flex flex-column">
-                    <div class="d-flex flex-row flex-wrap gap-2">
-                        <span id="money">$50,000</span>
-                        <span id="electricity">⚡ 0</span>
-                        <span id="water">💧 0</span>
-                        <span id="food">🌾 0</span>
-                        <span id="population">👥 0</span>
-                        <span id="happiness">😊 0%</span>
-                    </div>
-                    <div class="puntuation d-flex flex-row">
-                        <h5 class="subtitles">Puntuación</h5>
-                        <div id="score-panel">
-                            <h4>0</h4>
-                        </div>
-                    </div>
+        <!-- Izquierda: botón + ciudad/alcalde -->
+        <div id="header-left">
+            <button type="button" id="return-start-page">Menú principal</button>
+            <div id="container-city-info">
+                <h6 id="city-name"></h6>
+                <h6 id="city-mayor"></h6>
+            </div>
+        </div>
+
+        <!-- Centro: título -->
+        <div id="header-center">
+            <h3 id="screen-title">City Builder Game</h3>
+        </div>
+
+        <!-- Derecha: recursos -->
+        <div id="header-right">
+            <div id="resource-panel">
+                <div id="resource-panel-row">
+                    <span id="money">$50,000</span>
+                    <span id="electricity">⚡ 0</span>
+                    <span id="water">💧 0</span>
+                    <span id="food">🌾 0</span>
+                    <span id="population">👥 0</span>
+                    <span id="happiness">😊 0%</span>
+                </div>
+                <div class="puntuation">
+                    <h5 class="subtitles">Puntuación</h5>
+                    <div id="score-panel"><h4>0</h4></div>
                 </div>
             </div>
-        </header>
+        </div>
+
+    </div>
+</header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
                 <h5 class="subtitles">Construcción</h5>

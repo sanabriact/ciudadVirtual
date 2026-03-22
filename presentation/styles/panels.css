@@ -1,32 +1,45 @@
-#news-panel {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 10px;
-    padding-right: 1000px;
-    padding-bottom: 1px;
+/* panels.css */
+
+/* ===== PANEL DE RECURSOS ===== */
+#resource-panel .d-flex.flex-row {
+    flex-wrap: wrap;
+    gap: 6px !important;
 }
 
-#news-panel .card {
-    min-width: 200px;
-    max-width: 250px;
-    flex-shrink: 0;
-}
-
-#resource-panel {
-    gap: 30px;
-}
-
-.news-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
+/* ===== PUNTUACIÓN ===== */
 .puntuation {
-    gap: 10px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 6px;
+    margin-top: 4px;
 }
 
-.city-info {
-    gap: 15px;
+/* ===== CARDS NOTICIAS ===== */
+.card {
+    background: var(--bg-card) !important;
+    border-color: var(--border-subtle) !important;
+}
+
+/* ===== LISTA DE PARTIDAS ===== */
+#saved-games-list .list-group-item,
+#delete-games-list .list-group-item {
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 0.85rem !important;
+    text-transform: none !important;
+    letter-spacing: 0.05em !important;
+    color: var(--text-primary) !important;
+}
+
+/* ===== SEPARADORES ===== */
+hr {
+    border-color: var(--border-subtle);
+    opacity: 1;
+}
+
+/* ===== ALERTAS / MODALS ===== */
+.alert {
+    background: rgba(0, 245, 255, 0.05);
+    border: 1px solid var(--border-glow);
+    color: var(--text-primary);
+    border-radius: 0;
+    font-family: 'Exo 2', sans-serif;
 }

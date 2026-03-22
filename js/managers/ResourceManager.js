@@ -34,7 +34,6 @@ class ResourceManager {
     set electricConsumption(value) {
         if (value >= 0) {
             this._electricConsumption = value;
-
         }
     }
     set water(value) {

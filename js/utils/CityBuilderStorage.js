@@ -54,9 +54,6 @@ class CityBuilderStorage {
                 }
             });
         }
-        console.log("¿Hay ResidentialBuilding?:", city._buildingManager._buildings.some(b => b instanceof ResidentialBuilding));
-        console.log("¿Hay UtilityPlant?:", city._buildingManager._buildings.some(b => b instanceof UtilityPlant));
-        console.log("Tipos restaurados:", city._buildingManager._buildings.map(b => b.constructor.name));
 
         if (parsed._citizenManager && parsed._citizenManager._population) {
             parsed._citizenManager._population.forEach(c => {

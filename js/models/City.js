@@ -69,10 +69,7 @@ class City {
             this._score = value;
         }
     }
-
-    // ============ MÉTODOS ============
-
-
+    
     toJSON() {
         return {
             _name: this._name,
