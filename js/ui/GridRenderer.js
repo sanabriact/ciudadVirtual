@@ -12,8 +12,8 @@ class GridRenderer {
         "S3": "../../assets/icons/Hospital.png",
         "U1": "../../assets/icons/Power-plant.png",
         "U2": "../../assets/icons/Water-plant.png",
-        "P1": "../../assets/icons/Park.jpg",
-        "R":  "../../assets/icons/Road.webp"
+        "P1": "../../assets/icons/Park.png",
+        "R":  "../../assets/icons/Road.png"
     };
 
     static render(grid, container) {
