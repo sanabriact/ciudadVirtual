@@ -3,10 +3,7 @@ class CityBuilderStorage {
     static keyCity = "city"
 
     static save(object, key) {
-        const json = JSON.stringify(object);
-        const parsed = JSON.parse(json);
-        console.log("JSON parseado:", parsed);
-        localStorage.setItem(key, json);
+        localStorage.setItem(key, JSON.stringify(object));
     }
 
     static loadCity() {

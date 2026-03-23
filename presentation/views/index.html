@@ -266,85 +266,153 @@
     <!--  ==================== PANTALLA DE JUEGO  ====================-->
     <div id="game-page" class=" screen container-fluid city-creation">
         <header id="header">
-    <div id="header-inner">
+            <div id="header-inner">
 
-        <!-- Izquierda: botón + ciudad/alcalde -->
-        <div id="header-left">
-            <button type="button" id="return-start-page">Menú principal</button>
-            <div id="container-city-info">
-                <h6 id="city-name"></h6>
-                <h6 id="city-mayor"></h6>
-            </div>
-        </div>
-
-        <!-- Centro: título -->
-        <div id="header-center">
-            <h3 id="screen-title">City Builder Game</h3>
-        </div>
-
-        <!-- Derecha: recursos -->
-        <div id="header-right">
-            <div id="resource-panel">
-                <div id="resource-panel-row">
-                    <span id="money">$50,000</span>
-                    <span id="electricity">⚡ 0</span>
-                    <span id="water">💧 0</span>
-                    <span id="food">🌾 0</span>
-                    <span id="population">👥 0</span>
-                    <span id="happiness">😊 0%</span>
+                <!-- Izquierda: botón + ciudad/alcalde -->
+                <div id="header-left">
+                    <button type="button" id="return-start-page">Menú principal</button>
+                    <div id="container-city-info">
+                        <h6 id="city-name"></h6>
+                        <h6 id="city-mayor"></h6>
+                    </div>
                 </div>
-                <div class="puntuation">
-                    <h5 class="subtitles">Puntuación</h5>
-                    <div id="score-panel"><h4>0</h4></div>
-                </div>
-            </div>
-        </div>
 
-    </div>
-</header>
+                <!-- Centro: título -->
+                <div id="header-center">
+                    <h3 id="screen-title">City Builder Game</h3>
+                </div>
+
+                <!-- Derecha: recursos -->
+                <div id="header-right">
+                    <div id="resource-panel">
+                        <div id="resource-panel-row">
+                            <span id="money">$50,000</span>
+                            <span id="electricity">⚡ 0</span>
+                            <span id="water">💧 0</span>
+                            <span id="food">🌾 0</span>
+                            <span id="population">👥 0</span>
+                            <span id="happiness">😊 0%</span>
+                        </div>
+                        <div class="puntuation">
+                            <h5 class="subtitles">Puntuación</h5>
+                            <div id="score-panel">
+                                <h4>0</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
                 <h5 class="subtitles">Construcción</h5>
 
                 <div class="list-group">
-                    <button id="btn-house" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/House.png" data-type="house">Casa</button>
-                    <button id="btn-apartment" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Apartment.png" data-type="apartment">Apartamento</button>
-                    <button id="btn-store" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Store.png" data-type="store">Tienda</button>
-                    <button id="btn-commercial-center" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Mall.png" data-type="commercial-center">Centro Comercial</button>
-                    <button id="btn-factory" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Factory.png" data-type="factory">Fábrica</button>
-                    <button id="btn-farm" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Farm.png" data-type="farm">Granja</button>
-                    <button id="btn-police-station" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Police-station.png" data-type="police-station">Policía</button>
-                    <button id="btn-firefighters" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Firefighter-station.png"
-                        data-type="firefighter-station">Bomberos</button>
-                    <button id="btn-hospital" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Hospital.png" data-type="hospital">Hospital</button>
-                    <button id="btn-power-plant" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Power-plant.png" data-type="power-plant">Planta
-                        Eléctrica</button>
-                    <button id="btn-water-plant" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Water-plant.png" data-type="water-plant">Planta
-                        de Agua</button>
-                    <button id="btn-park" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Park.jpg" data-type="park">Parque</button>
-                    <button id="btn-road" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Road.webp" data-type="road">Vía</button>
+                    <div id="house-actions" class="d-flex flex-row">
+                        <button id="btn-house" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/House.png" data-type="house">Casa</button>
+                        <button class="chevron" data-target="house-info">∨</button>
+                    </div>
+                    <div id="house-info"></div>
+
+                    <div id="apartment-actions" class="d-flex flex-row">
+                        <button id="btn-apartment" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Apartment.png" data-type="apartment">Apartamento</button>
+                        <button class="chevron" data-target="apartment-info">∨</button>
+                    </div>
+                    <div id="apartment-info"></div>
+
+                    <div id="store-actions" class="d-flex flex-row">
+                        <button id="btn-store" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Store.png" data-type="store">Tienda</button>
+                        <button class="chevron" data-target="store-info">∨</button>
+                    </div>
+                    <div id="store-info"></div>
+
+                    <div id="mall-actions" class="d-flex flex-row">
+                        <button id="btn-commercial-center" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Mall.png" data-type="commercial-center">Centro
+                            Comercial</button>
+                        <button class="chevron" data-target="mall-info">∨</button>
+                    </div>
+                    <div id="mall-info"></div>
+
+                    <div id="factory-actions" class="d-flex flex-row">
+                        <button id="btn-factory" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Factory.png" data-type="factory">Fábrica</button>
+                        <button class="chevron" data-target="factory-info">∨</button>
+                    </div>
+                    <div id="factory-info"></div>
+
+                    <div id="farm-actions" class="d-flex flex-row">
+                        <button id="btn-farm" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Farm.png" data-type="farm">Granja</button>
+                        <button class="chevron" data-target="farm-info">∨</button>
+                    </div>
+                    <div id="farm-info"></div>
+
+                    <div id="police-actions" class="d-flex flex-row">
+                        <button id="btn-police-station" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Police-station.png"
+                            data-type="police-station">Policía</button>
+                        <button class="chevron" data-target="police-info">∨</button>
+                    </div>
+                    <div id="police-info"></div>
+
+                    <div id="firestation-actions" class="d-flex flex-row">
+                        <button id="btn-firefighters" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Firefighter-station.png"
+                            data-type="firefighter-station">Bomberos</button>
+                        <button class="chevron" data-target="firestation-info">∨</button>
+                    </div>
+                    <div id="firestation-info"></div>
+
+                    <div id="hospital-actions" class="d-flex flex-row">
+                        <button id="btn-hospital" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Hospital.png" data-type="hospital">Hospital</button>
+                        <button class="chevron" data-target="hospital-info">∨</button>
+                    </div>
+                    <div id="hospital-info"></div>
+
+                    <div id="electricPlant-actions" class="d-flex flex-row">
+                        <button id="btn-power-plant" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Power-plant.png" data-type="power-plant">Planta
+                            Eléctrica</button>
+                        <button class="chevron" data-target="electricPlant-info">∨</button>
+                    </div>
+                    <div id="electricPlant-info"></div>
+
+                    <div id="waterPlant-actions" class="d-flex flex-row">
+                        <button id="btn-water-plant" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Water-plant.png" data-type="water-plant">Planta de
+                            Agua</button>
+                        <button class="chevron" data-target="waterPlant-info">∨</button>
+                    </div>
+                    <div id="waterPlant-info"></div>
+
+                    <div id="park-actions" class="d-flex flex-row">
+                        <button id="btn-park" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Park.jpg" data-type="park">Parque</button>
+                        <button class="chevron" data-target="park-info">∨</button>
+                    </div>
+                    <div id="park-info"></div>
+
+                    <div id="road-actions" class="d-flex flex-row">
+                        <button id="btn-road" class="list-group-item list-group-item-action"
+                            data-image="../../assets/icons/Road.webp" data-type="road">Vía</button>
+                        <button class="chevron" data-target="road-info">∨</button>
+                    </div>
+                    <div id="road-info"></div>
+
                     <button id="btn-demolish" class="list-group-item list-group-item-action text-danger"
                         data-type="demolish">Demoler</button>
 
                     <hr>
-
                     <button id="btn-route" class="btn btn-primary w-100 mb-2">Calcular Ruta</button>
                     <button class="btn btn-success w-100 mb-2" id="save-game-button">Guardar</button>
                     <button class="btn btn-warning w-100">Exportar</button>
-
+                </div>
             </aside>
 
             <!-- Mapa Central -->
@@ -380,7 +448,4 @@
         </div>
     </div>
 </body>
-<script>
-</script>
-
 </html>
