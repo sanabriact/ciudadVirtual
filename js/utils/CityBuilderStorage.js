@@ -3,10 +3,7 @@ class CityBuilderStorage {
     static keyCity = "city"
 
     static save(object, key) {
-        const json = JSON.stringify(object);
-        const parsed = JSON.parse(json);
-        console.log("JSON parseado:", parsed);
-        localStorage.setItem(key, json);
+        localStorage.setItem(key, JSON.stringify(object));
     }
 
     static loadCity() {
@@ -54,9 +51,6 @@ class CityBuilderStorage {
                 }
             });
         }
-        console.log("¿Hay ResidentialBuilding?:", city._buildingManager._buildings.some(b => b instanceof ResidentialBuilding));
-        console.log("¿Hay UtilityPlant?:", city._buildingManager._buildings.some(b => b instanceof UtilityPlant));
-        console.log("Tipos restaurados:", city._buildingManager._buildings.map(b => b.constructor.name));
 
         if (parsed._citizenManager && parsed._citizenManager._population) {
             parsed._citizenManager._population.forEach(c => {
