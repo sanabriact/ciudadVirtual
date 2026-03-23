@@ -266,76 +266,80 @@
     <!--  ==================== PANTALLA DE JUEGO  ====================-->
     <div id="game-page" class=" screen container-fluid city-creation">
         <header id="header">
-    <div id="header-inner">
+            <div id="header-inner">
 
-        <!-- Izquierda: botón + ciudad/alcalde -->
-        <div id="header-left">
-            <button type="button" id="return-start-page">Menú principal</button>
-            <div id="container-city-info">
-                <h6 id="city-name"></h6>
-                <h6 id="city-mayor"></h6>
-            </div>
-        </div>
-
-        <!-- Centro: título -->
-        <div id="header-center">
-            <h3 id="screen-title">City Builder Game</h3>
-        </div>
-
-        <!-- Derecha: recursos -->
-        <div id="header-right">
-            <div id="resource-panel">
-                <div id="resource-panel-row">
-                    <span id="money">$50,000</span>
-                    <span id="electricity">⚡ 0</span>
-                    <span id="water">💧 0</span>
-                    <span id="food">🌾 0</span>
-                    <span id="population">👥 0</span>
-                    <span id="happiness">😊 0%</span>
+                <!-- Izquierda: botón + ciudad/alcalde -->
+                <div id="header-left">
+                    <button type="button" id="return-start-page">Menú principal</button>
+                    <div id="container-city-info">
+                        <h6 id="city-name"></h6>
+                        <h6 id="city-mayor"></h6>
+                    </div>
                 </div>
-                <div class="puntuation">
-                    <h5 class="subtitles">Puntuación</h5>
-                    <div id="score-panel"><h4>0</h4></div>
-                </div>
-            </div>
-        </div>
 
-    </div>
-</header>
+                <!-- Centro: título -->
+                <div id="header-center">
+                    <h3 id="screen-title">City Builder Game</h3>
+                </div>
+
+                <!-- Derecha: recursos -->
+                <div id="header-right">
+                    <div id="resource-panel">
+                        <div id="resource-panel-row">
+                            <span id="money">$50,000</span>
+                            <span id="electricity">⚡ 0</span>
+                            <span id="water">💧 0</span>
+                            <span id="food">🌾 0</span>
+                            <span id="population">👥 0</span>
+                            <span id="happiness">😊 0%</span>
+                        </div>
+                        <div class="puntuation">
+                            <h5 class="subtitles">Puntuación</h5>
+                            <div id="score-panel">
+                                <h4>0</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
                 <h5 class="subtitles">Construcción</h5>
 
                 <div class="list-group">
                     <button id="btn-house" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/House.png" data-type="house">Casa</button>
+                        data-image="../../assets/icons/House.png" data-type="house">Casa $1000</button>
                     <button id="btn-apartment" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Apartment.png" data-type="apartment">Apartamento</button>
+                        data-image="../../assets/icons/Apartment.png" data-type="apartment">Apartamento $3000</button>
                     <button id="btn-store" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Store.png" data-type="store">Tienda</button>
+                        data-image="../../assets/icons/Store.png" data-type="store">Tienda $2000</button>
                     <button id="btn-commercial-center" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Mall.png" data-type="commercial-center">Centro Comercial</button>
+                        data-image="../../assets/icons/Mall.png" data-type="commercial-center">Centro Comercial
+                        $8000</button>
                     <button id="btn-factory" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Factory.png" data-type="factory">Fábrica</button>
+                        data-image="../../assets/icons/Factory.png" data-type="factory">Fábrica $5000</button>
                     <button id="btn-farm" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Farm.png" data-type="farm">Granja</button>
+                        data-image="../../assets/icons/Farm.png" data-type="farm">Granja $3000</button>
                     <button id="btn-police-station" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Police-station.png" data-type="police-station">Policía</button>
+                        data-image="../../assets/icons/Police-station.png" data-type="police-station">Policía
+                        $4000</button>
                     <button id="btn-firefighters" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Firefighter-station.png"
-                        data-type="firefighter-station">Bomberos</button>
+                        data-image="../../assets/icons/Firefighter-station.png" data-type="firefighter-station">Bomberos
+                        $4000</button>
                     <button id="btn-hospital" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Hospital.png" data-type="hospital">Hospital</button>
+                        data-image="../../assets/icons/Hospital.png" data-type="hospital">Hospital $6000</button>
                     <button id="btn-power-plant" class="list-group-item list-group-item-action"
                         data-image="../../assets/icons/Power-plant.png" data-type="power-plant">Planta
-                        Eléctrica</button>
+                        Eléctrica $10000</button>
                     <button id="btn-water-plant" class="list-group-item list-group-item-action"
                         data-image="../../assets/icons/Water-plant.png" data-type="water-plant">Planta
-                        de Agua</button>
+                        de Agua $8000</button>
                     <button id="btn-park" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Park.jpg" data-type="park">Parque</button>
+                        data-image="../../assets/icons/Park.jpg" data-type="park">Parque $1500</button>
                     <button id="btn-road" class="list-group-item list-group-item-action"
-                        data-image="../../assets/icons/Road.webp" data-type="road">Vía</button>
+                        data-image="../../assets/icons/Road.webp" data-type="road">Vía $100</button>
                     <button id="btn-demolish" class="list-group-item list-group-item-action text-danger"
                         data-type="demolish">Demoler</button>
 

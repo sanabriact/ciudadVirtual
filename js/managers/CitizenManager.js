@@ -117,24 +117,19 @@ class CitizenManager {
     const happinessOk = this._population.length === 0 ? true : this.happinessAverage > 60;
 
     if (!thereIsHouse) {
-        console.log("No hay capacidad residencial");
         return;
     }
     if (!thereIsJob) {
-        console.log("No hay empleos disponibles");
         return;
     }
     if (!happinessOk) {
-        console.log("Felicidad muy baja");
         return;
     }
 
     const news = Math.floor(Math.random() * this._growthRate) + 1;
-    console.log("Nuevos ciudadanos a agregar:", news);
 
     for (let i = 0; i < news; i++) {
         if (!this.thereIsResidentialCapacity(buildings)) {
-            console.log("Se acabó la capacidad residencial durante el crecimiento");
             break;
         }
         this.createCitizen(`citizen`, 50, false, false);
