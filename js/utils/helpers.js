@@ -1,15 +1,5 @@
 class helpers {
     static updateUI() {
-        console.log("city:", city);
-        console.log("resourceManager:", city._resourceManager);
-        console.log("buildingManager:", city._buildingManager);
-        console.log("buildings:", city._buildingManager._buildings);
-
-        console.log("money:", city._resourceManager._money);
-        console.log("electricity:", city._resourceManager._electricity);
-        console.log("water:", city._resourceManager._water);
-        console.log("food:", city._resourceManager._food);
-
         document.getElementById('money').textContent = `$${city._resourceManager._money}`;
         document.getElementById('electricity').textContent = `⚡ ${city._resourceManager._electricity}`;
         document.getElementById('water').textContent = `💧 ${city._resourceManager._water}`;
@@ -58,7 +48,7 @@ class helpers {
                 })
             })
             .catch(function (error) {
-                console.log("Error al cargar ciudades")
+                alert("Error al cargar ciudades")
                 inputRegion.innerHTML = '<option value="">— Error al cargar ciudades —</option>';
             });
     }
@@ -227,9 +217,9 @@ class helpers {
         const cityMayorInput = document.getElementById("input-mayor-name");
         const cityValue = cityNameInput.value.trim();
         const mayorName = cityMayorInput.value.trim();
-        const electricity = parseInt(document.getElementById("input-init-electricity").value);
-        const water = parseInt(document.getElementById("input-init-water").value);
-        const food = parseInt(document.getElementById("input-init-food").value);
+        let electricity = parseInt(document.getElementById("input-init-electricity").value);
+        let water = parseInt(document.getElementById("input-init-water").value);
+        let food = parseInt(document.getElementById("input-init-food").value);
         const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
         const growthRate = parseInt(document.getElementById("input-growth-rate").value);
 
@@ -238,18 +228,17 @@ class helpers {
 
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
         city._turnSystem = new TurnSystem(city, turnDuration);
-        city._turnSystem.start();
         city._citizenManager.growthRate = growthRate;
         city._resourceManager._electricity = electricity;
         city._resourceManager._water = water;
         city._resourceManager._food = food;
-        helpers.showScreen('game-page');
-
+        helpers.updateUI();
         document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
         document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
-
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
+        city._turnSystem.start();
+        helpers.showScreen('game-page');
     }
 
     static returnToStartPage() {

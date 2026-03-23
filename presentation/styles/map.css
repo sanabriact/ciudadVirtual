@@ -1,12 +1,13 @@
 /* ===== CONTENEDOR DEL MAPA ===== */
 #map-container {
     background-color: #060c18;
-    padding-top: 20px !important;
+    padding: 1px !important;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     overflow: auto;
     position: relative;
+    max-height: calc(100vh - 55px);
 }
 
 /* Marco decorativo del mapa */
@@ -23,7 +24,7 @@
 }
 
 #map-container::after {
-    content: '';
+
     position: absolute;
     top: 0;
     left: 0;
@@ -40,6 +41,7 @@
     overflow: visible;
     border: 1px solid rgba(0, 245, 255, 0.15);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
+    gap: 0 !important;
 }
 
 /* ===== CELDAS ===== */
@@ -48,6 +50,9 @@
     height: 60px;
     border: 1px solid rgba(0, 30, 40, 0.8);
     display: flex;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -92,7 +97,6 @@
     object-fit: contain;
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     transition: transform 0.15s;
 }
 
@@ -120,13 +124,22 @@
 #game-page .row {
     margin-top: 70px;
 }
-
 @media (max-width: 768px) {
-    #game-page .row { margin-top: 120px; }
-    .cell { width: 40px; height: 40px; }
+    #map-container {
+        padding: 4px !important;
+    }
+
+    /* Elimina el gutter de Bootstrap en móvil */
+    #game-page .row {
+        --bs-gutter-x: 0 !important;
+        --bs-gutter-y: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    #game-page .row > * {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 }
 
-@media (max-width: 480px) {
-    #game-page .row { margin-top: 160px; }
-    .cell { width: 32px; height: 32px; }
-}
