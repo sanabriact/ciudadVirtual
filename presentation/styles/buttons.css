@@ -263,33 +263,3 @@
     border-color: var(--border-glow);
     background: rgba(0, 245, 255, 0.1);
 }
-
-.chevron {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border-subtle);
-    color: white;
-    font-size: 0.7rem;
-    padding: 8px 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Share Tech Mono', monospace;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-.chevron:hover {
-    color: var(--neon-cyan);
-    text-shadow: 0 0 6px rgba(0, 245, 255, 0.6);
-    background: rgba(0, 245, 255, 0.06);
-}
-
-.chevron.open {
-    color: var(--neon-cyan);
-    text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
-}
-
-.building-info-list{
-    color: white;
-    text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
-}

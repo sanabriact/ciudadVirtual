@@ -13,8 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let saveGameButton = document.getElementById('save-game-button');
     let deleteGameButton = document.getElementById('delete-game-button');
     let btnRoute = document.getElementById('btn-route');
-    let constructionsInfo = document.querySelectorAll('.chevron');
-    let constructionsInfoDivs = document.querySelectorAll('[id$="-info"]')
 
     const weatherRepository = new WeatherService();
     const newsRepository = new NewsService();
@@ -58,10 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     deleteGameButton.addEventListener('click', () => {
-        if (helpers.deleteGame()) {
+        if(helpers.deleteGame()){
             helpers.showScreen('initial-page');
         }
-    })
+    })  
 
     btnGameInfo.addEventListener('click', () => {
         helpers.showScreen('game-info-page')
@@ -69,14 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         helpers.loadCityFromStorage();
-        constructionsInfo.forEach(btn => {
-            btn.textContent = '∨';
-            btn.classList.remove('open');
-        });
-
-        constructionsInfoDivs.forEach(div => {
-            div.innerHTML = '';
-        });
     });
 
     btnBack.forEach(function (btn) {
@@ -150,25 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             buttonList.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-        });
-    });
-
-    constructionsInfo.forEach(btn => {
-        btn.addEventListener('click', () => {
-            let isOpen = btn.textContent.trim() === '∧';
-            let type = btn.previousElementSibling.dataset.type;
-            let infoDiv = document.getElementById(btn.dataset.target);
-
-            btn.textContent = isOpen ? '∨' : '∧';
-            btn.classList.toggle('open', !isOpen);
-
-            if (!isOpen) {
-                let panel = helpers.createInfoContainer(type);
-                infoDiv.appendChild(panel);
-            } else {
-                infoDiv.innerHTML = '';
-            }
-
         });
     });
 

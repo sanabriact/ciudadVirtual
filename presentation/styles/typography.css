@@ -52,7 +52,7 @@
     text-transform: uppercase;
     color: var(--neon-cyan);
     margin-bottom: 0.75rem;
-    text-shadow: 0 0 8px rgba(21, 45, 45, 0.5);
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
 }
 
 .article-title {
