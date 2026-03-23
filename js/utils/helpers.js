@@ -210,7 +210,7 @@ class helpers {
         }
     }
 
-    static saveCityToStorage(){
+    static saveCityToStorage() {
         try {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
             alert("Partida guardada exitosamente.")
@@ -252,13 +252,60 @@ class helpers {
         GridRenderer.render(grid, container);
     }
 
-    static returnToStartPage(){
+    static returnToStartPage() {
         let response = confirm("¿Desea salir de la partida?")
-        if(response){
+        if (response) {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
             alert("Partida guardada exitosamente.")
             city._turnSystem.stop();
             helpers.showScreen('initial-page');
         }
     }
+
+    static getBuildingInfo(type) {
+        const info = {
+            'house': { nombre: 'Casa', costo: 1000, capacidad: 4, empleos: null, ingreso: null, produccion: null, electricidad: 5, agua: 3, alimentos: null, felicidad: null, radio: null },
+            'apartment': { nombre: 'Apartamento', costo: 3000, capacidad: 12, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: 10, alimentos: null, felicidad: null, radio: null },
+            'store': { nombre: 'Tienda', costo: 2000, capacidad: null, empleos: 6, ingreso: 500, produccion: null, electricidad: 8, agua: null, alimentos: null, felicidad: null, radio: null },
+            'commercial-center': { nombre: 'Centro Comercial', costo: 8000, capacidad: null, empleos: 20, ingreso: 2000, produccion: null, electricidad: 25, agua: null, alimentos: null, felicidad: null, radio: null },
+            'factory': { nombre: 'Fábrica', costo: 5000, capacidad: null, empleos: 15, ingreso: 800, produccion: null, electricidad: 20, agua: 15, alimentos: null, felicidad: null, radio: null },
+            'farm': { nombre: 'Granja', costo: 3000, capacidad: null, empleos: 8, ingreso: null, produccion: 50, electricidad: null, agua: 10, alimentos: 50, felicidad: null, radio: null },
+            'police-station': { nombre: 'Policía', costo: 4000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: null, alimentos: null, felicidad: 10, radio: 5 },
+            'firefighter-station': { nombre: 'Bomberos', costo: 4000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: null, alimentos: null, felicidad: 10, radio: 5 },
+            'hospital': { nombre: 'Hospital', costo: 6000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 20, agua: 10, alimentos: null, felicidad: 10, radio: 7 },
+            'power-plant': { nombre: 'Planta Eléctrica', costo: 10000, capacidad: null, empleos: null, ingreso: null, produccion: 200, electricidad: null, agua: null, alimentos: null, felicidad: null, radio: null },
+            'water-plant': { nombre: 'Planta de Agua', costo: 8000, capacidad: null, empleos: null, ingreso: null, produccion: 150, electricidad: 20, agua: null, alimentos: null, felicidad: null, radio: null },
+            'park': { nombre: 'Parque', costo: 1500, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: null, agua: null, alimentos: null, felicidad: 5, radio: null },
+            'road': { nombre: 'Vía', costo: 100, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: null, agua: null, alimentos: null, felicidad: null, radio: null },
+        };
+
+        return info[type] ?? null;
+    }
+
+    static createInfoContainer(type) {
+        const data = this.getBuildingInfo(type);
+        if (!data) return null;
+
+        const container = document.createElement('div');
+        container.classList.add('building-info-panel');
+
+        let html = `<ul class="building-info-list">`;
+
+        if (data.costo) html += `<li>💰 Costo: $${data.costo.toLocaleString()}</li>`;
+        if (data.capacidad) html += `<li>👥 Capacidad: ${data.capacidad} ciudadanos</li>`;
+        if (data.empleos) html += `<li>💼 Empleos: ${data.empleos}</li>`;
+        if (data.ingreso) html += `<li>📈 Ingreso: $${data.ingreso}/turno</li>`;
+        if (data.produccion) html += `<li>🏭 Producción: ${data.produccion}</li>`;
+        if (data.electricidad) html += `<li>⚡ Electricidad: ${data.electricidad} u/t</li>`;
+        if (data.agua) html += `<li>💧 Agua: ${data.agua} u/t</li>`;
+        if (data.alimentos) html += `<li>🌾 Alimentos: ${data.alimentos}/turno</li>`;
+        if (data.felicidad) html += `<li>😊 Felicidad: +${data.felicidad}</li>`;
+        if (data.radio) html += `<li>📡 Radio: ${data.radio} celdas</li>`;
+
+        html += '</ul>';
+        container.innerHTML = html;
+
+        return container;
+    }
+
 }
