@@ -79,6 +79,76 @@ html, body {
     margin-top: 0.5rem;
 }
 
+#game-over-page {
+    background-color: var(--bg-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-over-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    padding: 2rem;
+}
+
+#game-over-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: var(--neon-red);
+    text-shadow: 0 0 20px rgba(255, 49, 49, 0.6), 0 0 60px rgba(255, 49, 49, 0.3);
+    animation: titleGlow 1.5s ease-in-out infinite alternate;
+    letter-spacing: 0.2em;
+}
+
+@keyframes gameOverGlow {
+    from { text-shadow: 0 0 20px rgba(255, 49, 49, 0.6); }
+    to   { text-shadow: 0 0 40px rgba(255, 49, 49, 0.9), 0 0 80px rgba(255, 49, 49, 0.4); }
+}
+
+#game-over-title {
+    animation: gameOverGlow 1.5s ease-in-out infinite alternate;
+}
+
+#game-over-reason {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+}
+
+#game-over-score {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.3rem;
+    color: var(--neon-amber);
+    text-shadow: 0 0 10px rgba(255, 183, 0, 0.5);
+}
+
+#btn-game-over-menu {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: rgba(255, 49, 49, 0.08);
+    border: 1px solid rgba(255, 49, 49, 0.4);
+    color: var(--neon-red);
+    padding: 12px 28px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+
+#btn-game-over-menu:hover {
+    background: rgba(255, 49, 49, 0.2);
+    border-color: var(--neon-red);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 49, 49, 0.4);
+}
+
 /* ===== CONTENEDOR FORMULARIOS ===== */
 .city-creation {
     font-family: 'Exo 2', sans-serif;

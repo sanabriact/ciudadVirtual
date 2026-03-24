@@ -6,7 +6,7 @@ class helpers {
         document.getElementById('food').textContent = `🌾 ${city._resourceManager._food}`;
         document.getElementById('population').textContent = `👥 ${city._citizenManager._population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city._citizenManager.calculateHappiness(city._buildingManager._buildings)}%`;
-        document.getElementById('score-panel').textContent = `${city._scoreManager.calculateScore()}`;
+        document.getElementById('score-panel').textContent = `${city._scoreManager._score}`;
     }
 
     static buildNewBuilding(type, x, y) {

@@ -66,7 +66,7 @@ class ScoreManager {
         this._score = 0;
         this._score += this._citizenManager._population.length * 10;
         this._score += this._citizenManager.happinessAverage * 5;
-        this._score += this._resourceManager._money *0.01;
+        this._score += (this._resourceManager._money-50000) *0.01;
         this._score += this._buildingManager._buildings.length * 50;
         this._score += this._resourceManager.electricityBalance * 2;
         this._score += this._resourceManager.waterBalance * 2;
