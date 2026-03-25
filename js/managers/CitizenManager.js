@@ -17,20 +17,23 @@ class CitizenManager {
     }
 
     get happinessAverage() {
-        if (this._population.length === 0) return 0;
-        const total = this._population.reduce((suma, c) => suma + c._happiness, 0);
+        if (this.population.length === 0) return 0;
+        const total = this.population.reduce((suma, c) => suma + c._happiness, 0);
         return Math.round(total / this._population.length);
     }
 
     get employedCount() {
-        return this._population.filter(c => c._hasJob).length;
+        return this.population.filter(c => c._hasJob).length;
     }
 
     get unemployedCount() {
-        return this._population.filter(c => !c._hasJob).length;
+        return this.population.filter(c => !c._hasJob).length;
     }
 
     // ============ SETTERS ============
+    set population(population) {
+        this._population = population;
+    }
 
     set growthRate(value) {
         if (value > 0) this._growthRate = value;
@@ -39,13 +42,13 @@ class CitizenManager {
     // ============ MÉTODOS ============
 
     addCitizen(citizen) {
-        this._population.push(citizen);
+        this.population.push(citizen);
     }
 
     deleteCitizen(id) {
-        const cantidadInicial = this._population.length;
-        this._population = this._population.filter(citizen => citizen._id !== id);
-        return this._population.length < cantidadInicial;
+        const cantidadInicial = this.population.length;
+        this.population = this.population.filter(citizen => citizen._id !== id);
+        return this.population.length < cantidadInicial;
     }
 
     createCitizen(id, happiness, hasHome, hasJob) {

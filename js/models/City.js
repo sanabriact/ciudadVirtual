@@ -22,27 +22,60 @@ class City {
     get buildingManager() {
         return this._buildingManager;
     }
+
+    get resourceManager(){
+        return this._resourceManager;
+    }
+
+    get citizenManager(){
+        return this._citizenManager;
+    }
+
+    get scoreManager(){
+        return this._scoreManager;
+    }
+
+    get turnSystem(){
+        return this._turnSystem;
+    }
+
     get population() {
-        return this._citizenManager.population;
+        return this.citizenManager.population;
     }
 
     get buildings() {
-        return this._buildingManager._buildings;
+        return this.buildingManager.buildings;
     }
 
-    get resources() {
-        return this._resourceManager.getSummary();
+    get grid(){
+        return this.grid;
     }
 
     get score() {
-        return this._scoreManager.score;
+        return this.scoreManager.score;
     }
 
     get happinessAverage() {
-        return this._citizenManager.averageHappiness;
+        return this.citizenManager.happinessAverage;
+    }
+
+    get money(){
+        return this.resourceManager.money;
+    }
+
+    get electricity(){
+        return this.resourceManager.electricity;
+    }
+
+    get turnDuration(){
+        return this.turnSystem.turnDuration;
     }
 
     // ============ SETTERS ============
+    set population(population){
+        this._citizenManager.population = population;
+    }
+
 
     set regionLat(value) {
         if (value >= 0) {
@@ -69,6 +102,45 @@ class City {
             this._score = value;
         }
     }
+
+    set growthRate(number) {
+        if(number>0){
+            this.citizenManager.growthRate = number;
+        }
+    }
+
+    canAfford(building){
+        this.resourceManager.canAfford(building);
+    }
+
+    spendMoney(building){
+        this.resourceManager.spendMoney(building);
+    }
+
+    startTurn(){
+        this.turnSystem.start();
+    }
+
+    stopTurn(){
+        this.turnSystem.stop();
+    }
+
+    calcHappiness(){
+        this.citizenManager.calculateHappiness(this.buildings);
+    }
+
+    deleteBuilding(x,y){
+        this.buildingManager.deleteBuilding(x, y);
+    }
+
+    addBuilding(building){
+        this.buildingManager.addBuilding(building);
+    }
+
+    setCellId(x,y,string){
+        this.grid.setCellId(x,y,string);
+    }
+
     
     toJSON() {
         return {

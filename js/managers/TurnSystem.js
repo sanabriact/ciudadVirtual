@@ -6,6 +6,16 @@ class TurnSystem {
         this._interval = null;
     }
 
+    get turnDuration(){
+        return this._turnDuration;
+    }
+
+    set turnDuration(duration) {
+        if(duration>0){
+            this._turnDuration = duration;
+        }
+    }
+
     start() {
         this._interval = setInterval(() => {
             this.nextTurn();

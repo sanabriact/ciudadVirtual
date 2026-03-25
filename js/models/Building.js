@@ -50,4 +50,8 @@ class Building {
             this._y = y;
         }
     }
+
+    get id(){
+        return this._id;
+    }
 }
