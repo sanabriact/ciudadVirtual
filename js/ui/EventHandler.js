@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
     let inputRegion = document.getElementById('input-region');
-    let saveGameButton = document.getElementById('save-game-button');
+    let exportButton = document.getElementById('export')
+    let btnLoadJSON = document.getElementById('btn-load-json');
     let deleteGameButton = document.getElementById('delete-game-button');
     let btnRoute = document.getElementById('btn-route');
     let constructionsInfo = document.querySelectorAll('.chevron');
@@ -37,10 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('btn-park'),
         document.getElementById('btn-road')
     ];
-
-    saveGameButton.addEventListener('click', () => {
-        helpers.saveCityToStorage();
-    });
 
     btnNewCityPage.addEventListener('click', () => {
         helpers.showScreen('city-info-page');
@@ -69,6 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         helpers.loadCityFromStorage();
+        console.log(city._name)
+        console.log(city._mayor)
         constructionsInfo.forEach(btn => {
             btn.textContent = '∨';
             btn.classList.remove('open');
@@ -91,6 +90,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mapSizeSlider.addEventListener('input', () => {
         mapSizeDisplay.textContent = `${mapSizeSlider.value}x${mapSizeSlider.value}`;
+    });
+
+    exportButton.addEventListener('click', () => {
+        response = confirm("Se guardará un archivo con la información de la ciudad.")
+
+        if(response) {
+            helpers.exportToJSON();
+        }
+    });
+
+    btnLoadJSON.addEventListener('click', () => {
+        helpers.importFromJSON();
     });
 
     inputRegion.addEventListener('change', function () {
