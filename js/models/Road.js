@@ -9,7 +9,13 @@ class Road {
     }
 
     //==========SETTERS=============
-    
+    get id(){
+        return this._id;
+    }
+
+    set id(id){
+        this._id = id;
+    }
     set x(x) {
         if (x >= 0) {
             this._x = x;

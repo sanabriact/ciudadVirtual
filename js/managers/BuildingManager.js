@@ -3,6 +3,10 @@ class BuildingManager {
         this._buildings = []
     }
 
+    get buildings(){
+        return this._buildings;
+    }
+
     addBuilding(building) {
         this._buildings.push(building)
     }

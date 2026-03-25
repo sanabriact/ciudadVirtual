@@ -1,21 +1,26 @@
 class helpers {
     static updateUI() {
-        document.getElementById('money').textContent = `$${city._resourceManager._money}`;
-        document.getElementById('electricity').textContent = `⚡ ${city._resourceManager._electricity}`;
-        document.getElementById('water').textContent = `💧 ${city._resourceManager._water}`;
-        document.getElementById('food').textContent = `🌾 ${city._resourceManager._food}`;
-        document.getElementById('population').textContent = `👥 ${city._citizenManager._population.length}`;
-        document.getElementById('happiness').textContent = `😊 ${city._citizenManager.calculateHappiness(city._buildingManager._buildings)}%`;
-        document.getElementById('score-panel').textContent = `${city._scoreManager.calculateScore()}`;
+        document.getElementById('money').textContent = `$${city.money}`;
+        document.getElementById('electricity').textContent = `⚡ ${city.electricity}`;
+        document.getElementById('water').textContent = `💧 ${city.water}`;
+        document.getElementById('food').textContent = `🌾 ${city.food}`;
+        document.getElementById('population').textContent = `👥 ${city.population.length}`;
+        document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
+        document.getElementById('score-panel').textContent = `${city.score}`;
     }
 
     static buildNewBuilding(type, x, y) {
-        const building = city._buildingManager.createBuilding(type, x, y);
-        if (city._resourceManager.canAfford(building)) {
-            city._resourceManager.spendMoney(building);
-            city._buildingManager.addBuilding(building);
-            city._grid.setCellId(x, y, building._id);
-            document.getElementById('money').textContent = `$${city._resourceManager._money}`;
+        const building = city.buildingManager.createBuilding(type, x, y);
+
+        if (!building) {
+            return null;
+        }
+
+        if (city.canAfford(building)) {
+            city.spendMoney(building);
+            city.addBuilding(building);
+            city.grid.setCellId(x, y, building.id);
+            document.getElementById('money').textContent = `$${city.money}`;
             return building;
         } else {
             alert("No tienes suficiente dinero para construir esto.");
@@ -59,17 +64,16 @@ class helpers {
     }
 
     static buildValidation(x, y, type) {
-        if (type === "Road") return true;
+        if (type === "road") return true;
         x = parseInt(x);
         y = parseInt(y);
 
         const adyacent = [[0, -1], [0, 1], [-1, 0], [1, 0]];
 
         for (const [dx, dy] of adyacent) {
-            const row = city._grid.cells[y + dy];
+            const row = city.grid.cells[y + dy];
             const cell = row ? row[x + dx] : undefined;
-
-            if (cell && cell._id === 'R') return true;
+            if (cell && cell.id === 'R') return true;
         }
 
         return false;
@@ -104,9 +108,8 @@ class helpers {
     }
 
     // =====================================================
-    // 🗺️ ACTUALIZADO: setupGridListener
+    // setupGridListener
     // Se agregó el bloque "Modo ruta" al inicio del click
-    // Todo lo demás queda exactamente igual que antes
     // =====================================================
     static setupGridListener() {
         const gridContainer = document.getElementById("grid");
@@ -122,10 +125,10 @@ class helpers {
 
             // -------------------------------------------------------
             if (routeMode) {
-                const cellData = city._grid.cells[y][x];
+                const cellData = city.grid.cells[y][x];
 
                 // Solo permite seleccionar edificios, no pasto ni vías
-                if (cellData._id === "g" || cellData._id === "R") {
+                if (cellData.id === "g" || cellData.id === "R") {
                     alert("Selecciona un edificio como origen o destino, no una vía ni terreno vacío.");
                     return;
                 }
@@ -137,7 +140,7 @@ class helpers {
                     document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
                 } else {
                     // Segundo clic: calcular ruta al DESTINO
-                    RoutingService.calculateRoute(city._grid, routeOrigin.x, routeOrigin.y, x, y)
+                    RoutingService.calculateRoute(city.grid, routeOrigin.x, routeOrigin.y, x, y)
                         .then(route => {
                             if (route) RoutingService.highlightRoute(route);
                         });
@@ -190,11 +193,10 @@ class helpers {
         let loadedCity = CityBuilderStorage.loadCity();
         if (loadedCity) {
             city = loadedCity;
-            city._turnSystem = new TurnSystem(city, city._turnDuration ?? 5);
-            city._turnSystem.start();
+            city.startTurn();
             helpers.showScreen('game-page');
             const container = helpers.setupGridListener(selectedButton);
-            GridRenderer.render(city._grid, container);
+            GridRenderer.render(city.grid, container);
         } else {
             alert("No se encontró ninguna partida guardada.");
         }
@@ -210,13 +212,13 @@ class helpers {
     }
 
     static createNewGame() {
-        if (city && city._turnSystem) city._turnSystem.stop();
+        if (city && city.turnSystem) city.turnSystem.stop();
 
         const gridSize = parseInt(document.getElementById("input-map-size").value);
         const cityNameInput = document.getElementById("input-city-name");
         const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim();
-        const mayorName = cityMayorInput.value.trim();
+        const cityValue = cityNameInput.value.trim() || "";
+        const mayorName = cityMayorInput.value.trim() || "";
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
         let water = parseInt(document.getElementById("input-init-water").value);
         let food = parseInt(document.getElementById("input-init-food").value);
@@ -227,18 +229,18 @@ class helpers {
         grid.initGrid();
 
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
-        city._turnSystem = new TurnSystem(city, turnDuration);
-        city._citizenManager.growthRate = growthRate;
-        city._resourceManager._electricity = electricity;
-        city._resourceManager._water = water;
-        city._resourceManager._food = food;
+        city.turnSystem = new TurnSystem(city, turnDuration);
+        city.growthRate = growthRate;
+        city.electricity = electricity;
+        city.water = water;
+        city.food = food;
         helpers.updateUI();
+        helpers.showScreen('game-page');
         document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
         document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
-        city._turnSystem.start();
-        helpers.showScreen('game-page');
+        city.startTurn();
     }
 
     static returnToStartPage() {
@@ -246,7 +248,7 @@ class helpers {
         if (response) {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
             alert("Partida guardada exitosamente.")
-            city._turnSystem.stop();
+            city.stopTurn();
             helpers.showScreen('initial-page');
         }
     }

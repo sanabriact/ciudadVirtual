@@ -22,27 +22,71 @@ class City {
     get buildingManager() {
         return this._buildingManager;
     }
+
+    get resourceManager(){
+        return this._resourceManager;
+    }
+
+    get citizenManager(){
+        return this._citizenManager;
+    }
+
+    get scoreManager(){
+        return this._scoreManager;
+    }
+
+    get turnSystem(){
+        return this._turnSystem;
+    }
+
     get population() {
-        return this._citizenManager.population;
+        return this.citizenManager.population;
     }
 
     get buildings() {
-        return this._buildingManager._buildings;
+        return this.buildingManager.buildings;
     }
 
-    get resources() {
-        return this._resourceManager.getSummary();
+    get grid(){
+        return this._grid;
     }
 
     get score() {
-        return this._scoreManager.score;
+        return this.scoreManager.score;
     }
 
     get happinessAverage() {
-        return this._citizenManager.averageHappiness;
+        return this.citizenManager.happinessAverage;
+    }
+
+    get money(){
+        return this.resourceManager.money;
+    }
+
+    get electricity(){
+        return this.resourceManager.electricity;
+    }
+
+    get water() {
+        return this.resourceManager.water;
+    }
+
+    get food() {
+        return this.resourceManager.food;
+    }
+
+    get turnDuration(){
+        return this.turnSystem.turnDuration ?? 5;
     }
 
     // ============ SETTERS ============
+    set population(population){
+        this._citizenManager.population = population;
+    }
+
+    set grid(grid){
+        this._grid = grid;
+    }
 
     set regionLat(value) {
         if (value >= 0) {
@@ -69,6 +113,85 @@ class City {
             this._score = value;
         }
     }
+
+    set growthRate(number) {
+        if(number>0){
+            this.citizenManager.growthRate = number;
+        }
+    }
+
+    set turnSystem(turnSystem){
+        this._turnSystem = turnSystem;
+    }
+
+    set electricity(electricity){
+        this.resourceManager.electricity = electricity;
+    }
+
+    set water(water){
+        this.resourceManager.water = water; 
+    }
+
+    set food(food){
+        this.resourceManager.food = food;
+    }
+
+    canAfford(building){
+        return this.resourceManager.canAfford(building);
+    }
+
+    spendMoney(building){
+        return this.resourceManager.spendMoney(building);
+    }
+
+    startTurn(){
+        this.turnSystem.start();
+    }
+
+    stopTurn(){
+        this.turnSystem.stop();
+    }
+
+    calculateHappiness(){
+        return this.citizenManager.calculateHappiness(this.buildings);
+    }
+
+    calculateScore(){
+        return this.scoreManager.calculateScore();
+    }
+
+    updateResources(){
+        return this.resourceManager.updateResources(this.buildings)
+    }
+
+    growPopulation(){
+        return this.citizenManager.growPopulation(this.buildings);
+    }
+
+    assignJobs(){
+        this.citizenManager.assignJobs(this.buildings);
+    }
+
+    assignHomes(){
+        this.citizenManager.assignHomes(this.buildings);
+    }
+
+    checkGameOver(){
+        return this.resourceManager.checkGameOver();
+    }
+
+    deleteBuilding(x,y){
+        this.buildingManager.deleteBuilding(x, y);
+    }
+
+    addBuilding(building){
+        this.buildingManager.addBuilding(building);
+    }
+
+    setCellId(x,y,string){
+        this.grid.setCellId(x,y,string);
+    }
+
     
     toJSON() {
         return {
@@ -85,8 +208,8 @@ class City {
             _buildingManager: this._buildingManager,
             _citizenManager: this._citizenManager,
             _resourceManager: this._resourceManager,
-            _scoreManager: this._scoreManager
-            // _turnSystem se omite intencionalmente
+            _scoreManager: this._scoreManager,
+            _turnSystem: this._turnSystem
         };
     }
 }
