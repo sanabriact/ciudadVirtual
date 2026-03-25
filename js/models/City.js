@@ -19,6 +19,14 @@ class City {
     }
 
     // ============ GETTERS (delegados a los managers) ============
+    get name(){
+        return this._name;
+    }
+
+    get mayor(){
+        return this._mayor;
+    }
+
     get buildingManager() {
         return this._buildingManager;
     }
@@ -134,6 +142,14 @@ class City {
 
     set food(food){
         this.resourceManager.food = food;
+    }
+
+    set name(name){
+        this._name = name;
+    }
+
+    set mayor(mayor){
+        this._mayor = mayor;
     }
 
     canAfford(building){

@@ -100,6 +100,11 @@
                     Cargar Ciudad
                 </button>
             </div>
+            <div class="d-grid mt-3">
+                <button class="btn-primary btn-xl btn-full" id="btn-load-json">
+                    Importar ciudad desde JSON
+                </button>
+            </div>
         </div>
     </div>
 
@@ -270,7 +275,7 @@
                 <!-- Izquierda: botón + ciudad/alcalde -->
                 <div id="header-left">
                     <button type="button" id="return-start-page">Menú principal</button>
-                    <div id="container-city-info">
+                    <div id="container-city">
                         <h6 id="city-name"></h6>
                         <h6 id="city-mayor"></h6>
                     </div>
@@ -409,8 +414,7 @@
 
                     <hr>
                     <button id="btn-route" class="btn btn-primary w-100 mb-2">Calcular Ruta</button>
-                    <button class="btn btn-success w-100 mb-2" id="save-game-button">Guardar</button>
-                    <button class="btn btn-warning w-100">Exportar</button>
+                    <button id="export" class="btn btn-warning w-100">Exportar</button>
                 </div>
             </aside>
 

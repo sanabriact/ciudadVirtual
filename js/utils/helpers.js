@@ -215,10 +215,12 @@ class helpers {
         if (city && city.turnSystem) city.turnSystem.stop();
 
         const gridSize = parseInt(document.getElementById("input-map-size").value);
-        const cityNameInput = document.getElementById("input-city-name");
-        const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim() || "";
-        const mayorName = cityMayorInput.value.trim() || "";
+        const cityNameInput = document.getElementById('input-city-name');
+        const cityMayorInput = document.getElementById('input-mayor-name');
+        const cityValue = cityNameInput.value.trim();
+        const mayorName = cityMayorInput.value.trim(); 
+        const cityNameContainer = document.getElementById('city-name');
+        const cityMayorNameContainer = document.getElementById('city-mayor')
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
         let water = parseInt(document.getElementById("input-init-water").value);
         let food = parseInt(document.getElementById("input-init-food").value);
@@ -236,8 +238,8 @@ class helpers {
         city.food = food;
         helpers.updateUI();
         helpers.showScreen('game-page');
-        document.getElementById('input-city-name').textContent = `Ciudad: ${cityValue}`;
-        document.getElementById('input-mayor-name').textContent = `Alcalde: ${mayorName}`;
+        cityNameContainer.textContent = `Ciudad: ${cityValue}`;
+        cityMayorNameContainer.textContent = `Alcalde: ${mayorName}`;
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
         city.startTurn();
@@ -297,6 +299,47 @@ class helpers {
         container.innerHTML = html;
 
         return container;
+    }
+
+    static exportToJSON(){
+        const data = CityBuilderStorage.loadCity();
+        const json = JSON.stringify(data, null, 2);
+        const blob = new Blob([json], {
+            type: "application/json"
+        })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url;
+        a.download = "cityBuilderGame.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url);
+    }
+
+    static importFromJSON(){
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json";
+
+        input.addEventListener("change", (event) => {
+            const file = event.target.files[0]
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try{
+                    const datos = JSON.parse(e.target.result);
+                    CityBuilderStorage.save(datos, CityBuilderStorage.keyCity)
+                    location.reload()
+                } catch {
+                    alert("Archivo inválido.")
+                }
+            };
+            reader.readAsText(file)
+        });
+
+        input.click()
     }
 
 }
