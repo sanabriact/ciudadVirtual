@@ -193,6 +193,8 @@ class helpers {
         let loadedCity = CityBuilderStorage.loadCity();
         if (loadedCity) {
             city = loadedCity;
+            document.getElementById('city-name').textContent = `Ciudad: ${city.name}`;
+            document.getElementById('city-mayor').textContent = `Alcalde: ${city.mayor}`;
             city.startTurn();
             helpers.showScreen('game-page');
             const container = helpers.setupGridListener(selectedButton);
@@ -218,7 +220,7 @@ class helpers {
         const cityNameInput = document.getElementById('input-city-name');
         const cityMayorInput = document.getElementById('input-mayor-name');
         const cityValue = cityNameInput.value.trim();
-        const mayorName = cityMayorInput.value.trim(); 
+        const mayorName = cityMayorInput.value.trim();
         const cityNameContainer = document.getElementById('city-name');
         const cityMayorNameContainer = document.getElementById('city-mayor')
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
@@ -301,7 +303,7 @@ class helpers {
         return container;
     }
 
-    static exportToJSON(){
+    static exportToJSON() {
         const data = CityBuilderStorage.loadCity();
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], {
@@ -317,18 +319,18 @@ class helpers {
         URL.revokeObjectURL(url);
     }
 
-    static importFromJSON(){
-        const input = document.createElement("input");
+    static importFromJSON() {
+        const input = document.createElement("input")
         input.type = "file";
         input.accept = ".json";
 
         input.addEventListener("change", (event) => {
             const file = event.target.files[0]
-            if(!file) return;
+            if (!file) return;
 
             const reader = new FileReader();
             reader.onload = (e) => {
-                try{
+                try {
                     const datos = JSON.parse(e.target.result);
                     CityBuilderStorage.save(datos, CityBuilderStorage.keyCity)
                     location.reload()
