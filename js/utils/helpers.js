@@ -5,16 +5,21 @@ class helpers {
         document.getElementById('water').textContent = `💧 ${city.water}`;
         document.getElementById('food').textContent = `🌾 ${city.food}`;
         document.getElementById('population').textContent = `👥 ${city.population.length}`;
-        document.getElementById('happiness').textContent = `😊 ${city.calcHappiness()}%`;
+        document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
     }
 
     static buildNewBuilding(type, x, y) {
         const building = city.buildingManager.createBuilding(type, x, y);
+
+        if (!building) {
+            return null;
+        }
+
         if (city.canAfford(building)) {
             city.spendMoney(building);
             city.addBuilding(building);
-            city.setCellId(x, y, building.id);
+            city.grid.setCellId(x, y, building.id);
             document.getElementById('money').textContent = `$${city.money}`;
             return building;
         } else {
@@ -59,7 +64,7 @@ class helpers {
     }
 
     static buildValidation(x, y, type) {
-        if (type === "Road") return true;
+        if (type === "road") return true;
         x = parseInt(x);
         y = parseInt(y);
 
@@ -68,7 +73,6 @@ class helpers {
         for (const [dx, dy] of adyacent) {
             const row = city.grid.cells[y + dy];
             const cell = row ? row[x + dx] : undefined;
-
             if (cell && cell.id === 'R') return true;
         }
 
@@ -156,8 +160,8 @@ class helpers {
                 // Solo demoler si hay algo Y el botón demoler está activo en la UI
                 const btnDemolish = document.getElementById('btn-demolish');
                 if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
-                    city.deleteBuilding(x, y);
-                    city.grid.setCellId(x, y, "g");
+                    city._buildingManager.deleteBuilding(x, y);
+                    city._grid.setCellId(x, y, "g");
                     cell.innerHTML = "";
                 }
 
@@ -189,8 +193,7 @@ class helpers {
         let loadedCity = CityBuilderStorage.loadCity();
         if (loadedCity) {
             city = loadedCity;
-            city.turnSystem = new TurnSystem(city, city.turnDuration ?? 5);
-            city.turnSystem.start();
+            city.startTurn();
             helpers.showScreen('game-page');
             const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city.grid, container);
@@ -214,8 +217,8 @@ class helpers {
         const gridSize = parseInt(document.getElementById("input-map-size").value);
         const cityNameInput = document.getElementById("input-city-name");
         const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim();
-        const mayorName = cityMayorInput.value.trim();
+        const cityValue = cityNameInput.value.trim() || "";
+        const mayorName = cityMayorInput.value.trim() || "";
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
         let water = parseInt(document.getElementById("input-init-water").value);
         let food = parseInt(document.getElementById("input-init-food").value);
@@ -232,12 +235,12 @@ class helpers {
         city.water = water;
         city.food = food;
         helpers.updateUI();
+        helpers.showScreen('game-page');
         document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
         document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
         city.startTurn();
-        helpers.showScreen('game-page');
     }
 
     static returnToStartPage() {

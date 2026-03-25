@@ -5,6 +5,10 @@ class ScoreManager {
         this._resourceManager = resourceManager || null;
         this._score = 0;    
     }
+
+    get score(){
+        return this._score;
+    }
     allHasJob() {
         return this._citizenManager._population.every(c => c._hasJob);
     }

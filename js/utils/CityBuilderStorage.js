@@ -77,6 +77,9 @@ class CityBuilderStorage {
             city._resourceManager._food = parsed._resourceManager._food;
         }
 
+        const turnDuration = parsed._turnSystem._turnDuration ?? 5;
+        city.turnSystem = new TurnSystem(city, turnDuration);
+
         return city;
     }
 

@@ -48,7 +48,7 @@ class City {
     }
 
     get grid(){
-        return this.grid;
+        return this._grid;
     }
 
     get score() {
@@ -67,8 +67,16 @@ class City {
         return this.resourceManager.electricity;
     }
 
+    get water() {
+        return this.resourceManager.water;
+    }
+
+    get food() {
+        return this.resourceManager.food;
+    }
+
     get turnDuration(){
-        return this.turnSystem.turnDuration;
+        return this.turnSystem.turnDuration ?? 5;
     }
 
     // ============ SETTERS ============
@@ -76,6 +84,9 @@ class City {
         this._citizenManager.population = population;
     }
 
+    set grid(grid){
+        this._grid = grid;
+    }
 
     set regionLat(value) {
         if (value >= 0) {
@@ -109,12 +120,28 @@ class City {
         }
     }
 
+    set turnSystem(turnSystem){
+        this._turnSystem = turnSystem;
+    }
+
+    set electricity(electricity){
+        this.resourceManager.electricity = electricity;
+    }
+
+    set water(water){
+        this.resourceManager.water = water; 
+    }
+
+    set food(food){
+        this.resourceManager.food = food;
+    }
+
     canAfford(building){
-        this.resourceManager.canAfford(building);
+        return this.resourceManager.canAfford(building);
     }
 
     spendMoney(building){
-        this.resourceManager.spendMoney(building);
+        return this.resourceManager.spendMoney(building);
     }
 
     startTurn(){
@@ -125,8 +152,32 @@ class City {
         this.turnSystem.stop();
     }
 
-    calcHappiness(){
-        this.citizenManager.calculateHappiness(this.buildings);
+    calculateHappiness(){
+        return this.citizenManager.calculateHappiness(this.buildings);
+    }
+
+    calculateScore(){
+        return this.scoreManager.calculateScore();
+    }
+
+    updateResources(){
+        return this.resourceManager.updateResources(this.buildings)
+    }
+
+    growPopulation(){
+        return this.citizenManager.growPopulation(this.buildings);
+    }
+
+    assignJobs(){
+        this.citizenManager.assignJobs(this.buildings);
+    }
+
+    assignHomes(){
+        this.citizenManager.assignHomes(this.buildings);
+    }
+
+    checkGameOver(){
+        return this.resourceManager.checkGameOver();
     }
 
     deleteBuilding(x,y){
@@ -157,8 +208,8 @@ class City {
             _buildingManager: this._buildingManager,
             _citizenManager: this._citizenManager,
             _resourceManager: this._resourceManager,
-            _scoreManager: this._scoreManager
-            // _turnSystem se omite intencionalmente
+            _scoreManager: this._scoreManager,
+            _turnSystem: this._turnSystem
         };
     }
 }

@@ -10,15 +10,13 @@ class Building {
         this._waterConsumption = waterConsumption || null;
         this._x = x || null;
         this._y = y || null;
-    
+
     }
 
     //============SETTERS=============
 
     set id(id) {
-        if (id >= 0) {
-            this._id = id;
-        }
+        this._id = id;
     }
 
     set cost(cost) {
@@ -51,7 +49,7 @@ class Building {
         }
     }
 
-    get id(){
+    get id() {
         return this._id;
     }
 }
