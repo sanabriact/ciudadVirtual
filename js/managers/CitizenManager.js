@@ -17,20 +17,23 @@ class CitizenManager {
     }
 
     get happinessAverage() {
-        if (this._population.length === 0) return 0;
-        const total = this._population.reduce((suma, c) => suma + c._happiness, 0);
-        return Math.round(total / this._population.length);
+        if (this.population.length === 0) return 0;
+        const total = this.population.reduce((suma, c) => suma + c._happiness, 0);
+        return Math.round(total / this.population.length);
     }
 
     get employedCount() {
-        return this._population.filter(c => c._hasJob).length;
+        return this.population.filter(c => c._hasJob).length;
     }
 
     get unemployedCount() {
-        return this._population.filter(c => !c._hasJob).length;
+        return this.population.filter(c => !c._hasJob).length;
     }
 
     // ============ SETTERS ============
+    set population(population) {
+        this._population = population;
+    }
 
     set growthRate(value) {
         if (value > 0) this._growthRate = value;
@@ -39,13 +42,13 @@ class CitizenManager {
     // ============ MÉTODOS ============
 
     addCitizen(citizen) {
-        this._population.push(citizen);
+        this.population.push(citizen);
     }
 
     deleteCitizen(id) {
-        const cantidadInicial = this._population.length;
-        this._population = this._population.filter(citizen => citizen._id !== id);
-        return this._population.length < cantidadInicial;
+        const cantidadInicial = this.population.length;
+        this.population = this.population.filter(citizen => citizen._id !== id);
+        return this.population.length < cantidadInicial;
     }
 
     createCitizen(id, happiness, hasHome, hasJob) {
@@ -63,7 +66,7 @@ class CitizenManager {
             }
         });
 
-        this._population.forEach(citizen => {
+        this.population.forEach(citizen => {
             let happiness = 0; 
 
             // Factores positivos
@@ -84,7 +87,7 @@ class CitizenManager {
     assignHomes(buildings) {
         const residentials = buildings.filter(b => b instanceof ResidentialBuilding);
 
-        this._population.forEach(citizen => {
+        this.population.forEach(citizen => {
             if (!citizen._hasHome) {
                 const building = residentials.find(b => b._residents < b._capacity);
                 if (building) {
@@ -100,7 +103,7 @@ class CitizenManager {
         const industrials = buildings.filter(b => b instanceof IndustrialBuilding);
         const buildingsWithJobs = [...commercials, ...industrials];
 
-        this._population.forEach(citizen => {
+        this.population.forEach(citizen => {
             if (!citizen._hasJob) {
                 const building = buildingsWithJobs.find(building => building._employeesCount < building._jobs);
                 if (building) {
@@ -114,7 +117,7 @@ class CitizenManager {
     growPopulation(buildings) {
     const thereIsHouse = this.thereIsResidentialCapacity(buildings);
     const thereIsJob = this.thereIsJobAvailability(buildings);
-    const happinessOk = this._population.length === 0 ? true : this.happinessAverage > 60;
+    const happinessOk = this.population.length === 0 ? true : this.happinessAverage > 60;
 
     if (!thereIsHouse) {
         return;

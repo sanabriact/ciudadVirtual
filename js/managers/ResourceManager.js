@@ -57,12 +57,44 @@ class ResourceManager {
         }
     }
 
+    get electricity(){
+        return this._electricity;
+    }
+
     get electricityBalance() {
         return this._electricityProduction - this._electricConsumption;
     }
 
+    get electricityProduction(){
+        return this._electricityProduction;
+    }
+
+    get electricityConsumption(){
+        return this._electricityConsumption
+    }
+
+    get water(){
+        return this._water;
+    }
+
     get waterBalance() {
         return this._waterProduction - this._waterConsumption;
+    }
+
+    get waterProduction(){
+        return this._waterProduction;
+    }
+
+    get waterConsumption(){
+        return this._waterConsumption
+    }
+
+    get money() {
+        return this._money;
+    }
+
+    get food() {
+        return this._food;
     }
 
     // ============ MÉTODOS ============
