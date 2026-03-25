@@ -236,8 +236,8 @@ class helpers {
         city.food = food;
         helpers.updateUI();
         helpers.showScreen('game-page');
-        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
-        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
+        document.getElementById('input-city-name').textContent = `Ciudad: ${cityValue}`;
+        document.getElementById('input-mayor-name').textContent = `Alcalde: ${mayorName}`;
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
         city.startTurn();
