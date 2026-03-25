@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let btnNewCity = document.getElementById('btn-new-city');
+    let btnNewCityPage = document.getElementById('btn-new-city-page');
     let btnCreateGame = document.getElementById('btn-create-game');
     let btnLoadGamePage = document.getElementById('btn-load-game-page');
-    let btnDeleteGame = document.getElementById('btn-delete-game');
+    let btnDeleteGamePage = document.getElementById('btn-delete-game-page');
     let btnReturnStartPage = document.getElementById('return-start-page');
     let btnBack = document.querySelectorAll(".btn-back");
-    let btnGameInfo = document.getElementById('btn-game-info');
+    let btnGameInfo = document.getElementById('btn-game-rules-page');
     let btnLoadGame = document.getElementById('btn-load-game');
     let mapSizeDisplay = document.getElementById('map-size-display');
     let mapSizeSlider = document.getElementById('input-map-size');
@@ -42,12 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
         helpers.saveCityToStorage();
     });
 
-    btnNewCity.addEventListener('click', () => {
+    btnNewCityPage.addEventListener('click', () => {
         helpers.showScreen('city-info-page');
         helpers.loadCities();
     });
 
-    btnDeleteGame.addEventListener('click', () => {
+    btnDeleteGamePage.addEventListener('click', () => {
         helpers.showScreen('delete-game-page');
         helpers.loadSavedGames('delete-games-list');
     });
