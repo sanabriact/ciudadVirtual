@@ -1,5 +1,5 @@
-class CityRepository{
-    //Se crea un objeto de tipo CityRepository, con la informacion contenida en cities.json.
+class CityService{
+    //Se crea un objeto de tipo CityService, con la informacion contenida en cities.json.
     constructor(citiesURL = "../../data/cities.json"){
         this._url = citiesURL;
     }

@@ -29,11 +29,11 @@ class helpers {
     }
 
     static loadCities() {
-        const cityRepository = new CityRepository();
+        const cityService = new CityService();
         const inputRegion = document.getElementById('input-region');
         inputRegion.innerHTML = '<option value="">— Cargando ciudades —</option>';
 
-        cityRepository.getCities()
+        cityService.getCities()
             .then(function (cities) {
                 cities.sort(function (city1, city2) {
                     return city1.name.localeCompare(city2.name);

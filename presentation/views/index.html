@@ -28,7 +28,7 @@
     <script src="../../js/models/Grid.js"></script>
     <script src="../../js/models/Citizen.js"></script>
     <script src="../../js/models/City.js"></script>
-    <script src="../../js/models/CityRepository.js"></script>
+    <script src="../../js/services/CityService.js"></script>
 
     <!-- MANAGERS (dependen de los modelos) -->
     <script src="../../js/managers/BuildingManager.js"></script>
@@ -48,7 +48,7 @@
 
     <!-- UTILS -->
     <script src="../../js/utils/helpers.js"></script>
-    <script src="../../js/utils/CityBuilderStorage.js"></script>
+    <script src="../../js/services/CityBuilderStorage.js"></script>
 
     <!-- APP (va de último, usa todo lo anterior) -->
     <script src="../../js/App.js"></script>
@@ -419,9 +419,9 @@
             </aside>
 
             <!-- Mapa Central -->
-            <div id="map-container" class="col-lg-7 p-3">
-                <main id="grid"></main>
-            </div>
+            <main id="map-container" class="col-lg-7 p-3">
+                <table id="grid"></table>
+            </main>
 
             <!-- Sidebar Derecho -->
             <aside class="col-lg-3 bg-light p-3">
