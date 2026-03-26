@@ -196,9 +196,9 @@ class helpers {
             document.getElementById('city-name').textContent = `Ciudad: ${city.name}`;
             document.getElementById('city-mayor').textContent = `Alcalde: ${city.mayor}`;
             city.startTurn();
-            helpers.showScreen('game-page');
             const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city.grid, container);
+            helpers.showScreen('game-page');
         } else {
             alert("No se encontró ninguna partida guardada.");
         }
@@ -333,7 +333,6 @@ class helpers {
                 try {
                     const datos = JSON.parse(e.target.result);
                     CityBuilderStorage.save(datos, CityBuilderStorage.keyCity)
-                    location.reload()
                 } catch {
                     alert("Archivo inválido.")
                 }
@@ -341,7 +340,7 @@ class helpers {
             reader.readAsText(file)
         });
 
-        input.click()
+        input.click();
     }
 
 }

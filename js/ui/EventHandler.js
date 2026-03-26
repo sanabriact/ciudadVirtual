@@ -66,8 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         helpers.loadCityFromStorage();
-        console.log(city._name)
-        console.log(city._mayor)
+
         constructionsInfo.forEach(btn => {
             btn.textContent = '∨';
             btn.classList.remove('open');
@@ -102,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadJSON.addEventListener('click', () => {
         helpers.importFromJSON();
+        helpers.loadCityFromStorage();
     });
 
     inputRegion.addEventListener('change', function () {
