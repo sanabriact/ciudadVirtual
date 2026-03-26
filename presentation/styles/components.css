@@ -15,19 +15,25 @@
     position: absolute;
     height: 1px;
     background: linear-gradient(90deg,
-        transparent,
-        rgba(0, 245, 255, 0.6) 20%,
-        rgba(0, 245, 255, 0.8) 50%,
-        rgba(0, 245, 255, 0.6) 80%,
-        transparent
-    );
+            transparent,
+            rgba(0, 245, 255, 0.6) 20%,
+            rgba(0, 245, 255, 0.8) 50%,
+            rgba(0, 245, 255, 0.6) 80%,
+            transparent);
     will-change: opacity;
     animation: scanLine 4s ease-in-out infinite;
 }
 
 @keyframes scanLine {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 /* ===== LAYOUT HEADER - 3 COLUMNAS EN PC, APILADO EN MÓVIL ===== */
@@ -81,7 +87,8 @@
     gap: 10px;
 }
 
-#city-name, #city-mayor {
+#city-name,
+#city-mayor {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.62rem;
     color: var(--text-secondary);
@@ -127,22 +134,50 @@
     justify-content: flex-end;
 }
 
-#money, #electricity, #water, #food, #population, #happiness {
+#money,
+#edit-electricity,
+#edit-water,
+#edit-food,
+#population,
+#happiness {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.72rem;
     padding: 2px 5px;
     background: rgba(0, 245, 255, 0.05);
-    border: 1px solid var(--border-subtle);
+    border: 2px solid var(--border-subtle);
     border-radius: 3px;
     white-space: nowrap;
 }
 
-#money       { color: var(--neon-amber); border-color: rgba(255, 183, 0, 0.2); }
-#electricity { color: #ffe066; border-color: rgba(255, 224, 102, 0.2); }
-#water       { color: #60b4ff; border-color: rgba(96, 180, 255, 0.2); }
-#food        { color: var(--neon-green); border-color: rgba(57, 255, 20, 0.2); }
-#population  { color: var(--neon-cyan); border-color: var(--border-subtle); }
-#happiness   { color: #ff9ff3; border-color: rgba(255, 159, 243, 0.2); }
+#money {
+    color: var(--neon-amber);
+    border-color: rgba(255, 183, 0, 0.2);
+}
+
+#edit-electricity {
+    color: #ffe066;
+    border-color: rgba(255, 224, 102, 0.2);
+}
+
+#edit-water {
+    color: #60b4ff;
+    border-color: rgba(96, 180, 255, 0.2);
+}
+
+#edit-food {
+    color: var(--neon-green);
+    border-color: rgba(57, 255, 20, 0.2);
+}
+
+#population {
+    color: var(--neon-cyan);
+    border-color: var(--border-subtle);
+}
+
+#happiness {
+    color: #ff9ff3;
+    border-color: rgba(255, 159, 243, 0.2);
+}
 
 /* ===== PUNTUACIÓN ===== */
 .puntuation {
@@ -209,7 +244,12 @@
         font-size: 0.78rem !important;
     }
 
-    #money, #electricity, #water, #food, #population, #happiness {
+    #money,
+    #electricity,
+    #water,
+    #food,
+    #population,
+    #happiness {
         font-size: 0.65rem;
         padding: 1px 4px;
     }
@@ -319,10 +359,21 @@ aside.col-lg-3 hr {
     letter-spacing: 0.03em;
 }
 
-#city-temperature   { color: var(--neon-amber) !important; }
-#city-condition     { color: var(--text-primary) !important; }
-#city-humidity      { color: #60b4ff !important; }
-#city-wind-velocity { color: var(--neon-cyan) !important; }
+#city-temperature {
+    color: var(--neon-amber) !important;
+}
+
+#city-condition {
+    color: var(--text-primary) !important;
+}
+
+#city-humidity {
+    color: #60b4ff !important;
+}
+
+#city-wind-velocity {
+    color: var(--neon-cyan) !important;
+}
 
 /* ===== NOTICIAS ===== */
 #news-panel {
@@ -392,7 +443,7 @@ aside.col-lg-3 hr {
 /* ===== PANEL EDICIÓN RECURSOS ===== */
 #resources-edit-panel {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     gap: 6px;
 }
 
@@ -417,9 +468,9 @@ aside.col-lg-3 hr {
     border: 1px solid var(--border-subtle) !important;
     color: var(--text-primary) !important;
     padding: 3px 6px !important;
-    width: 50px;
+    width: 55px;
     border-radius: 0 !important;
-    text-align: right;
+    text-align: left;
 }
 
 .resource-edit-input:focus {
@@ -444,4 +495,10 @@ aside.col-lg-3 hr {
     background: rgba(57, 255, 20, 0.2);
     border-color: var(--neon-green);
     color: #fff;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
