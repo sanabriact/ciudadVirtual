@@ -35,13 +35,18 @@
 
 /* ===== GRID ===== */
 #grid {
-    display: grid;
-    width: fit-content;
-    height: fit-content;
-    overflow: visible;
-    border: 1px solid rgba(0, 245, 255, 0.15);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
-    gap: 0 !important;
+    display: table !important;
+    border-collapse: collapse !important;
+    width: fit-content !important;
+    table-layout: fixed;
+}
+
+#grid tr {
+    display: table-row !important;
+}
+
+#grid td {
+    display: table-cell !important;
 }
 
 /* ===== CELDAS ===== */

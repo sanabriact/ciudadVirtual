@@ -17,31 +17,27 @@ class GridRenderer {
     };
 
     static render(grid, container) {
-        const cellSize = 60;
+    container.innerHTML = "";
+    let html = "";
 
-        container.style.display = "grid";
-        container.style.gridTemplateColumns = `repeat(${grid.width}, ${cellSize}px)`;
-        container.style.gridTemplateRows = `repeat(${grid.height}, ${cellSize}px)`;
-        container.innerHTML = "";
+    for (let row = 0; row < grid.height; row++) {
+        html += `<tr>`;
+        for (let col = 0; col < grid.width; col++) {
+            const cell = grid.cells[row][col];
+            html += `<td class="cell" data-x="${col}" data-y="${row}">`;
 
-        for (let row = 0; row < grid.height; row++) {
-            for (let col = 0; col < grid.width; col++) {
-                const cell = grid.cells[row][col];
-
-                const div = document.createElement("div");
-                div.classList.add("cell");
-                div.dataset.x = col;
-                div.dataset.y = row;
-
-                if (cell._id !== "g") {
-                    const img = GridRenderer.buildingImages[cell._id];
-                    if (img) {
-                        div.innerHTML = `<img src="${img}" class="cell-icon"/>`;
-                    }
+            if (cell.id !== "g") {
+                const img = GridRenderer.buildingImages[cell.id];
+                if (img) {
+                    html += `<img src="${img}" class="cell-icon"/>`;
                 }
-
-                container.appendChild(div);
             }
+
+            html += `</td>`;
         }
+        html += `</tr>`;
     }
+
+    container.innerHTML = html;
+}
 }
