@@ -102,10 +102,6 @@ class helpers {
         }
     }
 
-    // =====================================================
-    // setupGridListener
-    // Se agregó el bloque "Modo ruta" al inicio del click
-    // =====================================================
     static setupGridListener() {
         const gridContainer = document.getElementById("grid");
         const newContainer = gridContainer.cloneNode(true);
@@ -118,70 +114,68 @@ class helpers {
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
 
-            // -------------------------------------------------------
-            if (routeMode) {
-                const cellData = city.grid.cells[y][x];
+            helpers.routing(cell,x,y);
+            helpers.renderCellImage(cell,x,y);
 
-                // Solo permite seleccionar edificios, no pasto ni vías
-                if (cellData.id === "g" || cellData.id === "R") {
-                    alert("Selecciona un edificio como origen o destino, no una vía ni terreno vacío.");
-                    return;
-                }
-
-                if (!routeOrigin) {
-                    // Primer clic: guardar como ORIGEN
-                    routeOrigin = { x, y };
-                    cell.classList.add("route-highlight");
-                    document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
-                } else {
-                    // Segundo clic: calcular ruta al DESTINO
-                    RoutingService.calculateRoute(city.grid, routeOrigin.x, routeOrigin.y, x, y)
-                        .then(route => {
-                            if (route) RoutingService.highlightRoute(route);
-                        });
-
-                    // Apagar modo ruta automáticamente
-                    routeMode = false;
-                    routeOrigin = null;
-                    document.getElementById('btn-route').classList.remove('active');
-                    document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
-                }
-                return; // ← Importante: evita que construya o demuela
-            }
-            // -------------------------------------------------------
-
-            // Lo que ya existía — sin cambios:
-            if (selectedButton === null) {
-                // Solo demoler si hay algo Y el botón demoler está activo en la UI
-                const btnDemolish = document.getElementById('btn-demolish');
-                if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
-                    city._buildingManager.deleteBuilding(x, y);
-                    city._grid.setCellId(x, y, "g");
-                    cell.innerHTML = "";
-                }
-
-            } else if (cell.innerHTML.trim() === "") {
-                if (selectedButton.type === "road") {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-
-                } else if (helpers.buildValidation(x, y, selectedButton.type)) {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-
-                } else {
-                    alert("No puedes construir aquí porque no hay una vía adyacente.");
-                }
-            }
         });
-
         return newContainer;
+    }
+
+    static renderCellImage(cell,x,y) {
+        if (selectedButton === null) {
+            // Solo demoler si hay algo Y el botón demoler está activo en la UI
+            const btnDemolish = document.getElementById('btn-demolish');
+            if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
+                city._buildingManager.deleteBuilding(x, y);
+                city._grid.setCellId(x, y, "g");
+                cell.innerHTML = "";
+            }
+        } else if (cell.innerHTML.trim() === "") {
+            if (selectedButton.type === "road") {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else {
+                alert("No puedes construir aquí porque no hay una vía adyacente.");
+            }
+        }
+    }
+
+    static routing(cell,x,y) {
+        if (routeMode) {
+            const cellData = city.grid.cells[y][x];
+            // Solo permite seleccionar edificios, no pasto ni vías
+            if (cellData.id === "g" || cellData.id === "R") {
+                alert("Selecciona un edificio como origen o destino, no una vía ni terreno vacío.");
+                return;
+            }
+
+            if (!routeOrigin) {
+                // Primer clic: guardar como ORIGEN
+                routeOrigin = { x, y };
+                cell.classList.add("route-highlight");
+                document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
+            } else {
+                // Segundo clic: calcular ruta al DESTINO
+                RoutingService.calculateRoute(city.grid, routeOrigin.x, routeOrigin.y, x, y)
+                    .then(route => {
+                        if (route) RoutingService.highlightRoute(route);
+                    });
+
+                // Apagar modo ruta automáticamente
+                routeMode = false;
+                routeOrigin = null;
+                document.getElementById('btn-route').classList.remove('active');
+                document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
+            }
+            return; // ← Importante: evita que construya o demuela
+        }
     }
 
     static loadCityFromStorage() {
@@ -273,7 +267,7 @@ class helpers {
     }
 
     static createInfoContainer(type) {
-        const data = this.getBuildingInfo(type);
+        const data = helpers.getBuildingInfo(type);
         if (!data) return null;
 
         const container = document.createElement('div');

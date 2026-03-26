@@ -68,9 +68,11 @@ class ScoreManager {
     calculateScore() {
         //Tenemos que resetear el score cada vez que lo calculemos
         this._score = 0;
+        //Esta validacion para calcular realmente cuanto dinero ganó el usuario debido a que si no se hace el score inicial es 600 sin hacer nada
+        const moneyGained = this._resourceManager._money - 50000;
+        this._score += moneyGained > 0 ? moneyGained * 0.01 : 0;
         this._score += this._citizenManager._population.length * 10;
         this._score += this._citizenManager.happinessAverage * 5;
-        this._score += (this._resourceManager._money === 50000 ? 0 : this._resourceManager._money) * 0.01;
         this._score += this._buildingManager._buildings.length * 50;
         this._score += this._resourceManager.electricityBalance * 2;
         this._score += this._resourceManager.waterBalance * 2;
