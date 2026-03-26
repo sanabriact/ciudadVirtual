@@ -210,4 +210,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    document.querySelectorAll('.resource-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!city) return;
+
+        const resource = btn.dataset.resource;
+        const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
+
+        if (resource === 'electricity') city.electricity = value;
+        if (resource === 'water') city.water = value;
+        if (resource === 'food') city.food = value;
+
+        helpers.updateUI();
+    });
+});
+
 });

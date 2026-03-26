@@ -1,9 +1,9 @@
 class helpers {
     static updateUI() {
-        document.getElementById('money').textContent = `$${city.money}`;
-        document.getElementById('electricity').textContent = `⚡ ${city.electricity}`;
-        document.getElementById('water').textContent = `💧 ${city.water}`;
-        document.getElementById('food').textContent = `🌾 ${city.food}`;
+        document.getElementById('money').textContent = `💵 $${city.money}`;
+        document.getElementById('edit-electricity').value = `${city.electricity}`;
+        document.getElementById('edit-water').value = `${city.water}`;
+        document.getElementById('edit-food').value = `${city.food}`;
         document.getElementById('population').textContent = `👥 ${city.population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
@@ -20,7 +20,7 @@ class helpers {
             city.spendMoney(building);
             city.addBuilding(building);
             city.grid.setCellId(x, y, building.id);
-            document.getElementById('money').textContent = `$${city.money}`;
+            document.getElementById('money').textContent = `💵 $${city.money}`;
             return building;
         } else {
             alert("No tienes suficiente dinero para construir esto.");
@@ -114,14 +114,14 @@ class helpers {
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
 
-            helpers.routing(cell,x,y);
-            helpers.renderCellImage(cell,x,y);
+            helpers.routing(cell, x, y);
+            helpers.renderCellImage(cell, x, y);
 
         });
         return newContainer;
     }
 
-    static renderCellImage(cell,x,y) {
+    static renderCellImage(cell, x, y) {
         if (selectedButton === null) {
             // Solo demoler si hay algo Y el botón demoler está activo en la UI
             const btnDemolish = document.getElementById('btn-demolish');
@@ -147,7 +147,7 @@ class helpers {
         }
     }
 
-    static routing(cell,x,y) {
+    static routing(cell, x, y) {
         if (routeMode) {
             const cellData = city.grid.cells[y][x];
             // Solo permite seleccionar edificios, no pasto ni vías

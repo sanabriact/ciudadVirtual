@@ -388,3 +388,60 @@ aside.col-lg-3 hr {
 .news-image:hover {
     filter: saturate(1) brightness(1);
 }
+
+/* ===== PANEL EDICIÓN RECURSOS ===== */
+#resources-edit-panel {
+    display: flex;
+    flex-direction:row;
+    gap: 6px;
+}
+
+.resource-edit-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resource-edit-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    flex: 1;
+    white-space: nowrap;
+}
+
+.resource-edit-input {
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 0.75rem !important;
+    background: rgba(0, 245, 255, 0.03) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+    padding: 3px 6px !important;
+    width: 50px;
+    border-radius: 0 !important;
+    text-align: right;
+}
+
+.resource-edit-input:focus {
+    border-color: var(--border-glow) !important;
+    outline: none !important;
+    background: rgba(0, 245, 255, 0.06) !important;
+}
+
+.resource-edit-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    background: rgba(57, 255, 20, 0.08);
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    color: var(--neon-green);
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.resource-edit-btn:hover {
+    background: rgba(57, 255, 20, 0.2);
+    border-color: var(--neon-green);
+    color: #fff;
+}
