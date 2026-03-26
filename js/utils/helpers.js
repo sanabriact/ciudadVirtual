@@ -32,23 +32,18 @@ class helpers {
         const cityService = new CityService();
         const inputRegion = document.getElementById('input-region');
         inputRegion.innerHTML = '<option value="">— Cargando ciudades —</option>';
-
         cityService.getCities()
             .then(function (cities) {
                 cities.sort(function (city1, city2) {
                     return city1.name.localeCompare(city2.name);
                 })
-
                 inputRegion.innerHTML = '<option value="">— Selecciona una ciudad —</option>';
-
                 cities.forEach(function (city) {
                     let option = document.createElement('option')
-
                     option.value = city.id;
                     option.textContent = city.name;
                     option.dataset.lat = city.latitude;
                     option.dataset.lon = city.longitude;
-
                     inputRegion.appendChild(option);
                 })
             })

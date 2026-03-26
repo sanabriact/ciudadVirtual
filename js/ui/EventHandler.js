@@ -1,3 +1,11 @@
+let city = null;
+let turnSystem = null;
+let selectedButton = null;
+
+// Variables globales para el modo ruta
+let routeMode = false;
+let routeOrigin = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     let btnNewCityPage = document.getElementById('btn-new-city-page');
     let btnCreateGame = document.getElementById('btn-create-game');
