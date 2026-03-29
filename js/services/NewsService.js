@@ -10,7 +10,6 @@ class NewsService{
         //Se crea la url que va a ser la API con el codigo del pais, y la clave del API (Se pueden hacer 60 llamados cada minuto.)
         let url = this.proxy + this.newsUrl
             + "?country=" + countryCode
-            + "&pageSize=5"
             + "&apikey=" + this.apiKey
 
         
