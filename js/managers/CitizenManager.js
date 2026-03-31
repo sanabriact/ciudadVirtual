@@ -68,19 +68,15 @@ class CitizenManager {
 
         this.population.forEach(citizen => {
             let happiness = 0; 
-
             // Factores positivos
             if (citizen._hasHome) happiness += 20;
             if (citizen._hasJob) happiness += 15;
             // Factores negativos
             if (!citizen._hasHome) happiness -= 20;
             if (!citizen._hasJob) happiness -= 15;
-
             happiness += happinessBonus;
-
             citizen._happiness = Math.min(100, Math.max(0, happiness));
         });
-
         return this.happinessAverage;
     }
 

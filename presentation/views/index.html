@@ -28,7 +28,7 @@
     <script src="../../js/models/Grid.js"></script>
     <script src="../../js/models/Citizen.js"></script>
     <script src="../../js/models/City.js"></script>
-    <script src="../../js/models/CityRepository.js"></script>
+    <script src="../../js/services/CityService.js"></script>
 
     <!-- MANAGERS (dependen de los modelos) -->
     <script src="../../js/managers/BuildingManager.js"></script>
@@ -48,11 +48,7 @@
 
     <!-- UTILS -->
     <script src="../../js/utils/helpers.js"></script>
-    <script src="../../js/utils/CityBuilderStorage.js"></script>
-
-    <!-- APP (va de último, usa todo lo anterior) -->
-    <script src="../../js/App.js"></script>
-
+    <script src="../../js/services/CityBuilderStorage.js"></script>
 
 </head>
 
@@ -288,25 +284,34 @@
 
                 <!-- Derecha: recursos -->
                 <div id="header-right">
-                    <div id="resource-panel">
-                        <div id="resource-panel-row">
-                            <span id="money">$50,000</span>
-                            <span id="electricity">⚡ 0</span>
-                            <span id="water">💧 0</span>
-                            <span id="food">🌾 0</span>
-                            <span id="population">👥 0</span>
-                            <span id="happiness">😊 0%</span>
+                    <div id="resources-edit-panel" class="mb-4">
+                        <span id="money">💵 $50,000</span>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">⚡</label>
+                            <input type="number" id="edit-electricity" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="electricity">✓</button>
                         </div>
-                        <div class="puntuation">
-                            <h5 class="subtitles">Puntuación</h5>
-                            <div id="score-panel">
-                                <h4>0</h4>
-                            </div>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">💧</label>
+                            <input type="number" id="edit-water" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="water">✓</button>
+                        </div>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">🌾</label>
+                            <input type="number" id="edit-food" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="food">✓</button>
+                        </div>
+                        <span id="population">👥 0</span>
+                        <span id="happiness">😊 0%</span>
+                    </div>
+                    <div class="puntuation">
+                        <h5 class="subtitles">Puntuación</h5>
+                        <div id="score-panel">
+                            <h4>0</h4>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
@@ -419,9 +424,9 @@
             </aside>
 
             <!-- Mapa Central -->
-            <div id="map-container" class="col-lg-7 p-3">
-                <main id="grid"></main>
-            </div>
+            <main id="map-container" class="col-lg-7 p-3">
+                <table id="grid"></table>
+            </main>
 
             <!-- Sidebar Derecho -->
             <aside class="col-lg-3 bg-light p-3">
@@ -453,13 +458,13 @@
 
     <!--  ==================== PANTALLA DE GAME OVER  ====================-->
     <div id="game-over-page" class="screen city-creation">
-    <div class="game-over-container">
-        <h1 id="game-over-title">⚠ CIUDAD COLAPSADA</h1>
-        <p id="game-over-reason"></p>
-        <p id="game-over-score"></p>
-        <button type="button" id="btn-game-over-menu" class="btn-back">← Volver al menú</button>
+        <div class="game-over-container">
+            <h1 id="game-over-title">⚠ CIUDAD COLAPSADA</h1>
+            <p id="game-over-reason"></p>
+            <p id="game-over-score"></p>
+            <button type="button" id="btn-game-over-menu" class="btn-back">← Volver al menú</button>
+        </div>
     </div>
-</div>
 </body>
 
 </html>

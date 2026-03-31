@@ -1,3 +1,11 @@
+let city = null;
+let turnSystem = null;
+let selectedButton = null;
+
+// Variables globales para el modo ruta
+let routeMode = false;
+let routeOrigin = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     let btnNewCityPage = document.getElementById('btn-new-city-page');
     let btnCreateGame = document.getElementById('btn-create-game');
@@ -66,8 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadGame.addEventListener('click', () => {
         helpers.loadCityFromStorage();
-        console.log(city._name)
-        console.log(city._mayor)
+
         constructionsInfo.forEach(btn => {
             btn.textContent = '∨';
             btn.classList.remove('open');
@@ -102,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadJSON.addEventListener('click', () => {
         helpers.importFromJSON();
+        helpers.loadCityFromStorage();
     });
 
     inputRegion.addEventListener('change', function () {
@@ -121,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('city-condition').textContent = `Condición: Error al conseguir condición.`;
             });
 
-        newsRepository.getNews("co")
+        newsRepository.getNews("us")
             .then(data => {
                 let newsPanel = document.getElementById('news-panel');
                 newsPanel.innerHTML = '';
@@ -201,5 +209,20 @@ document.addEventListener("DOMContentLoaded", () => {
             btnRoute.textContent = '🗺️ Calcular Ruta';
         }
     });
+
+    document.querySelectorAll('.resource-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!city) return;
+
+        const resource = btn.dataset.resource;
+        const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
+
+        if (resource === 'electricity') city.electricity = value;
+        if (resource === 'water') city.water = value;
+        if (resource === 'food') city.food = value;
+
+        helpers.updateUI();
+    });
+});
 
 });

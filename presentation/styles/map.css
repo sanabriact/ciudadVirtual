@@ -35,19 +35,24 @@
 
 /* ===== GRID ===== */
 #grid {
-    display: grid;
-    width: fit-content;
-    height: fit-content;
-    overflow: visible;
-    border: 1px solid rgba(0, 245, 255, 0.15);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
-    gap: 0 !important;
+    display: table !important;
+    border-collapse: collapse !important;
+    width: fit-content !important;
+    table-layout: fixed;
+}
+
+#grid tr {
+    display: table-row !important;
+}
+
+#grid td {
+    display: table-cell !important;
 }
 
 /* ===== CELDAS ===== */
 .cell {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border: 1px solid rgba(0, 30, 40, 0.8);
     display: flex;
     margin: 0 !important;
@@ -92,12 +97,13 @@
 
 /* ===== IMAGEN DENTRO DE CELDA ===== */
 .cell-icon {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.15s;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover; /* ← cover llena toda la celda sin dejar espacios */
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .cell:hover .cell-icon {
