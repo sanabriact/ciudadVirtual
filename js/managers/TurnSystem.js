@@ -29,8 +29,6 @@ class TurnSystem {
     nextTurn() {
         CityBuilderStorage.save(this._city, "city")
 
-        let buildings = this._city._buildingManager._buildings;
-        
         // 1. Actualizar recursos
         this._city.updateResources();
         

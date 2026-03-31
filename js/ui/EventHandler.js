@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('city-condition').textContent = `Condición: Error al conseguir condición.`;
             });
 
-        newsRepository.getNews("co")
+        newsRepository.getNews("us")
             .then(data => {
                 let newsPanel = document.getElementById('news-panel');
                 newsPanel.innerHTML = '';

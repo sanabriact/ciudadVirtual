@@ -97,14 +97,10 @@ class City {
     }
 
     set regionLat(value) {
-        if (value >= 0) {
             this._regionLat = value;
-        }
     }
     set regionLon(value) {
-        if (value >= 0) {
             this._regionLon = value;
-        }
     }
     set width(value) {
         if (value >= 0) {
