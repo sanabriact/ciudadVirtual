@@ -1,12 +1,25 @@
 class helpers {
     static updateUI() {
-        document.getElementById('money').textContent = `💵 $${city.money}`;
+        const money = document.getElementById('money');
+        money.textContent = `💵 $${city.money}`;
         document.getElementById('edit-electricity').value = `${city.electricity}`;
         document.getElementById('edit-water').value = `${city.water}`;
         document.getElementById('edit-food').value = `${city.food}`;
         document.getElementById('population').textContent = `👥 ${city.population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
+        
+        money.textContent = `💵 $${city.money}`;
+
+        money.classList.remove('money-green', 'money-yellow', 'money-red');
+
+        if (city.money < 1000) {
+            money.classList.add('money-red');
+        } else if (city.money < 5000) {
+            money.classList.add('money-yellow');
+        } else {
+            money.classList.add('money-green');
+        }
     }
 
     static buildNewBuilding(type, x, y) {
@@ -20,7 +33,7 @@ class helpers {
             city.spendMoney(building);
             city.addBuilding(building);
             city.grid.setCellId(x, y, building.id);
-            document.getElementById('money').textContent = `💵 $${city.money}`;
+            helpers.updateUI()
             return building;
         } else {
             alert("No tienes suficiente dinero para construir esto.");
