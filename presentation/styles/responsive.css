@@ -11,13 +11,19 @@
         border-top: 1px solid var(--border-subtle);
     }
 
-    #resource-panel .d-flex.flex-row {
+    #resources-edit-panel {
         gap: 4px !important;
     }
 
-    #money, #electricity, #water, #food, #population, #happiness {
+    #money, #population, #happiness {
         font-size: 0.72rem;
         padding: 2px 6px;
+        white-space: nowrap;
+    }
+
+    .resource-edit-input {
+        width: 55px;
+        font-size: 0.72rem;
     }
 }
 
@@ -38,6 +44,44 @@
     #game-page .row {
         margin-top: 130px;
     }
+
+    #header-center {
+        display: none;
+    }
+
+    #header-right {
+        width: 100%;
+    }
+
+    #resources-edit-panel {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        gap: 4px;
+    }
+
+    #resources-edit-panel #money,
+    #resources-edit-panel #population,
+    #resources-edit-panel #happiness {
+        text-align: center;
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+
+    #resources-edit-panel .resource-edit-row {
+        justify-content: center;
+        padding: 4px 2px;
+        font-size: 11px;
+    }
+
+    #resources-edit-panel .resource-edit-input {
+        width: 45px;
+        font-size: 11px;
+    }
+
+    .puntuation {
+        text-align: center;
+    }
 }
 
 @media (max-width: 576px) {
@@ -56,5 +100,9 @@
 
     #game-page .row {
         margin-top: 160px;
+    }
+
+    #resources-edit-panel {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

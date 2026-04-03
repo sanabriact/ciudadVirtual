@@ -28,7 +28,7 @@
     <script src="../../js/models/Grid.js"></script>
     <script src="../../js/models/Citizen.js"></script>
     <script src="../../js/models/City.js"></script>
-    <script src="../../js/models/CityRepository.js"></script>
+    <script src="../../js/services/CityService.js"></script>
 
     <!-- MANAGERS (dependen de los modelos) -->
     <script src="../../js/managers/BuildingManager.js"></script>
@@ -48,11 +48,7 @@
 
     <!-- UTILS -->
     <script src="../../js/utils/helpers.js"></script>
-    <script src="../../js/utils/CityBuilderStorage.js"></script>
-
-    <!-- APP (va de último, usa todo lo anterior) -->
-    <script src="../../js/App.js"></script>
-
+    <script src="../../js/services/CityBuilderStorage.js"></script>
 
 </head>
 
@@ -67,12 +63,11 @@
             <div id="buttons" class="d-grid gap-3 col-11 col-sm-8 col-md-6 col-lg-4 mx-auto">
                 <button id="btn-load-game-page" type="button" class="btn btn-primary btn-lg shadow-sm">Cargar
                     partida</button>
-                <button id="btn-new-city" type="button" class="btn btn-light btn-lg shadow-sm">Crear nueva
+                <button id="btn-new-city-page" type="button" class="btn btn-light btn-lg shadow-sm">Crear nueva
                     partida</button>
-                <button id="btn-game-info" type="button" class="btn btn-light btn-lg shadow-sm">Información del
+                <button id="btn-game-rules-page" type="button" class="btn btn-light btn-lg shadow-sm">Información del
                     juego</button>
-
-                <button id="btn-delete-game" type="button" class="btn btn-danger btn-lg shadow-sm">Borrar
+                <button id="btn-delete-game-page" type="button" class="btn btn-danger btn-lg shadow-sm">Borrar
                     partida</button>
             </div>
         </div>
@@ -101,6 +96,11 @@
                     Cargar Ciudad
                 </button>
             </div>
+            <div class="d-grid mt-3">
+                <button class="btn-primary btn-xl btn-full" id="btn-load-json">
+                    Importar ciudad desde JSON
+                </button>
+            </div>
         </div>
     </div>
 
@@ -114,7 +114,7 @@
             </div>
             <p class="parragraph-info-page">Asumes el rol de alcalde de una ciudad virtual con el objetivo de hacerla
                 crecer y prosperar. Cuentas con
-                un capital inicial de <span id="money-info">$50,000</span> para comenzar a construir la infraestructura.
+                un capital inicial de <span id="dinero">$50,000</span> para comenzar a construir la infraestructura.
                 Las calles deben
                 establecerse antes que cualquier edificio, ya que toda construcción requiere una vía adyacente. Es
                 indispensable que construyas plantas de electricidad y agua para mantener la ciudad en funcionamiento —
@@ -271,7 +271,8 @@
                 <!-- Izquierda: botón + ciudad/alcalde -->
                 <div id="header-left">
                     <button type="button" id="return-start-page">Menú principal</button>
-                    <div id="container-city-info">
+                    <br>
+                    <div id="container-city">
                         <h6 id="city-name"></h6>
                         <h6 id="city-mayor"></h6>
                     </div>
@@ -284,25 +285,35 @@
 
                 <!-- Derecha: recursos -->
                 <div id="header-right">
-                    <div id="resource-panel">
-                        <div id="resource-panel-row">
-                            <span id="money">$50,000</span>
-                            <span id="electricity">⚡ 0</span>
-                            <span id="water">💧 0</span>
-                            <span id="food">🌾 0</span>
-                            <span id="population">👥 0</span>
-                            <span id="happiness">😊 0%</span>
+                    <br>
+                    <div id="resources-edit-panel" class="mb-4">
+                        <span id="money">💵 $50,000</span>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">⚡</label>
+                            <input type="number" id="edit-electricity" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="electricity">✓</button>
                         </div>
-                        <div class="puntuation">
-                            <h5 class="subtitles">Puntuación</h5>
-                            <div id="score-panel">
-                                <h4>0</h4>
-                            </div>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">💧</label>
+                            <input type="number" id="edit-water" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="water">✓</button>
+                        </div>
+                        <div class="resource-edit-row">
+                            <label class="resource-edit-label">🌾</label>
+                            <input type="number" id="edit-food" class="resource-edit-input" min="0" value="0" />
+                            <button class="resource-edit-btn" data-resource="food">✓</button>
+                        </div>
+                        <span id="population">👥 0</span>
+                        <span id="happiness">😊 0%</span>
+                    </div>
+                    <div class="puntuation">
+                        <h5 class="subtitles">Puntuación</h5>
+                        <div id="score-panel">
+                            <h4>0</h4>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">
@@ -393,14 +404,14 @@
 
                     <div id="park-actions" class="d-flex flex-row">
                         <button id="btn-park" class="list-group-item list-group-item-action"
-                            data-image="../../assets/icons/Park.jpg" data-type="park">Parque</button>
+                            data-image="../../assets/icons/Park.png" data-type="park">Parque</button>
                         <button class="chevron" data-target="park-info">∨</button>
                     </div>
                     <div id="park-info"></div>
 
                     <div id="road-actions" class="d-flex flex-row">
                         <button id="btn-road" class="list-group-item list-group-item-action"
-                            data-image="../../assets/icons/Road.webp" data-type="road">Vía</button>
+                            data-image="../../assets/icons/Road.png" data-type="road">Vía</button>
                         <button class="chevron" data-target="road-info">∨</button>
                     </div>
                     <div id="road-info"></div>
@@ -410,15 +421,14 @@
 
                     <hr>
                     <button id="btn-route" class="btn btn-primary w-100 mb-2">Calcular Ruta</button>
-                    <button class="btn btn-success w-100 mb-2" id="save-game-button">Guardar</button>
-                    <button class="btn btn-warning w-100">Exportar</button>
+                    <button id="export" class="btn btn-warning w-100">Exportar</button>
                 </div>
             </aside>
 
             <!-- Mapa Central -->
-            <div id="map-container" class="col-lg-7 p-3">
-                <main id="grid"></main>
-            </div>
+            <main id="map-container" class="col-lg-7 p-3">
+                <table id="grid"></table>
+            </main>
 
             <!-- Sidebar Derecho -->
             <aside class="col-lg-3 bg-light p-3">
@@ -448,14 +458,15 @@
         </div>
     </div>
 
+    <!--  ==================== PANTALLA DE GAME OVER  ====================-->
     <div id="game-over-page" class="screen city-creation">
-    <div class="game-over-container">
-        <h1 id="game-over-title">⚠ CIUDAD COLAPSADA</h1>
-        <p id="game-over-reason"></p>
-        <p id="game-over-score"></p>
-        <button type="button" id="btn-game-over-menu" class="btn-back">← Volver al menú</button>
+        <div class="game-over-container">
+            <h1 id="game-over-title">⚠ CIUDAD COLAPSADA</h1>
+            <p id="game-over-reason"></p>
+            <p id="game-over-score"></p>
+            <button type="button" id="btn-game-over-menu" class="btn-back">← Volver al menú</button>
+        </div>
     </div>
-</div>
 </body>
 
 </html>

@@ -24,7 +24,6 @@
 }
 
 #map-container::after {
-
     position: absolute;
     top: 0;
     left: 0;
@@ -35,19 +34,24 @@
 
 /* ===== GRID ===== */
 #grid {
-    display: grid;
-    width: fit-content;
-    height: fit-content;
-    overflow: visible;
-    border: 1px solid rgba(0, 245, 255, 0.15);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
-    gap: 0 !important;
+    display: table !important;
+    border-collapse: collapse !important;
+    width: fit-content !important;
+    table-layout: fixed;
+}
+
+#grid tr {
+    display: table-row !important;
+}
+
+#grid td {
+    display: table-cell !important;
 }
 
 /* ===== CELDAS ===== */
 .cell {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border: 1px solid rgba(0, 30, 40, 0.8);
     display: flex;
     margin: 0 !important;
@@ -92,16 +96,31 @@
 
 /* ===== IMAGEN DENTRO DE CELDA ===== */
 .cell-icon {
-    width: 85%;
-    height: 85%;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* ===== ICONO DE VÍA MÁS PEQUEÑO ===== */
+.cell-icon.road-icon {
+    width: 60% !important;
+    height: 60% !important;
     object-fit: contain;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.15s;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .cell:hover .cell-icon {
     transform: scale(1.05);
+}
+
+.cell:hover .cell-icon.road-icon {
+    transform: translate(-50%, -50%) scale(1.05);
 }
 
 /* ===== RUTA DIJKSTRA ===== */
@@ -124,12 +143,12 @@
 #game-page .row {
     margin-top: 70px;
 }
+
 @media (max-width: 768px) {
     #map-container {
         padding: 4px !important;
     }
 
-    /* Elimina el gutter de Bootstrap en móvil */
     #game-page .row {
         --bs-gutter-x: 0 !important;
         --bs-gutter-y: 0 !important;
@@ -142,4 +161,3 @@
         padding-right: 0 !important;
     }
 }
-

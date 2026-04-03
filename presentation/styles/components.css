@@ -15,19 +15,25 @@
     position: absolute;
     height: 1px;
     background: linear-gradient(90deg,
-        transparent,
-        rgba(0, 245, 255, 0.6) 20%,
-        rgba(0, 245, 255, 0.8) 50%,
-        rgba(0, 245, 255, 0.6) 80%,
-        transparent
-    );
+            transparent,
+            rgba(0, 245, 255, 0.6) 20%,
+            rgba(0, 245, 255, 0.8) 50%,
+            rgba(0, 245, 255, 0.6) 80%,
+            transparent);
     will-change: opacity;
     animation: scanLine 4s ease-in-out infinite;
 }
 
 @keyframes scanLine {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 /* ===== LAYOUT HEADER - 3 COLUMNAS EN PC, APILADO EN MÓVIL ===== */
@@ -81,7 +87,8 @@
     gap: 10px;
 }
 
-#city-name, #city-mayor {
+#city-name,
+#city-mayor {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.62rem;
     color: var(--text-secondary);
@@ -127,22 +134,64 @@
     justify-content: flex-end;
 }
 
-#money, #electricity, #water, #food, #population, #happiness {
+#money,
+#edit-electricity,
+#edit-water,
+#edit-food,
+#population,
+#happiness {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.72rem;
     padding: 2px 5px;
     background: rgba(0, 245, 255, 0.05);
-    border: 1px solid var(--border-subtle);
+    border: 2px solid var(--border-subtle);
     border-radius: 3px;
     white-space: nowrap;
 }
 
-#money       { color: var(--neon-amber); border-color: rgba(255, 183, 0, 0.2); }
-#electricity { color: #ffe066; border-color: rgba(255, 224, 102, 0.2); }
-#water       { color: #60b4ff; border-color: rgba(96, 180, 255, 0.2); }
-#food        { color: var(--neon-green); border-color: rgba(57, 255, 20, 0.2); }
-#population  { color: var(--neon-cyan); border-color: var(--border-subtle); }
-#happiness   { color: #ff9ff3; border-color: rgba(255, 159, 243, 0.2); }
+.money-green {
+    color: var(--neon-green) !important;
+    border-color: rgba(255, 183, 0, 0.2);
+}
+
+.money-red {
+    color: #ff0033 !important;
+    text-shadow: 0 0 5px #ff0033, 0 0 15px #ff0033, 0 0 30px #ff0033;
+}
+
+.money-yellow {
+    color: #ffcc00 !important;
+    text-shadow:
+        0 0 4px #ffcc00,
+        0 0 10px #ffcc00,
+        0 0 25px #ffcc00,
+        0 0 50px #ffcc0080;
+}
+
+#edit-electricity {
+    color: #ffe066;
+    border-color: rgba(255, 224, 102, 0.2);
+}
+
+#edit-water {
+    color: #60b4ff;
+    border-color: rgba(96, 180, 255, 0.2);
+}
+
+#edit-food {
+    color: var(--neon-green);
+    border-color: rgba(57, 255, 20, 0.2);
+}
+
+#population {
+    color: var(--neon-cyan);
+    border-color: var(--border-subtle);
+}
+
+#happiness {
+    color: #ff9ff3;
+    border-color: rgba(255, 159, 243, 0.2);
+}
 
 /* ===== PUNTUACIÓN ===== */
 .puntuation {
@@ -209,7 +258,12 @@
         font-size: 0.78rem !important;
     }
 
-    #money, #electricity, #water, #food, #population, #happiness {
+    #money,
+    #electricity,
+    #water,
+    #food,
+    #population,
+    #happiness {
         font-size: 0.65rem;
         padding: 1px 4px;
     }
@@ -319,10 +373,21 @@ aside.col-lg-3 hr {
     letter-spacing: 0.03em;
 }
 
-#city-temperature   { color: var(--neon-amber) !important; }
-#city-condition     { color: var(--text-primary) !important; }
-#city-humidity      { color: #60b4ff !important; }
-#city-wind-velocity { color: var(--neon-cyan) !important; }
+#city-temperature {
+    color: var(--neon-amber) !important;
+}
+
+#city-condition {
+    color: var(--text-primary) !important;
+}
+
+#city-humidity {
+    color: #60b4ff !important;
+}
+
+#city-wind-velocity {
+    color: var(--neon-cyan) !important;
+}
 
 /* ===== NOTICIAS ===== */
 #news-panel {
@@ -387,4 +452,67 @@ aside.col-lg-3 hr {
 
 .news-image:hover {
     filter: saturate(1) brightness(1);
+}
+
+/* ===== PANEL EDICIÓN RECURSOS ===== */
+#resources-edit-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.resource-edit-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resource-edit-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    flex: 1;
+    white-space: nowrap;
+}
+
+.resource-edit-input {
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 0.75rem !important;
+    background: rgba(0, 245, 255, 0.03) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+    padding: 3px 6px !important;
+    width: 55px;
+    border-radius: 0 !important;
+    text-align: left;
+}
+
+.resource-edit-input:focus {
+    border-color: var(--border-glow) !important;
+    outline: none !important;
+    background: rgba(0, 245, 255, 0.06) !important;
+}
+
+.resource-edit-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    background: rgba(57, 255, 20, 0.08);
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    color: var(--neon-green);
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.resource-edit-btn:hover {
+    background: rgba(57, 255, 20, 0.2);
+    border-color: var(--neon-green);
+    color: #fff;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

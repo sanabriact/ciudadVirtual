@@ -1,12 +1,25 @@
 class helpers {
     static updateUI() {
-        document.getElementById('money').textContent = `$${city.money}`;
-        document.getElementById('electricity').textContent = `⚡ ${city.electricity}`;
-        document.getElementById('water').textContent = `💧 ${city.water}`;
-        document.getElementById('food').textContent = `🌾 ${city.food}`;
+        const money = document.getElementById('money');
+        money.textContent = `💵 $${city.money}`;
+        document.getElementById('edit-electricity').value = `${city.electricity}`;
+        document.getElementById('edit-water').value = `${city.water}`;
+        document.getElementById('edit-food').value = `${city.food}`;
         document.getElementById('population').textContent = `👥 ${city.population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
+        
+        money.textContent = `💵 $${city.money}`;
+
+        money.classList.remove('money-green', 'money-yellow', 'money-red');
+
+        if (city.money < 1000) {
+            money.classList.add('money-red');
+        } else if (city.money < 5000) {
+            money.classList.add('money-yellow');
+        } else {
+            money.classList.add('money-green');
+        }
     }
 
     static buildNewBuilding(type, x, y) {
@@ -20,7 +33,7 @@ class helpers {
             city.spendMoney(building);
             city.addBuilding(building);
             city.grid.setCellId(x, y, building.id);
-            document.getElementById('money').textContent = `$${city.money}`;
+            helpers.updateUI()
             return building;
         } else {
             alert("No tienes suficiente dinero para construir esto.");
@@ -29,26 +42,21 @@ class helpers {
     }
 
     static loadCities() {
-        const cityRepository = new CityRepository();
+        const cityService = new CityService();
         const inputRegion = document.getElementById('input-region');
         inputRegion.innerHTML = '<option value="">— Cargando ciudades —</option>';
-
-        cityRepository.getCities()
+        cityService.getCities()
             .then(function (cities) {
                 cities.sort(function (city1, city2) {
                     return city1.name.localeCompare(city2.name);
                 })
-
                 inputRegion.innerHTML = '<option value="">— Selecciona una ciudad —</option>';
-
                 cities.forEach(function (city) {
                     let option = document.createElement('option')
-
                     option.value = city.id;
                     option.textContent = city.name;
                     option.dataset.lat = city.latitude;
                     option.dataset.lon = city.longitude;
-
                     inputRegion.appendChild(option);
                 })
             })
@@ -56,6 +64,49 @@ class helpers {
                 alert("Error al cargar ciudades")
                 inputRegion.innerHTML = '<option value="">— Error al cargar ciudades —</option>';
             });
+    }
+
+    static getWeatherService(lat, lon){
+        const weatherRepository = new WeatherService();
+        weatherRepository.getWeather(lat, lon)
+        .then(data => {
+            document.getElementById('city-temperature').textContent = `Temperatura: ${data.main.temp}°C`;
+            document.getElementById('city-condition').textContent = `Condición: ${data.weather[0].description}`;
+            document.getElementById('city-humidity').textContent = `Humedad: ${data.main.humidity}%`;
+            document.getElementById('city-wind-velocity').textContent = `Velocidad del viento: ${data.wind.speed}m/s`;
+            thereIsRegion = true;
+            })
+            .catch(() => {
+                document.getElementById('city-temperature').textContent = `Temperatura: Error al conseguir temperatura.`;
+                document.getElementById('city-condition').textContent = `Condición: Error al conseguir condición.`;
+            });
+    }
+
+    static getNewsService(country){
+        const newsRepository = new NewsService();
+        newsRepository.getNews(country)
+            .then(data => {
+                let newsPanel = document.getElementById('news-panel');
+                newsPanel.innerHTML = '';
+                data.articles.slice(0, 5).forEach(article => {
+                    let card = document.createElement('div');
+                    card.className = 'card mb-2';
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="article-title">${article.title}</h5>
+                            <p>${article.description}</p>
+                            <a href="${article.url}">Link</a>
+                            <img src="${article.urlToImage}" alt="news image" class="news-image">
+                        </div>
+                    `;
+                    newsPanel.appendChild(card);
+                });
+            })
+            .catch(() => {
+                document.getElementById('news-title').textContent = `Título noticia: Error al conseguir el titulo`;
+                document.getElementById('news-info').textContent = `Descripcion: Error al conseguir descripcion.`;
+            });
+
     }
 
     static showScreen(screen_id) {
@@ -107,10 +158,6 @@ class helpers {
         }
     }
 
-    // =====================================================
-    // setupGridListener
-    // Se agregó el bloque "Modo ruta" al inicio del click
-    // =====================================================
     static setupGridListener() {
         const gridContainer = document.getElementById("grid");
         const newContainer = gridContainer.cloneNode(true);
@@ -123,80 +170,80 @@ class helpers {
             const x = parseInt(cell.dataset.x);
             const y = parseInt(cell.dataset.y);
 
-            // -------------------------------------------------------
-            if (routeMode) {
-                const cellData = city.grid.cells[y][x];
+            helpers.routing(cell, x, y);
+            helpers.renderCellImage(cell, x, y);
 
-                // Solo permite seleccionar edificios, no pasto ni vías
-                if (cellData.id === "g" || cellData.id === "R") {
-                    alert("Selecciona un edificio como origen o destino, no una vía ni terreno vacío.");
-                    return;
-                }
-
-                if (!routeOrigin) {
-                    // Primer clic: guardar como ORIGEN
-                    routeOrigin = { x, y };
-                    cell.classList.add("route-highlight");
-                    document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
-                } else {
-                    // Segundo clic: calcular ruta al DESTINO
-                    RoutingService.calculateRoute(city.grid, routeOrigin.x, routeOrigin.y, x, y)
-                        .then(route => {
-                            if (route) RoutingService.highlightRoute(route);
-                        });
-
-                    // Apagar modo ruta automáticamente
-                    routeMode = false;
-                    routeOrigin = null;
-                    document.getElementById('btn-route').classList.remove('active');
-                    document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
-                }
-                return; // ← Importante: evita que construya o demuela
-            }
-            // -------------------------------------------------------
-
-            // Lo que ya existía — sin cambios:
-            if (selectedButton === null) {
-                // Solo demoler si hay algo Y el botón demoler está activo en la UI
-                const btnDemolish = document.getElementById('btn-demolish');
-                if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
-                    city._buildingManager.deleteBuilding(x, y);
-                    city._grid.setCellId(x, y, "g");
-                    cell.innerHTML = "";
-                }
-
-            } else if (cell.innerHTML.trim() === "") {
-                if (selectedButton.type === "road") {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-
-                } else if (helpers.buildValidation(x, y, selectedButton.type)) {
-                    let building = helpers.buildNewBuilding(selectedButton.type, x, y);
-
-                    if (building !== null) {
-                        cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
-                    }
-
-                } else {
-                    alert("No puedes construir aquí porque no hay una vía adyacente.");
-                }
-            }
         });
-
         return newContainer;
+    }
+
+    static renderCellImage(cell, x, y) {
+        if (selectedButton === null) {
+            // Solo demoler si hay algo Y el botón demoler está activo en la UI
+            const btnDemolish = document.getElementById('btn-demolish');
+            if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
+                city._buildingManager.deleteBuilding(x, y);
+                city._grid.setCellId(x, y, "g");
+                cell.innerHTML = "";
+            }
+        } else if (cell.innerHTML.trim() === "") {
+            if (selectedButton.type === "road") {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else if (helpers.buildValidation(x, y, selectedButton.type)) {
+                let building = helpers.buildNewBuilding(selectedButton.type, x, y);
+                if (building !== null) {
+                    cell.innerHTML = `<img src="${selectedButton.img}" class="cell-icon"/>`;
+                }
+            } else {
+                alert("No puedes construir aquí porque no hay una vía adyacente.");
+            }
+        }
+    }
+
+    static routing(cell, x, y) {
+        if (routeMode) {
+            const cellData = city.grid.cells[y][x];
+            // Solo permite seleccionar edificios, no pasto ni vías
+            if (cellData.id === "g" || cellData.id === "R") {
+                alert("Selecciona un edificio como origen o destino, no una vía ni terreno vacío.");
+                return;
+            }
+
+            if (!routeOrigin) {
+                // Primer clic: guardar como ORIGEN
+                routeOrigin = { x, y };
+                cell.classList.add("route-highlight");
+                document.getElementById('btn-route').textContent = '🗺️ Selecciona destino...';
+            } else {
+                // Segundo clic: calcular ruta al DESTINO
+                RoutingService.calculateRoute(city.grid, routeOrigin.x, routeOrigin.y, x, y)
+                    .then(route => {
+                        if (route) RoutingService.highlightRoute(route);
+                    });
+
+                // Apagar modo ruta automáticamente
+                routeMode = false;
+                routeOrigin = null;
+                document.getElementById('btn-route').classList.remove('active');
+                document.getElementById('btn-route').textContent = '🗺️ Calcular Ruta';
+            }
+            return; // ← Importante: evita que construya o demuela
+        }
     }
 
     static loadCityFromStorage() {
         let loadedCity = CityBuilderStorage.loadCity();
         if (loadedCity) {
             city = loadedCity;
+            document.getElementById('city-name').textContent = `Ciudad: ${city.name}`;
+            document.getElementById('city-mayor').textContent = `Alcalde: ${city.mayor}`;
             city.startTurn();
-            helpers.showScreen('game-page');
             const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city.grid, container);
+            helpers.showScreen('game-page');
         } else {
             alert("No se encontró ninguna partida guardada.");
         }
@@ -215,10 +262,12 @@ class helpers {
         if (city && city.turnSystem) city.turnSystem.stop();
 
         const gridSize = parseInt(document.getElementById("input-map-size").value);
-        const cityNameInput = document.getElementById("input-city-name");
-        const cityMayorInput = document.getElementById("input-mayor-name");
-        const cityValue = cityNameInput.value.trim() || "";
-        const mayorName = cityMayorInput.value.trim() || "";
+        const cityValue = document.getElementById('input-city-name').value.trim();
+        if (cityValue !== "") thereIsCityName = true;
+        const mayorName = document.getElementById('input-mayor-name').value.trim();
+        if (mayorName !== "") thereIsMayorName = true;
+        const cityNameContainer = document.getElementById('city-name');
+        const cityMayorNameContainer = document.getElementById('city-mayor')
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
         let water = parseInt(document.getElementById("input-init-water").value);
         let food = parseInt(document.getElementById("input-init-food").value);
@@ -227,7 +276,10 @@ class helpers {
 
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
-
+        if(!thereIsCityName || !thereIsMayorName || !thereIsRegion) {
+            alert("Por favor, ingresa un nombre para la ciudad, el alcalde y selecciona una región.");
+            return;
+        }
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
         city.turnSystem = new TurnSystem(city, turnDuration);
         city.growthRate = growthRate;
@@ -236,8 +288,8 @@ class helpers {
         city.food = food;
         helpers.updateUI();
         helpers.showScreen('game-page');
-        document.getElementById('city-name').textContent = `Ciudad: ${cityValue}`;
-        document.getElementById('city-mayor').textContent = `Alcalde: ${mayorName}`;
+        cityNameContainer.textContent = `Ciudad: ${cityValue}`;
+        cityMayorNameContainer.textContent = `Alcalde: ${mayorName}`;
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
         city.startTurn();
@@ -274,7 +326,7 @@ class helpers {
     }
 
     static createInfoContainer(type) {
-        const data = this.getBuildingInfo(type);
+        const data = helpers.getBuildingInfo(type);
         if (!data) return null;
 
         const container = document.createElement('div');
@@ -297,6 +349,46 @@ class helpers {
         container.innerHTML = html;
 
         return container;
+    }
+
+    static exportToJSON() {
+        const data = CityBuilderStorage.loadCity();
+        const json = JSON.stringify(data, null, 2);
+        const blob = new Blob([json], {
+            type: "application/json"
+        })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url;
+        a.download = "cityBuilderGame.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url);
+    }
+
+    static importFromJSON() {
+        const input = document.createElement("input")
+        input.type = "file";
+        input.accept = ".json";
+
+        input.addEventListener("change", (event) => {
+            const file = event.target.files[0]
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const datos = JSON.parse(e.target.result);
+                    CityBuilderStorage.save(datos, CityBuilderStorage.keyCity)
+                } catch {
+                    alert("Archivo inválido.")
+                }
+            };
+            reader.readAsText(file)
+        });
+
+        input.click();
     }
 
 }

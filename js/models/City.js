@@ -1,7 +1,7 @@
 class City {
     constructor(name, mayor, regionLat, regionLon, width, height, score, hapinessAverage, grid) {
-        this._name = name || "";
-        this._mayor = mayor || "";
+        this._name = name || "Sin nombre";
+        this._mayor = mayor || "Sin alcalde";
         this._regionLat = regionLat ?? 0;
         this._regionLon = regionLon ?? 0;
         this._width = width ?? 0;
@@ -19,6 +19,14 @@ class City {
     }
 
     // ============ GETTERS (delegados a los managers) ============
+    get name(){
+        return this._name;
+    }
+
+    get mayor(){
+        return this._mayor;
+    }
+
     get buildingManager() {
         return this._buildingManager;
     }
@@ -89,14 +97,10 @@ class City {
     }
 
     set regionLat(value) {
-        if (value >= 0) {
             this._regionLat = value;
-        }
     }
     set regionLon(value) {
-        if (value >= 0) {
             this._regionLon = value;
-        }
     }
     set width(value) {
         if (value >= 0) {
@@ -134,6 +138,14 @@ class City {
 
     set food(food){
         this.resourceManager.food = food;
+    }
+
+    set name(name){
+        this._name = name;
+    }
+
+    set mayor(mayor){
+        this._mayor = mayor;
     }
 
     canAfford(building){
