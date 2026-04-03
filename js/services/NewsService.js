@@ -2,7 +2,7 @@ class NewsService{
     constructor(){
         //Se asigna URL y API cuando se crea un objeto de tipo NewsService. Ahora, para la API que nos dio el profesor en el word, toca usar un proxy para que funcione correctamente, sino sale error en consola de GET. 
         this.newsUrl = "https://newsapi.org/v2/top-headlines";
-        this.apiKey = "4a3bc36a6daf4c7bb48ff123d0e3c3ce";
+        this.apiKey = "1d55e7cf797343b3beccf21f53ee5d4d";
         this.proxy   = "https://cors-anywhere.herokuapp.com/";
     }
 
