@@ -23,11 +23,11 @@ class CitizenManager {
     }
 
     get employedCount() {
-        return this.population.filter(c => c._hasJob).length;
+        return this.population.filter(c => c.hasJob).length;
     }
 
     get unemployedCount() {
-        return this.population.filter(c => !c._hasJob).length;
+        return this.population.filter(c => !c.hasJob).length;
     }
 
     // ============ SETTERS ============
@@ -57,6 +57,28 @@ class CitizenManager {
         return citizen;
     }
 
+    releaseHome(building) {
+        let released = 0;
+        this.population.forEach(citizen => {
+            if (citizen.hasHome && released < building.residents) {
+                citizen.hasHome = false;
+                released++;
+            }
+        });
+        building.residents = 0;
+    }
+
+    releaseJobs(building) {
+        let released = 0;
+        this.population.forEach(citizen => {
+            if (citizen.hasJob && released < building.employeesCount) {
+                citizen.hasJob = false;
+                released++;
+            }
+        });
+        building.employeesCount = 0;
+    }
+
     calculateHappiness(buildings) {
         let happinessBonus = 0;
 
@@ -67,15 +89,15 @@ class CitizenManager {
         });
 
         this.population.forEach(citizen => {
-            let happiness = 0; 
+            let happiness = 0;
             // Factores positivos
-            if (citizen._hasHome) happiness += 20;
-            if (citizen._hasJob) happiness += 15;
+            if (citizen.hasHome) happiness += 20;
+            if (citizen.hasJob) happiness += 15;
             // Factores negativos
-            if (!citizen._hasHome) happiness -= 20;
-            if (!citizen._hasJob) happiness -= 15;
+            if (!citizen.hasHome) happiness -= 20;
+            if (!citizen.hasJob) happiness -= 15;
             happiness += happinessBonus;
-            citizen._happiness = Math.min(100, Math.max(0, happiness));
+            citizen.happiness = Math.min(100, Math.max(0, happiness));
         });
         return this.happinessAverage;
     }
@@ -84,11 +106,11 @@ class CitizenManager {
         const residentials = buildings.filter(b => b instanceof ResidentialBuilding);
 
         this.population.forEach(citizen => {
-            if (!citizen._hasHome) {
-                const building = residentials.find(b => b._residents < b._capacity);
+            if (!citizen.hasHome) {
+                const building = residentials.find(b => b.residents < b.capacity);
                 if (building) {
-                    building._residents++;
-                    citizen._hasHome = true;
+                    building.residents++;
+                    citizen.hasHome = true;
                 }
             }
         });
@@ -101,52 +123,46 @@ class CitizenManager {
 
         this.population.forEach(citizen => {
             if (!citizen._hasJob) {
-                const building = buildingsWithJobs.find(building => building._employeesCount < building._jobs);
+                const building = buildingsWithJobs.find(building => building.employeesCount < building.jobs);
                 if (building) {
-                    building._employeesCount = (building._employeesCount || 0) + 1;
-                    citizen._hasJob = true;
+                    building.employeesCount = (building.employeesCount || 0) + 1;
+                    citizen.hasJob = true;
                 }
             }
         });
     }
 
     growPopulation(buildings) {
-    const thereIsHouse = this.thereIsResidentialCapacity(buildings);
-    const thereIsJob = this.thereIsJobAvailability(buildings);
-    const happinessOk = this.population.length === 0 ? true : this.happinessAverage > 60;
+        const thereIsHouse = this.thereIsResidentialCapacity(buildings);
+        const thereIsJob = this.thereIsJobAvailability(buildings);
+        const happinessOk = this.population.length === 0 ? true : this.happinessAverage > 60;
 
-    if (!thereIsHouse) {
-        return;
-    }
-    if (!thereIsJob) {
-        return;
-    }
-    if (!happinessOk) {
-        return;
-    }
-
-    const news = Math.floor(Math.random() * this._growthRate) + 1;
-
-    for (let i = 0; i < news; i++) {
-        if (!this.thereIsResidentialCapacity(buildings)) {
-            break;
+        if (!thereIsHouse || !thereIsJob || !happinessOk) {
+            return;
         }
-        this.createCitizen(`citizen`, 50, false, false);
-        
+
+        const news = Math.floor(Math.random() * this._growthRate) + 1;
+
+        for (let i = 0; i < news; i++) {
+            if (!this.thereIsResidentialCapacity(buildings)) {
+                break;
+            }
+            this.createCitizen(`citizen`, 50, false, false);
+
+        }
     }
-}
 
     thereIsResidentialCapacity(buildings) {
         return buildings
             .filter(b => b instanceof ResidentialBuilding)
-            .some(b => b._residents < b._capacity);
+            .some(b => b.residents < b.capacity);
     }
 
     thereIsJobAvailability(buildings) {
         const builds = buildings.filter(
             b => b instanceof CommercialBuilding || b instanceof IndustrialBuilding
         );
-        return builds.some(b => (b._employeesCount || 0) < b._jobs);
+        return builds.some(b => (b.employeesCount || 0) < b.jobs);
     }
 
     toJSON() {

@@ -11,4 +11,8 @@ class Park extends Building {
             this._happinessBonus = happinessBonus;
         }
     }
+
+    get happinessBonus(){
+        return this._happinessBonus;
+    }
 }

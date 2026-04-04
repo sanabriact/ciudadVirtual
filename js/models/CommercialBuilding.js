@@ -19,4 +19,12 @@ class CommercialBuilding extends Building {
             this._incomePerTurn = incomePerTurn;
         }
     }
+
+    get jobs(){
+        return this._jobs;
+    }
+
+    get incomePerTurn(){
+        return this._incomePerTurn;
+    }
 }

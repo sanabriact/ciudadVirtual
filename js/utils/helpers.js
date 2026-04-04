@@ -182,8 +182,8 @@ class helpers {
             // Solo demoler si hay algo Y el botón demoler está activo en la UI
             const btnDemolish = document.getElementById('btn-demolish');
             if (cell.innerHTML.trim() !== "" && btnDemolish.classList.contains('active')) {
-                city._buildingManager.deleteBuilding(x, y);
-                city._grid.setCellId(x, y, "g");
+                city.deleteBuilding(x, y);
+                city.setCellId(x, y, "g");
                 cell.innerHTML = "";
             }
         } else if (cell.innerHTML.trim() === "") {

@@ -70,7 +70,7 @@ class ResourceManager {
     }
 
     get electricityConsumption(){
-        return this._electricityConsumption
+        return this._electricConsumption;
     }
 
     get water(){
@@ -111,7 +111,7 @@ class ResourceManager {
     // Retorna true si pudo gastar, false si no alcanzaba el dinero
     spendMoney(building) {
         if (building._cost > 0 && this.canAfford(building)) {
-            this._money -= building._cost;
+            this._money -= building.cost;
             return true;
         }
         return false;
@@ -138,15 +138,15 @@ class ResourceManager {
         buildings.forEach(building => {
 
             // Todos los edificios consumen electricidad y agua (los parques consumen 0)
-            totalElectricityConsumption += building._electricityConsumption || 0;
-            totalWaterConsumption += building._waterConsumption || 0;
+            totalElectricityConsumption += building.electricityConsumption || 0;
+            totalWaterConsumption += building.waterConsumption || 0;
 
             // Plantas de utilidad: producen electricidad o agua
             if (building instanceof UtilityPlant) {
                 if (building._productionType === "electricity") {
-                    totalElectricityProduction += building._productionAmount || 0;
+                    totalElectricityProduction += building.productionAmount || 0;
                 } else if (building._productionType === "water") {
-                    totalWaterProduction += building._productionAmount || 0;
+                    totalWaterProduction += building.productionAmount || 0;
                 }
             }
 
@@ -154,7 +154,7 @@ class ResourceManager {
             if (building instanceof CommercialBuilding) {
                 const thereIsElectricity = (totalElectricityProduction - totalElectricityConsumption) >= 0;
                 if (thereIsElectricity) {
-                    totalIncome += building._incomePerTurn || 0;
+                    totalIncome += building.incomePerTurn || 0;
                 }
             }
 
@@ -166,12 +166,12 @@ class ResourceManager {
                 if (building._productionType === "money") {
                     // Fábrica: necesita electricidad Y agua
                     if (thereIsElectricity && thereIsWater) {
-                        totalIncome += building._incomePerTurn || 0;
+                        totalIncome += building.incomePerTurn || 0;
                     }
                 } else if (building._productionType === "food") {
                     // Granja: solo necesita agua
                     if (thereIsWater) {
-                        totalFoodProduction += building._incomePerTurn || 0;
+                        totalFoodProduction += building.incomePerTurn || 0;
                     } 
                 }
             }

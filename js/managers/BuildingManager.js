@@ -13,7 +13,7 @@ class BuildingManager {
 
     deleteBuilding(x, y) {
         let buildingsNumber = this._buildings.length;
-        this._buildings = this._buildings.filter(building => !(building._x === x && building._y === y));
+        this._buildings = this._buildings.filter(building => !(building.x === x && building.y === y));
         return this._buildings.length < buildingsNumber;
     }
 

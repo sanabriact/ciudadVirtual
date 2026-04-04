@@ -32,4 +32,16 @@ class IndustrialBuilding extends Building {
     set employeesCount(value) {
         if (value >= 0 && value <= this._jobs) this._employeesCount = value;
     }
+
+    get productionType(){
+        return this._productionType;
+    }
+
+    get incomePerTurn(){
+        return this._incomePerTurn;
+    }
+
+    get employeesCount(){
+        return this._employeesCount;
+    }
 }
