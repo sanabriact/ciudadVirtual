@@ -19,11 +19,11 @@ class City {
     }
 
     // ============ GETTERS (delegados a los managers) ============
-    get name(){
+    get name() {
         return this._name;
     }
 
-    get mayor(){
+    get mayor() {
         return this._mayor;
     }
 
@@ -31,19 +31,19 @@ class City {
         return this._buildingManager;
     }
 
-    get resourceManager(){
+    get resourceManager() {
         return this._resourceManager;
     }
 
-    get citizenManager(){
+    get citizenManager() {
         return this._citizenManager;
     }
 
-    get scoreManager(){
+    get scoreManager() {
         return this._scoreManager;
     }
 
-    get turnSystem(){
+    get turnSystem() {
         return this._turnSystem;
     }
 
@@ -55,7 +55,7 @@ class City {
         return this.buildingManager.buildings;
     }
 
-    get grid(){
+    get grid() {
         return this._grid;
     }
 
@@ -67,11 +67,11 @@ class City {
         return this.citizenManager.happinessAverage;
     }
 
-    get money(){
+    get money() {
         return this.resourceManager.money;
     }
 
-    get electricity(){
+    get electricity() {
         return this.resourceManager.electricity;
     }
 
@@ -83,24 +83,24 @@ class City {
         return this.resourceManager.food;
     }
 
-    get turnDuration(){
+    get turnDuration() {
         return this.turnSystem.turnDuration ?? 5;
     }
 
     // ============ SETTERS ============
-    set population(population){
+    set population(population) {
         this._citizenManager.population = population;
     }
 
-    set grid(grid){
+    set grid(grid) {
         this._grid = grid;
     }
 
     set regionLat(value) {
-            this._regionLat = value;
+        this._regionLat = value;
     }
     set regionLon(value) {
-            this._regionLon = value;
+        this._regionLon = value;
     }
     set width(value) {
         if (value >= 0) {
@@ -119,92 +119,103 @@ class City {
     }
 
     set growthRate(number) {
-        if(number>0){
+        if (number > 0) {
             this.citizenManager.growthRate = number;
         }
     }
 
-    set turnSystem(turnSystem){
+    set turnSystem(turnSystem) {
         this._turnSystem = turnSystem;
     }
 
-    set electricity(electricity){
+    set electricity(electricity) {
         this.resourceManager.electricity = electricity;
     }
 
-    set water(water){
-        this.resourceManager.water = water; 
+    set water(water) {
+        this.resourceManager.water = water;
     }
 
-    set food(food){
+    set food(food) {
         this.resourceManager.food = food;
     }
 
-    set name(name){
+    set name(name) {
         this._name = name;
     }
 
-    set mayor(mayor){
+    set mayor(mayor) {
         this._mayor = mayor;
     }
 
-    canAfford(building){
+    canAfford(building) {
         return this.resourceManager.canAfford(building);
     }
 
-    spendMoney(building){
+    spendMoney(building) {
         return this.resourceManager.spendMoney(building);
     }
 
-    startTurn(){
+    startTurn() {
         this.turnSystem.start();
     }
 
-    stopTurn(){
+    stopTurn() {
         this.turnSystem.stop();
     }
 
-    calculateHappiness(){
+    calculateHappiness() {
         return this.citizenManager.calculateHappiness(this.buildings);
     }
 
-    calculateScore(){
+    calculateScore() {
         return this.scoreManager.calculateScore();
     }
 
-    updateResources(){
+    updateResources() {
         return this.resourceManager.updateResources(this.buildings)
     }
 
-    growPopulation(){
+    growPopulation() {
         return this.citizenManager.growPopulation(this.buildings);
     }
 
-    assignJobs(){
+    assignJobs() {
         this.citizenManager.assignJobs(this.buildings);
     }
 
-    assignHomes(){
+    assignHomes() {
         this.citizenManager.assignHomes(this.buildings);
     }
 
-    checkGameOver(){
+    checkGameOver() {
         return this.resourceManager.checkGameOver();
     }
 
-    deleteBuilding(x,y){
+    deleteBuilding(x, y) {
+        const building = this._buildingManager.buildings.find(b => b.x == x && b.y == y);
+        if (building) {
+            // Desasignar hogares si es residencial
+            if (building instanceof ResidentialBuilding) {
+                this._citizenManager.releaseHome(building);
+            }
+            // Desasignar empleos si es comercial o industrial
+            if (building instanceof CommercialBuilding || building instanceof IndustrialBuilding) {
+                this._citizenManager.releaseJobs(building);
+            }
+        }
         this.buildingManager.deleteBuilding(x, y);
     }
 
-    addBuilding(building){
+    addBuilding(building) {
         this.buildingManager.addBuilding(building);
     }
 
-    setCellId(x,y,string){
-        this.grid.setCellId(x,y,string);
+    setCellId(x, y, string) {
+        this.grid.setCellId(x, y, string);
     }
 
-    
+
     toJSON() {
         return {
             _name: this._name,

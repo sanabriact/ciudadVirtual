@@ -54,7 +54,7 @@ class TurnSystem {
             this.stop();
             document.getElementById('game-over-reason').textContent = gameOver.reason;
             document.getElementById('game-over-score').textContent =
-                `Puntuación final: ${this._city._scoreManager._score > 0 ? this._city._scoreManager._score : 0}`;
+                `Puntuación final: ${this._city.score > 0 ? this._city.score : 0}`;
             helpers.showScreen("game-over-page");
         }
     }

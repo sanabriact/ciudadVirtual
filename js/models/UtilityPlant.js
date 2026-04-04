@@ -18,4 +18,12 @@ class UtilityPlant extends Building {
     set productionAmount(value) {
         if (value >= 0) this._productionAmount = value;
     }
+
+    get productionType(){
+        return this._productionType;
+    }
+
+    get productionAmount(){
+        return this._productionAmount;
+    }
 }

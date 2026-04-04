@@ -12,7 +12,6 @@
 
 /* Marco decorativo del mapa */
 #map-container::before {
-    content: 'CITY MAP // GRID VIEW';
     position: absolute;
     top: 6px;
     left: 16px;
@@ -107,8 +106,8 @@
 
 /* ===== ICONO DE VÍA MÁS PEQUEÑO ===== */
 .cell-icon.road-icon {
-    width: 60% !important;
-    height: 60% !important;
+    width: 95% !important;
+    height: 95% !important;
     object-fit: contain;
     top: 50%;
     left: 50%;
@@ -121,7 +120,8 @@
 
 .cell:hover .cell-icon.road-icon {
     transform: translate(-50%, -50%) scale(1.05);
-}
+    
+} 
 
 /* ===== RUTA DIJKSTRA ===== */
 .route-highlight {

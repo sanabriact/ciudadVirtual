@@ -8,9 +8,24 @@ class Road {
         this._y = y;
     }
 
-    //==========SETTERS=============
     get id(){
         return this._id;
+    }
+
+    get name(){
+        return this._name;
+    }
+
+    get x(){
+        return this._x;
+    }
+
+    get y(){
+        return this._y;
+    }
+
+    get cost(){
+        return this._cost;
     }
 
     set id(id){
@@ -27,4 +42,7 @@ class Road {
         }
     }
 
+    set name(name){
+        this._name = name;
+    }
 }

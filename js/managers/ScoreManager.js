@@ -10,11 +10,11 @@ class ScoreManager {
         return this._score;
     }
     allHasJob() {
-        return this._citizenManager._population.every(c => c._hasJob);
+        return this._citizenManager._population.every(c => c.hasJob);
     }
 
     withoutJob() {
-        return this._citizenManager._population.filter(c => !c._hasJob);
+        return this._citizenManager._population.filter(c => !c.hasJob);
     }
 
     citizensValidation() {
@@ -25,7 +25,7 @@ class ScoreManager {
         return (
             this._resourceManager.electricityBalance > 0 &&
             this._resourceManager.waterBalance > 0 &&
-            this._resourceManager._money > 0
+            this._resourceManager.money > 0
         );
     }
 
@@ -55,7 +55,7 @@ class ScoreManager {
         if(this._citizenManager.population.length === 0){
             return 0;
         }
-        if (this._resourceManager._money < 0) {
+        if (this._resourceManager.money < 0) {
             penalization += 500;
         }
         if (this._resourceManager.electricityBalance < 0) {

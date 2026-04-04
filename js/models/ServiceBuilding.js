@@ -19,4 +19,12 @@ class ServiceBuilding extends Building {
             this._happinessBonus = happinessBonus;
         }
     }
+
+    get radius(){
+        return this._radius;
+    }
+
+    get happinessBonus(){
+        return this._happinessBonus;
+    }
 }
