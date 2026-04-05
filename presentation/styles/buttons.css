@@ -62,7 +62,10 @@
 
 /* ===== BOTÓN VOLVER ===== */
 .btn-back,
-#return, #return-page, #btn-back-page, #btn-info-back-page {
+#return,
+#return-page,
+#btn-back-page,
+#btn-info-back-page {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.7rem;
     font-weight: 500;
@@ -82,7 +85,10 @@
 }
 
 .btn-back:hover,
-#return:hover, #return-page:hover, #btn-back-page:hover, #btn-info-back-page:hover {
+#return:hover,
+#return-page:hover,
+#btn-back-page:hover,
+#btn-info-back-page:hover {
     color: var(--neon-cyan) !important;
     border-color: var(--border-glow);
     background: rgba(0, 245, 255, 0.05);
@@ -90,7 +96,8 @@
 }
 
 /* ===== BOTÓN FUNDAR CIUDAD ===== */
-#btn-create-game {
+#btn-create-game,
+#btn-load-txt {
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
@@ -115,9 +122,17 @@
     color: #fff;
 }
 
+#btn-load-txt:hover {
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.25), rgba(0, 245, 255, 0.1));
+    box-shadow: var(--shadow-neon);
+    transform: translateY(-2px);
+    color: #fff;
+}
+
 /* ===== BOTÓN CARGAR / BORRAR ===== */
 #btn-load-game,
-#delete-game-button, #btn-load-json {
+#delete-game-button,
+#btn-load-json {
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: 0.8rem;
@@ -218,7 +233,7 @@
     clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
 }
 
-#export{
+#export {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 0.1em;
@@ -230,11 +245,16 @@
     clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
 }
 
-#btn-load-json{
+#btn-load-json {
     color: var(--neon-green);
 }
 
-#btn-route:hover, #btn-route.active {
+#btn-load-txt {
+    color: var(--neon-green);
+}
+
+#btn-route:hover,
+#btn-route.active {
     background: rgba(0, 245, 255, 0.2);
     box-shadow: 0 0 12px rgba(0, 245, 255, 0.3);
     color: #fff;
@@ -305,7 +325,7 @@
     text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
 }
 
-.building-info-list{
+.building-info-list {
     color: white;
     text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
 }

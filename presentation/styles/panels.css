@@ -1,43 +1,3 @@
-/* panels.css */
-
-/* ===== PANEL DE RECURSOS ===== */
-#resources-edit-panel {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-}
-
-.resource-edit-row {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-}
-
-.resource-edit-label {
-    font-size: 0.9rem;
-}
-
-.resource-edit-input {
-    width: 70px;
-    font-size: 0.8rem;
-    padding: 2px 4px;
-}
-
-.resource-edit-btn {
-    font-size: 0.75rem;
-    padding: 2px 6px;
-}
-
-/* ===== PUNTUACIÓN ===== */
-.puntuation {
-    border-top: 1px solid var(--border-subtle);
-    padding-top: 6px;
-    margin-top: 4px;
-}
-
 /* ===== CARDS NOTICIAS ===== */
 .card {
     background: var(--bg-card) !important;
@@ -60,11 +20,30 @@ hr {
     opacity: 1;
 }
 
-/* ===== ALERTAS / MODALS ===== */
+/* ===== ALERTAS ===== */
 .alert {
     background: rgba(0, 245, 255, 0.05);
     border: 1px solid var(--border-glow);
     color: var(--text-primary);
     border-radius: 0;
     font-family: 'Exo 2', sans-serif;
+}
+
+/* ===== LIST GROUP EN PANTALLAS DE CIUDAD ===== */
+.list-group-item {
+    background: rgba(0, 245, 255, 0.03) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 0.9rem !important;
+    border-radius: 0 !important;
+    margin-bottom: 4px;
+    padding: 12px 16px !important;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.list-group-item span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
 }

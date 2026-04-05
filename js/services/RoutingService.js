@@ -34,16 +34,16 @@ class RoutingService {
 
         // El backend espera [fila, columna] → [y, x]
         const body = {
-            map:   map,
+            map: map,
             start: [startY, startX],
-            end:   [endY,   endX]
+            end: [endY, endX]
         };
 
         try {
             const response = await fetch(RoutingService.BACKEND_URL, {
-                method:  "POST",
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body:    JSON.stringify(body)
+                body: JSON.stringify(body)
             });
 
             const data = await response.json();

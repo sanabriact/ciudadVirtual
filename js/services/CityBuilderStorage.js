@@ -1,9 +1,20 @@
 class CityBuilderStorage {
-
+    static interval = null
     static keyCity = "city"
 
     static save(object, key) {
         localStorage.setItem(key, JSON.stringify(object));
+    }
+
+    static autoSave(object, key) {
+        this.interval = setInterval(() => {
+            this.save(object, key);
+        }, 30000);
+    }
+
+    static stopAutoSave() {
+        clearInterval(this.interval);
+        this.interval = null;
     }
 
     static loadCity() {

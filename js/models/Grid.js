@@ -38,7 +38,7 @@ class Grid {
         }
     }
 
-    setCellId(x,y,id){
+    setCellId(x, y, id) {
         this._cells[y][x]._id = id;
     }
 }

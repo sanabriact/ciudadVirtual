@@ -1,6 +1,7 @@
 let city = null;
 let turnSystem = null;
 let selectedButton = null;
+let loadedMap = null;
 
 // Variables globales para el modo ruta
 let routeMode = false;
@@ -27,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let deleteGameButton = document.getElementById('delete-game-button');
     let btnRoute = document.getElementById('btn-route');
     let constructionsInfo = document.querySelectorAll('.chevron');
-    let constructionsInfoDivs = document.querySelectorAll('[id$="-info"]')
+    let constructionsInfoDivs = document.querySelectorAll('[id$="-info"]');
+    let btnLoadTXT = document.getElementById('btn-load-txt');
 
     // =====================================================
 
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         constructionsInfoDivs.forEach(div => {
             div.innerHTML = '';
         });
+
     });
 
     btnBack.forEach(function (btn) {
@@ -103,21 +106,24 @@ document.addEventListener("DOMContentLoaded", () => {
     exportButton.addEventListener('click', () => {
         response = confirm("Se guardará un archivo con la información de la ciudad.")
 
-        if(response) {
+        if (response) {
             helpers.exportToJSON();
         }
     });
 
     btnLoadJSON.addEventListener('click', () => {
         helpers.importFromJSON();
-        helpers.loadCityFromStorage();
     });
-    
+
+    btnLoadTXT.addEventListener('click', () => {
+        helpers.importMapFromFile();
+    })
+
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];
         let lat = option.dataset.lat;
         let lon = option.dataset.lon;
-        
+
         helpers.getWeatherService(lat, lon);
         helpers.getNewsService("us");
     });
@@ -180,18 +186,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.querySelectorAll('.resource-edit-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (!city) return;
+        btn.addEventListener('click', () => {
+            if (!city) return;
 
-        const resource = btn.dataset.resource;
-        const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
+            const resource = btn.dataset.resource;
+            const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
 
-        if (resource === 'electricity') city.electricity = value;
-        if (resource === 'water') city.water = value;
-        if (resource === 'food') city.food = value;
+            if (resource === 'electricity') city.electricity = value;
+            if (resource === 'water') city.water = value;
+            if (resource === 'food') city.food = value;
 
-        helpers.updateUI();
+            helpers.updateUI();
+        });
     });
-});
 
+    window.addEventListener('load', helpers.adjustGamePageOffset);
+    window.addEventListener('resize', helpers.adjustGamePageOffset);
 });

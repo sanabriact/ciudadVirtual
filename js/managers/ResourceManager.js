@@ -57,7 +57,7 @@ class ResourceManager {
         }
     }
 
-    get electricity(){
+    get electricity() {
         return this._electricity;
     }
 
@@ -65,15 +65,15 @@ class ResourceManager {
         return this._electricityProduction - this._electricConsumption;
     }
 
-    get electricityProduction(){
+    get electricityProduction() {
         return this._electricityProduction;
     }
 
-    get electricityConsumption(){
+    get electricityConsumption() {
         return this._electricConsumption;
     }
 
-    get water(){
+    get water() {
         return this._water;
     }
 
@@ -81,11 +81,11 @@ class ResourceManager {
         return this._waterProduction - this._waterConsumption;
     }
 
-    get waterProduction(){
+    get waterProduction() {
         return this._waterProduction;
     }
 
-    get waterConsumption(){
+    get waterConsumption() {
         return this._waterConsumption
     }
 
@@ -134,6 +134,8 @@ class ResourceManager {
         let totalWaterConsumption = 0;
         let totalFoodProduction = 0;
         let totalIncome = 0;
+        let foodConsume = 0;
+        let citizens = city.population.length;
 
         buildings.forEach(building => {
 
@@ -172,7 +174,7 @@ class ResourceManager {
                     // Granja: solo necesita agua
                     if (thereIsWater) {
                         totalFoodProduction += building.incomePerTurn || 0;
-                    } 
+                    }
                 }
             }
         });
@@ -188,8 +190,13 @@ class ResourceManager {
         this._electricity = Math.max(0, this._electricity + totalElectricityProduction - totalElectricityConsumption);
         this._water = Math.max(0, this._water + totalWaterProduction - totalWaterConsumption);
 
-        // La comida se acumula turno a turno
+        // La comida se acumula turno a turno y se calcula el consumo por ciudadano.
         this._food += totalFoodProduction;
+        if (citizens > 0) {
+            foodConsume = 10;
+            foodConsume *= citizens;
+            this._food -= foodConsume;
+        }
 
         // Sumamos los ingresos al dinero total
         this.addIncome(totalIncome);
@@ -208,6 +215,12 @@ class ResourceManager {
             return {
                 gameOver: true,
                 reason: "¡Te quedaste sin agua!"
+            };
+        }
+        if (this._food < 0) {
+            return {
+                gameOver: true,
+                reason: "¡Te quedaste sin comida!"
             };
         }
         return {

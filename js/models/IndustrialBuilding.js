@@ -1,12 +1,12 @@
 class IndustrialBuilding extends Building {
     static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, jobs, productionType, incomePerTurn) {
-        super(id, name+"-"+IndustrialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y);
-        this._jobs             = jobs             ?? 0;
+        super(id, name + "-" + IndustrialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y);
+        this._jobs = jobs ?? 0;
         // productionType: "money" (fábrica) o "food" (granja)
-        this._productionType   = productionType   || "money";
-        this._incomePerTurn    = incomePerTurn    ?? 0;   // para fábricas
-        this._employeesCount   = 0;
+        this._productionType = productionType || "money";
+        this._incomePerTurn = incomePerTurn ?? 0;   // para fábricas
+        this._employeesCount = 0;
     }
 
     // ============ SETTERS ============
@@ -33,15 +33,15 @@ class IndustrialBuilding extends Building {
         if (value >= 0 && value <= this._jobs) this._employeesCount = value;
     }
 
-    get productionType(){
+    get productionType() {
         return this._productionType;
     }
 
-    get incomePerTurn(){
+    get incomePerTurn() {
         return this._incomePerTurn;
     }
 
-    get employeesCount(){
+    get employeesCount() {
         return this._employeesCount;
     }
 }
