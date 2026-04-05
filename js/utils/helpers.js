@@ -8,7 +8,7 @@ class helpers {
         document.getElementById('population').textContent = `👥 ${city.population.length}`;
         document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
-        
+
         money.textContent = `💵 $${city.money}`;
 
         money.classList.remove('money-green', 'money-yellow', 'money-red');
@@ -66,15 +66,15 @@ class helpers {
             });
     }
 
-    static getWeatherService(lat, lon){
+    static getWeatherService(lat, lon) {
         const weatherRepository = new WeatherService();
         weatherRepository.getWeather(lat, lon)
-        .then(data => {
-            document.getElementById('city-temperature').textContent = `Temperatura: ${data.main.temp}°C`;
-            document.getElementById('city-condition').textContent = `Condición: ${data.weather[0].description}`;
-            document.getElementById('city-humidity').textContent = `Humedad: ${data.main.humidity}%`;
-            document.getElementById('city-wind-velocity').textContent = `Velocidad del viento: ${data.wind.speed}m/s`;
-            thereIsRegion = true;
+            .then(data => {
+                document.getElementById('city-temperature').textContent = `Temperatura: ${data.main.temp}°C`;
+                document.getElementById('city-condition').textContent = `Condición: ${data.weather[0].description}`;
+                document.getElementById('city-humidity').textContent = `Humedad: ${data.main.humidity}%`;
+                document.getElementById('city-wind-velocity').textContent = `Velocidad del viento: ${data.wind.speed}m/s`;
+                thereIsRegion = true;
             })
             .catch(() => {
                 document.getElementById('city-temperature').textContent = `Temperatura: Error al conseguir temperatura.`;
@@ -82,7 +82,7 @@ class helpers {
             });
     }
 
-    static getNewsService(country){
+    static getNewsService(country) {
         const newsRepository = new NewsService();
         newsRepository.getNews(country)
             .then(data => {
@@ -259,7 +259,10 @@ class helpers {
     }
 
     static createNewGame() {
-        if (city && city.turnSystem) city.turnSystem.stop();
+        if (city && city.turnSystem) {
+            city.turnSystem.stop()
+            CityBuilderStorage.stopAutoSave();
+        };
 
         const gridSize = parseInt(document.getElementById("input-map-size").value);
         const cityValue = document.getElementById('input-city-name').value.trim();
@@ -276,8 +279,8 @@ class helpers {
 
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
-        if(!thereIsCityName || !thereIsMayorName || !thereIsRegion) {
-            alert("Por favor, ingresa un nombre para la ciudad, el alcalde y selecciona una región.");
+        if (!thereIsCityName || !thereIsMayorName || !thereIsRegion) {
+            alert("Por favor, ingresa un nombre para la ciudad, el alcalde y/o selecciona una región.");
             return;
         }
         city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
@@ -293,6 +296,7 @@ class helpers {
         const container = helpers.setupGridListener();
         GridRenderer.render(grid, container);
         city.startTurn();
+        CityBuilderStorage.autoSave(city, CityBuilderStorage.keyCity);
     }
 
     static returnToStartPage() {
@@ -389,6 +393,20 @@ class helpers {
         });
 
         input.click();
+    }
+
+    // Reemplaza tu función adjustGamePageOffset en App.js por esta:
+
+    static adjustGamePageOffset() {
+        const header = document.getElementById('header');
+        const gamePage = document.getElementById('game-page');
+        if (!header || !gamePage) return;
+
+        const h = header.offsetHeight;
+        gamePage.style.paddingTop = h + 'px';
+
+        // Esto hace que map.css use la altura real del header
+        document.documentElement.style.setProperty('--header-h', h + 'px');
     }
 
 }

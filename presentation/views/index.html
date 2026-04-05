@@ -265,13 +265,16 @@
 
     <!--  ==================== PANTALLA DE JUEGO  ====================-->
     <div id="game-page" class=" screen city-creation">
+
+        <!-- REEMPLAZA solo el bloque del header en tu index.html -->
+        <!-- Quita los dos <br> que había dentro de header-left y header-right -->
+
         <header id="header">
             <div id="header-inner">
 
                 <!-- Izquierda: botón + ciudad/alcalde -->
                 <div id="header-left">
                     <button type="button" id="return-start-page">Menú principal</button>
-                    <br>
                     <div id="container-city">
                         <h6 id="city-name"></h6>
                         <h6 id="city-mayor"></h6>
@@ -283,10 +286,9 @@
                     <h3 id="screen-title">City Builder Game</h3>
                 </div>
 
-                <!-- Derecha: recursos -->
+                <!-- Derecha: recursos + puntuación -->
                 <div id="header-right">
-                    <br>
-                    <div id="resources-edit-panel" class="mb-4">
+                    <div id="resources-edit-panel">
                         <span id="money">💵 $50,000</span>
                         <div class="resource-edit-row">
                             <label class="resource-edit-label">⚡</label>
@@ -307,13 +309,14 @@
                         <span id="happiness">😊 0%</span>
                     </div>
                     <div class="puntuation">
-                        <h5 class="subtitles">Puntuación</h5>
+                        <h5 class="subtitles">Pts</h5>
                         <div id="score-panel">
                             <h4>0</h4>
                         </div>
                     </div>
-
                 </div>
+
+            </div>
         </header>
         <div class="row">
             <aside class="col-lg-2 bg-light sidebar p-3">

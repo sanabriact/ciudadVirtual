@@ -2,6 +2,8 @@ let city = null;
 let turnSystem = null;
 let selectedButton = null;
 
+
+
 // Variables globales para el modo ruta
 let routeMode = false;
 let routeOrigin = null;
@@ -103,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     exportButton.addEventListener('click', () => {
         response = confirm("Se guardará un archivo con la información de la ciudad.")
 
-        if(response) {
+        if (response) {
             helpers.exportToJSON();
         }
     });
@@ -112,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
         helpers.importFromJSON();
         helpers.loadCityFromStorage();
     });
-    
+
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];
         let lat = option.dataset.lat;
         let lon = option.dataset.lon;
-        
+
         helpers.getWeatherService(lat, lon);
         helpers.getNewsService("us");
     });
@@ -180,18 +182,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.querySelectorAll('.resource-edit-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (!city) return;
+        btn.addEventListener('click', () => {
+            if (!city) return;
 
-        const resource = btn.dataset.resource;
-        const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
+            const resource = btn.dataset.resource;
+            const value = parseInt(document.getElementById(`edit-${resource}`).value) || 0;
 
-        if (resource === 'electricity') city.electricity = value;
-        if (resource === 'water') city.water = value;
-        if (resource === 'food') city.food = value;
+            if (resource === 'electricity') city.electricity = value;
+            if (resource === 'water') city.water = value;
+            if (resource === 'food') city.food = value;
 
-        helpers.updateUI();
+            helpers.updateUI();
+        });
     });
-});
 
+    window.addEventListener('load', helpers.adjustGamePageOffset);
+    window.addEventListener('resize', helpers.adjustGamePageOffset);
 });

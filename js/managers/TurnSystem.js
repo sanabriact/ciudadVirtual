@@ -27,7 +27,6 @@ class TurnSystem {
     }
 
     nextTurn() {
-        CityBuilderStorage.save(this._city, "city")
 
         // 1. Actualizar recursos
         this._city.updateResources();
@@ -56,6 +55,7 @@ class TurnSystem {
             document.getElementById('game-over-score').textContent =
                 `Puntuación final: ${this._city.score > 0 ? this._city.score : 0}`;
             helpers.showScreen("game-over-page");
+            CityBuilderStorage.clear();
         }
     }
 

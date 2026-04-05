@@ -29,8 +29,7 @@ class GridRenderer {
                 if (cell.id !== "g") {
                     const img = GridRenderer.buildingImages[cell.id];
                     if (img) {
-                        const isRoad = cell.id === "R";
-                        html += `<img src="${img}" class="cell-icon${isRoad ? ' road-icon' : ''}"/>`;
+                        html += `<img src="${img}" class="cell-icon"/>`;
                     }
                 }
 
