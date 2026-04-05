@@ -5,12 +5,12 @@ class TurnSystem {
         this._interval = null;
     }
 
-    get turnDuration(){
+    get turnDuration() {
         return this._turnDuration;
     }
 
     set turnDuration(duration) {
-        if(duration>0){
+        if (duration > 0) {
             this._turnDuration = duration;
         }
     }
@@ -30,20 +30,20 @@ class TurnSystem {
 
         // 1. Actualizar recursos
         this._city.updateResources();
-        
+
         // 2. Hacer crecer población
         this._city.growPopulation();
-        
+
         // 3. Asignar hogares y empleos
         this._city.assignHomes();
         this._city.assignJobs();
-        
+
         // 4. Calcular felicidad
         this._city.calculateHappiness();
-        
+
         // 5. Calcular puntuación
         this._city.calculateScore();
-        
+
         // 6. Actualizar UI
         helpers.updateUI();
 

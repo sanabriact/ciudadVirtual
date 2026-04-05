@@ -1,8 +1,7 @@
 let city = null;
 let turnSystem = null;
 let selectedButton = null;
-
-
+let loadedMap = null;
 
 // Variables globales para el modo ruta
 let routeMode = false;
@@ -29,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let deleteGameButton = document.getElementById('delete-game-button');
     let btnRoute = document.getElementById('btn-route');
     let constructionsInfo = document.querySelectorAll('.chevron');
-    let constructionsInfoDivs = document.querySelectorAll('[id$="-info"]')
+    let constructionsInfoDivs = document.querySelectorAll('[id$="-info"]');
+    let btnLoadTXT = document.getElementById('btn-load-txt');
 
     // =====================================================
 
@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         constructionsInfoDivs.forEach(div => {
             div.innerHTML = '';
         });
+
     });
 
     btnBack.forEach(function (btn) {
@@ -112,8 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnLoadJSON.addEventListener('click', () => {
         helpers.importFromJSON();
-        helpers.loadCityFromStorage();
     });
+
+    btnLoadTXT.addEventListener('click', () => {
+        helpers.importMapFromFile();
+    })
 
     inputRegion.addEventListener('change', function () {
         let option = this.options[this.selectedIndex];

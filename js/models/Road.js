@@ -2,33 +2,33 @@ class Road {
     static number = 1;
     constructor(id, name, x, y) {
         this._id = id || null;
-        this._name = name+"-"+Road.number++;
+        this._name = name + "-" + Road.number++;
         this._cost = 100;
         this._x = x;
         this._y = y;
     }
 
-    get id(){
+    get id() {
         return this._id;
     }
 
-    get name(){
+    get name() {
         return this._name;
     }
 
-    get x(){
+    get x() {
         return this._x;
     }
 
-    get y(){
+    get y() {
         return this._y;
     }
 
-    get cost(){
+    get cost() {
         return this._cost;
     }
 
-    set id(id){
+    set id(id) {
         this._id = id;
     }
     set x(x) {
@@ -42,7 +42,7 @@ class Road {
         }
     }
 
-    set name(name){
+    set name(name) {
         this._name = name;
     }
 }

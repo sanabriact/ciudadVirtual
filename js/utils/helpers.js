@@ -244,6 +244,7 @@ class helpers {
             const container = helpers.setupGridListener(selectedButton);
             GridRenderer.render(city.grid, container);
             helpers.showScreen('game-page');
+            CityBuilderStorage.autoSave(city, CityBuilderStorage.keyCity);
         } else {
             alert("No se encontró ninguna partida guardada.");
         }
@@ -289,6 +290,38 @@ class helpers {
         city.electricity = electricity;
         city.water = water;
         city.food = food;
+
+        if (loadedMap) {
+            const idToType = {
+                "R": "road",
+                "R1": "house",
+                "R2": "apartment",
+                "C1": "store",
+                "C2": "commercial-center",
+                "I1": "factory",
+                "I2": "farm",
+                "S1": "police-station",
+                "S2": "firefighter-station",
+                "S3": "hospital",
+                "U1": "power-plant",
+                "U2": "water-plant",
+                "P1": "park"
+            };
+
+            loadedMap.forEach((row, y) => {
+                row.forEach((cellId, x) => {
+                    if (cellId === "g") return;
+                    const type = idToType[cellId];
+                    const building = city.buildingManager.createBuilding(type, x, y);
+                    city.addBuilding(building);
+                    city.setCellId(x, y, cellId);
+                });
+            });
+
+            city.updateResources();
+            loadedMap = null; // limpiar para la próxima partida
+        }
+
         helpers.updateUI();
         helpers.showScreen('game-page');
         cityNameContainer.textContent = `Ciudad: ${cityValue}`;
@@ -375,7 +408,6 @@ class helpers {
         const input = document.createElement("input")
         input.type = "file";
         input.accept = ".json";
-
         input.addEventListener("change", (event) => {
             const file = event.target.files[0]
             if (!file) return;
@@ -393,6 +425,76 @@ class helpers {
         });
 
         input.click();
+    }
+
+    static importMapFromFile() {
+        const input = document.createElement("input")
+        input.type = "file"
+        input.accept = ".txt"
+
+        input.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const rows = e.target.result
+                        .trim()
+                        .split("\n")
+                        .map(line => line.trim().split(/\s+/));
+
+                    // Validar que todas las filas tengan el mismo ancho
+                    const width = rows[0].length;
+                    rows.forEach((row, i) => {
+                        if (row.length !== width)
+                            throw new Error(`Fila ${i + 1} tiene ${row.length} columnas, se esperaban ${width}.`);
+                    });
+
+                    if (rows.length < 15 || rows.length > 30) {
+                        alert("El mapa no tiene un tamaño correcto.")
+                        return;
+                    }
+
+                    const adyacent = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+                    let isCorrect = true
+                    rows.forEach((row, y) => {
+                        row.forEach((cellId, x) => {
+                            if (cellId === "g" || cellId === "R") return; // vacío o vía, se salta
+
+                            const hasAdyacentRow = adyacent.some(([dx, dy]) => {
+                                const neighborRow = rows[y + dy];
+                                const neighbor = neighborRow ? neighborRow[x + dx] : undefined;
+                                return neighbor === "R";
+                            });
+
+                            if (!hasAdyacentRow) {
+                                alert(`El edificio "${cellId}" en (${x}, ${y}) no tiene una vía adyacente.`);
+                                isCorrect = false
+                            }
+                        });
+                    });
+
+                    if (isCorrect) {
+                        loadedMap = rows;
+                        alert("Mapa cargado. Completa los datos de la ciudad y presiona Crear.");
+                        document.getElementById('map-size-display').textContent = `${rows.length}x${rows.length}`
+                        document.getElementById('input-map-size').value = rows.length;
+                    }
+
+                } catch (e) {
+                    alert("Formato erróneo.")
+                    console.log(e)
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        input.click();
+    }
+
+    static loadMapSizeDisplay() {
+
     }
 
     // Reemplaza tu función adjustGamePageOffset en App.js por esta:

@@ -5,11 +5,11 @@ class Cell {
         this._id = id || "g";
     }
 
-    get id(){
+    get id() {
         return this._id;
     }
 
-    get x(){
+    get x() {
         return this._x;
     }
 
@@ -17,18 +17,18 @@ class Cell {
         return this._y;
     }
 
-    set id(id){
+    set id(id) {
         this._id = id;
     }
 
-    set x(number){
-        if(number > 0){
+    set x(number) {
+        if (number > 0) {
             this._x = number;
         }
     }
 
-    set y(number){
-        if(number > 0){
+    set y(number) {
+        if (number > 0) {
             this._y = number;
         }
     }

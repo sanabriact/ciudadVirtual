@@ -4,7 +4,7 @@
     padding: 1px !important;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
     overflow: auto;
     position: relative;
     height: calc(100vh - var(--header-h, 50px));
@@ -30,8 +30,13 @@
     table-layout: fixed;
 }
 
-#grid tr  { display: table-row !important; }
-#grid td  { display: table-cell !important; }
+#grid tr {
+    display: table-row !important;
+}
+
+#grid td {
+    display: table-cell !important;
+}
 
 /* ===== CELDAS ===== */
 .cell {
@@ -55,8 +60,8 @@
     position: absolute;
     inset: 0;
     background-image:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02) 1px, transparent 1px),
-        radial-gradient(circle at 70% 70%, rgba(255,255,255,0.01) 1px, transparent 1px);
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
     background-size: 8px 8px;
     pointer-events: none;
 }
@@ -89,7 +94,9 @@
     left: 0;
 }
 
-.cell:hover .cell-icon { transform: scale(1.05); }
+.cell:hover .cell-icon {
+    transform: scale(1.05);
+}
 
 /* ===== RUTA DIJKSTRA ===== */
 .route-highlight {
@@ -103,8 +110,13 @@
 }
 
 @keyframes routePulse {
-    from { box-shadow: inset 0 0 8px rgba(255, 183, 0, 0.3); }
-    to   { box-shadow: inset 0 0 16px rgba(255, 183, 0, 0.5), 0 0 8px rgba(255, 183, 0, 0.3); }
+    from {
+        box-shadow: inset 0 0 8px rgba(255, 183, 0, 0.3);
+    }
+
+    to {
+        box-shadow: inset 0 0 16px rgba(255, 183, 0, 0.5), 0 0 8px rgba(255, 183, 0, 0.3);
+    }
 }
 
 /* ===== RESPONSIVE ===== */
@@ -122,7 +134,7 @@
         margin-right: 0 !important;
     }
 
-    #game-page .row > * {
+    #game-page .row>* {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }

@@ -1,11 +1,11 @@
 class ResidentialBuilding extends Building {
     static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, capacity, residents) {
-        super(id, name +"-"+ ResidentialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y)
+        super(id, name + "-" + ResidentialBuilding.number++, cost, electricityConsumption, waterConsumption, x, y)
         this._capacity = capacity ?? 0;
         this._residents = residents ?? 0;
     }
-    
+
     //=========SETTERS===========
     set capacity(capacity) {
         if (capacity >= 0) {
@@ -23,7 +23,7 @@ class ResidentialBuilding extends Building {
         return this._capacity;
     }
 
-    get residents(){
+    get residents() {
         return this._residents;
     }
 }

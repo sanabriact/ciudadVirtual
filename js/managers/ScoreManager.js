@@ -9,6 +9,7 @@ class ScoreManager {
     get score() {
         return this._score;
     }
+
     allHasJob() {
         return this._citizenManager._population.every(c => c.hasJob);
     }
@@ -31,7 +32,7 @@ class ScoreManager {
 
     calculateBonus() {
         let bonus = 0;
-        if(this._citizenManager.population.length === 0){
+        if (this._citizenManager.population.length === 0) {
             return 0;
         }
         if (this.allHasJob()) {
@@ -52,7 +53,7 @@ class ScoreManager {
 
     calculatePenalization() {
         let penalization = 0;
-        if(this._citizenManager.population.length === 0){
+        if (this._citizenManager.population.length === 0) {
             return 0;
         }
         if (this._resourceManager.money < 0) {

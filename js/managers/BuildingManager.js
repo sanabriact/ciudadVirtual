@@ -3,7 +3,7 @@ class BuildingManager {
         this._buildings = []
     }
 
-    get buildings(){
+    get buildings() {
         return this._buildings;
     }
 

@@ -19,7 +19,7 @@ class Building {
         this._id = id;
     }
 
-    set name(name){
+    set name(name) {
         this._name = name;
     }
 
@@ -57,27 +57,27 @@ class Building {
         return this._id;
     }
 
-    get name(){
+    get name() {
         return this._name;
     }
 
-    get cost(){
+    get cost() {
         return this._cost;
     }
 
-    get electricityConsumption(){
+    get electricityConsumption() {
         return this._electricityConsumption;
     }
 
-    get waterConsumption(){
+    get waterConsumption() {
         return this._waterConsumption;
     }
 
-    get x(){
+    get x() {
         return this._x;
     }
 
-    get y(){
+    get y() {
         return this._y;
     }
 }

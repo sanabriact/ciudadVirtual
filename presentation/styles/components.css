@@ -27,8 +27,15 @@
 }
 
 @keyframes scanLine {
-    0%, 100% { opacity: 0.4; }
-    50%       { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 /* ===== LAYOUT HEADER - UNA SOLA FILA EN PC ===== */
@@ -181,12 +188,27 @@
     white-space: nowrap;
 }
 
-.money-green  { color: var(--neon-green) !important; }
-.money-red    { color: #ff0033 !important; text-shadow: 0 0 5px #ff0033, 0 0 15px #ff0033; }
-.money-yellow { color: #ffcc00 !important; text-shadow: 0 0 4px #ffcc00, 0 0 10px #ffcc00; }
+.money-green {
+    color: var(--neon-green) !important;
+}
 
-#population { color: var(--neon-cyan); }
-#happiness  { color: #ff9ff3; }
+.money-red {
+    color: #ff0033 !important;
+    text-shadow: 0 0 5px #ff0033, 0 0 15px #ff0033;
+}
+
+.money-yellow {
+    color: #ffcc00 !important;
+    text-shadow: 0 0 4px #ffcc00, 0 0 10px #ffcc00;
+}
+
+#population {
+    color: var(--neon-cyan);
+}
+
+#happiness {
+    color: #ff9ff3;
+}
 
 /* ===== PUNTUACIÓN - EN LÍNEA ===== */
 .puntuation {
@@ -248,7 +270,9 @@ aside.col-lg-3 {
 
 /* Tablet: oculta título, recursos en 2 filas */
 @media (max-width: 992px) {
-    #header-center { display: none; }
+    #header-center {
+        display: none;
+    }
 
     #resources-edit-panel {
         flex-wrap: wrap;
@@ -256,12 +280,25 @@ aside.col-lg-3 {
         max-width: 300px;
     }
 
-    .resource-edit-input { width: 44px; }
+    .resource-edit-input {
+        width: 44px;
+    }
 
-    #game-page { padding-top: 70px; }
-    #game-page .row { min-height: calc(100vh - 70px); }
-    .sidebar { height: auto; }
-    aside.col-lg-3 { height: auto; }
+    #game-page {
+        padding-top: 70px;
+    }
+
+    #game-page .row {
+        min-height: calc(100vh - 70px);
+    }
+
+    .sidebar {
+        height: auto;
+    }
+
+    aside.col-lg-3 {
+        height: auto;
+    }
 }
 
 /* Móvil: header 2 filas, recursos en grid */
@@ -272,8 +309,17 @@ aside.col-lg-3 {
         gap: 4px;
     }
 
-    #header-left  { order: 1; width: 100%; justify-content: space-between; }
-    #header-right { order: 2; width: 100%; align-items: center; }
+    #header-left {
+        order: 1;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    #header-right {
+        order: 2;
+        width: 100%;
+        align-items: center;
+    }
 
     #resources-edit-panel {
         display: grid;
@@ -292,12 +338,22 @@ aside.col-lg-3 {
         width: 100%;
     }
 
-    .resource-edit-input { width: 36px; font-size: 10px !important; }
+    .resource-edit-input {
+        width: 36px;
+        font-size: 10px !important;
+    }
 
-    .puntuation { justify-content: center; }
+    .puntuation {
+        justify-content: center;
+    }
 
-    #game-page { padding-top: 100px; }
-    #game-page .row { min-height: calc(100vh - 100px); }
+    #game-page {
+        padding-top: 100px;
+    }
+
+    #game-page .row {
+        min-height: calc(100vh - 100px);
+    }
 }
 
 /* ===== SIDEBAR DECORATIVO ===== */
@@ -318,7 +374,8 @@ aside.col-lg-3 {
     gap: 1px;
 }
 
-.sidebar hr, aside.col-lg-3 hr {
+.sidebar hr,
+aside.col-lg-3 hr {
     border-color: var(--border-subtle);
     margin: 10px 0;
     opacity: 1;
@@ -340,10 +397,21 @@ aside.col-lg-3 {
     letter-spacing: 0.03em;
 }
 
-#city-temperature  { color: var(--neon-amber) !important; }
-#city-condition    { color: var(--text-primary) !important; }
-#city-humidity     { color: #60b4ff !important; }
-#city-wind-velocity { color: var(--neon-cyan) !important; }
+#city-temperature {
+    color: var(--neon-amber) !important;
+}
+
+#city-condition {
+    color: var(--text-primary) !important;
+}
+
+#city-humidity {
+    color: #60b4ff !important;
+}
+
+#city-wind-velocity {
+    color: var(--neon-cyan) !important;
+}
 
 /* ===== NOTICIAS ===== */
 #news-panel {
@@ -367,7 +435,9 @@ aside.col-lg-3 {
     background: rgba(0, 245, 255, 0.06) !important;
 }
 
-#news-panel .card-body { padding: 10px 12px; }
+#news-panel .card-body {
+    padding: 10px 12px;
+}
 
 #news-panel .article-title {
     font-size: 0.78rem;
@@ -390,7 +460,9 @@ aside.col-lg-3 {
     letter-spacing: 0.05em;
 }
 
-#news-panel a:hover { text-shadow: 0 0 6px var(--neon-cyan); }
+#news-panel a:hover {
+    text-shadow: 0 0 6px var(--neon-cyan);
+}
 
 .news-image {
     width: 100%;
@@ -402,4 +474,6 @@ aside.col-lg-3 {
     transition: filter 0.3s;
 }
 
-.news-image:hover { filter: saturate(1) brightness(1); }
+.news-image:hover {
+    filter: saturate(1) brightness(1);
+}

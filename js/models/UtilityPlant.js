@@ -1,9 +1,9 @@
 class UtilityPlant extends Building {
     static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, productionType, productionAmount) {
-        super(id, name+"-"+UtilityPlant.number++, cost, electricityConsumption, waterConsumption, x, y);
+        super(id, name + "-" + UtilityPlant.number++, cost, electricityConsumption, waterConsumption, x, y);
         // productionType: "electricity" o "water"
-        this._productionType   = productionType   || "electricity";
+        this._productionType = productionType || "electricity";
         this._productionAmount = productionAmount ?? 0;
     }
 
@@ -19,11 +19,11 @@ class UtilityPlant extends Building {
         if (value >= 0) this._productionAmount = value;
     }
 
-    get productionType(){
+    get productionType() {
         return this._productionType;
     }
 
-    get productionAmount(){
+    get productionAmount() {
         return this._productionAmount;
     }
 }

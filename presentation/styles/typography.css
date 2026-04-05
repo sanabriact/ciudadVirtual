@@ -85,7 +85,12 @@
 }
 
 /* Recursos en el header */
-#money, #electricity, #water, #food, #population, #happiness {
+#money,
+#electricity,
+#water,
+#food,
+#population,
+#happiness {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.85rem;
     letter-spacing: 0.05em;
@@ -97,14 +102,38 @@
     white-space: nowrap;
 }
 
-#money { color: var(--neon-amber); border-color: rgba(255, 183, 0, 0.2); }
-#electricity { color: #ffe066; border-color: rgba(255, 224, 102, 0.2); }
-#water { color: #60b4ff; border-color: rgba(96, 180, 255, 0.2); }
-#food { color: var(--neon-green); border-color: rgba(57, 255, 20, 0.2); }
-#population { color: var(--neon-cyan); border-color: var(--border-subtle); }
-#happiness { color: #ff9ff3; border-color: rgba(255, 159, 243, 0.2); }
+#money {
+    color: var(--neon-amber);
+    border-color: rgba(255, 183, 0, 0.2);
+}
 
-#city-name, #city-mayor {
+#electricity {
+    color: #ffe066;
+    border-color: rgba(255, 224, 102, 0.2);
+}
+
+#water {
+    color: #60b4ff;
+    border-color: rgba(96, 180, 255, 0.2);
+}
+
+#food {
+    color: var(--neon-green);
+    border-color: rgba(57, 255, 20, 0.2);
+}
+
+#population {
+    color: var(--neon-cyan);
+    border-color: var(--border-subtle);
+}
+
+#happiness {
+    color: #ff9ff3;
+    border-color: rgba(255, 159, 243, 0.2);
+}
+
+#city-name,
+#city-mayor {
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.75rem;
     color: var(--text-secondary);

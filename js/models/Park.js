@@ -1,7 +1,7 @@
 class Park extends Building {
     static number = 1;
     constructor(id, name, cost, electricityConsumption, waterConsumption, x, y, happinessBonus) {
-        super(id, name+"-"+Park.number++, cost, electricityConsumption, waterConsumption, x, y);
+        super(id, name + "-" + Park.number++, cost, electricityConsumption, waterConsumption, x, y);
         this._happinessBonus = happinessBonus ?? 0;
     }
 
@@ -12,7 +12,7 @@ class Park extends Building {
         }
     }
 
-    get happinessBonus(){
+    get happinessBonus() {
         return this._happinessBonus;
     }
 }
