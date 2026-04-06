@@ -27,6 +27,14 @@ class City {
         return this._mayor;
     }
 
+    get regionLat() {
+        return this._regionLat;
+    }
+
+    get regionLon() {
+        return this._regionLon;
+    }
+
     get buildingManager() {
         return this._buildingManager;
     }
