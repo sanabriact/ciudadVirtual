@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnCreateGame.addEventListener('click', () => {
         helpers.createNewGame();
-    });
+    }); 
 
     buttonList.forEach(btn => {
         btn.addEventListener('click', () => {

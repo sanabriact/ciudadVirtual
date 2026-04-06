@@ -9,8 +9,6 @@ class helpers {
         document.getElementById('happiness').textContent = `😊 ${city.calculateHappiness(city.buildings)}%`;
         document.getElementById('score-panel').textContent = `${city.score}`;
 
-        money.textContent = `💵 $${city.money}`;
-
         money.classList.remove('money-green', 'money-yellow', 'money-red');
 
         if (city.money < 1000) {
@@ -254,8 +252,9 @@ class helpers {
         try {
             CityBuilderStorage.save(city, CityBuilderStorage.keyCity);
             alert("Partida guardada exitosamente.")
-        } catch (e) {
-            alert("Error al guardar partida", e)
+        } catch (error) {
+            alert("Error al guardar partida")
+            console.log(error)
         }
     }
 
@@ -267,9 +266,11 @@ class helpers {
 
         const gridSize = parseInt(document.getElementById("input-map-size").value);
         const cityValue = document.getElementById('input-city-name').value.trim();
-        if (cityValue !== "") thereIsCityName = true;
         const mayorName = document.getElementById('input-mayor-name').value.trim();
-        if (mayorName !== "") thereIsMayorName = true;
+        const inputRegion = document.getElementById('input-region');
+        const selectedOption = inputRegion.options[inputRegion.selectedIndex];
+        const regionLat = parseFloat(selectedOption.dataset.lat) || 0;
+        const regionLon = parseFloat(selectedOption.dataset.lon) || 0;
         const cityNameContainer = document.getElementById('city-name');
         const cityMayorNameContainer = document.getElementById('city-mayor')
         let electricity = parseInt(document.getElementById("input-init-electricity").value);
@@ -277,14 +278,18 @@ class helpers {
         let food = parseInt(document.getElementById("input-init-food").value);
         const turnDuration = parseInt(document.getElementById("input-turn-duration").value);
         const growthRate = parseInt(document.getElementById("input-growth-rate").value);
-
         const grid = new Grid(gridSize, gridSize);
         grid.initGrid();
+
+        if (cityValue !== "") thereIsCityName = true;
+        if (mayorName !== "") thereIsMayorName = true;
+
         if (!thereIsCityName || !thereIsMayorName || !thereIsRegion) {
             alert("Por favor, ingresa un nombre para la ciudad, el alcalde y/o selecciona una región.");
             return;
         }
-        city = new City(cityValue, mayorName, 0, 0, gridSize, gridSize, 0, 0, grid, turnDuration);
+
+        city = new City(cityValue, mayorName, regionLat, regionLon, gridSize, gridSize, 0, 0, grid, turnDuration);
         city.turnSystem = new TurnSystem(city, turnDuration);
         city.growthRate = growthRate;
         city.electricity = electricity;
@@ -306,7 +311,7 @@ class helpers {
                 "U1": "power-plant",
                 "U2": "water-plant",
                 "P1": "park"
-            };
+            }; 
 
             loadedMap.forEach((row, y) => {
                 row.forEach((cellId, x) => {
@@ -344,19 +349,20 @@ class helpers {
 
     static getBuildingInfo(type) {
         const info = {
-            'house': { nombre: 'Casa', costo: 1000, capacidad: 4, empleos: null, ingreso: null, produccion: null, electricidad: 5, agua: 3, alimentos: null, felicidad: null, radio: null },
-            'apartment': { nombre: 'Apartamento', costo: 3000, capacidad: 12, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: 10, alimentos: null, felicidad: null, radio: null },
-            'store': { nombre: 'Tienda', costo: 2000, capacidad: null, empleos: 6, ingreso: 500, produccion: null, electricidad: 8, agua: null, alimentos: null, felicidad: null, radio: null },
-            'commercial-center': { nombre: 'Centro Comercial', costo: 8000, capacidad: null, empleos: 20, ingreso: 2000, produccion: null, electricidad: 25, agua: null, alimentos: null, felicidad: null, radio: null },
-            'factory': { nombre: 'Fábrica', costo: 5000, capacidad: null, empleos: 15, ingreso: 800, produccion: null, electricidad: 20, agua: 15, alimentos: null, felicidad: null, radio: null },
-            'farm': { nombre: 'Granja', costo: 3000, capacidad: null, empleos: 8, ingreso: null, produccion: 50, electricidad: null, agua: 10, alimentos: 50, felicidad: null, radio: null },
-            'police-station': { nombre: 'Policía', costo: 4000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: null, alimentos: null, felicidad: 10, radio: 5 },
-            'firefighter-station': { nombre: 'Bomberos', costo: 4000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 15, agua: null, alimentos: null, felicidad: 10, radio: 5 },
-            'hospital': { nombre: 'Hospital', costo: 6000, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: 20, agua: 10, alimentos: null, felicidad: 10, radio: 7 },
-            'power-plant': { nombre: 'Planta Eléctrica', costo: 10000, capacidad: null, empleos: null, ingreso: null, produccion: 200, electricidad: null, agua: null, alimentos: null, felicidad: null, radio: null },
-            'water-plant': { nombre: 'Planta de Agua', costo: 8000, capacidad: null, empleos: null, ingreso: null, produccion: 150, electricidad: 20, agua: null, alimentos: null, felicidad: null, radio: null },
-            'park': { nombre: 'Parque', costo: 1500, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: null, agua: null, alimentos: null, felicidad: 5, radio: null },
-            'road': { nombre: 'Vía', costo: 100, capacidad: null, empleos: null, ingreso: null, produccion: null, electricidad: null, agua: null, alimentos: null, felicidad: null, radio: null },
+
+            'house': { name: 'Casa', cost: 1000, capacity: 4, jobs: null, income: null, production: null, electricity: 5, water: 3, food: null, happiness: null, radius: null },
+            'apartment': { name: 'Apartamento', cost: 3000, capacity: 12, jobs: null, income: null, production: null, electricity: 15, water: 10, food: null, happiness: null, radius: null },
+            'store': { name: 'Tienda', cost: 2000, capacity: null, jobs: 6, income: 500, production: null, electricity: 8, water: null, food: null, happiness: null, radius: null },
+            'commercial-center': { name: 'Centro Comercial', cost: 8000, capacity: null, jobs: 20, income: 2000, production: null, electricity: 25, water: null, food: null, happiness: null, radius: null },
+            'factory': { name: 'Fábrica', cost: 5000, capacity: null, jobs: 15, income: 800, production: null, electricity: 20, water: 15, food: null, happiness: null, radius: null },
+            'farm': { name: 'Granja', cost: 3000, capacity: null, jobs: 8, income: null, production: 50, electricity: null, water: 10, food: 50, happiness: null, radius: null },
+            'police-station': { name: 'Policía', cost: 4000, capacity: null, jobs: null, income: null, production: null, electricity: 15, water: null, food: null, happiness: 10, radius: 5 },
+            'firefighter-station': { name: 'Bomberos', cost: 4000, capacity: null, jobs: null, income: null, production: null, electricity: 15, water: null, food: null, happiness: 10, radius: 5 },
+            'hospital': { name: 'Hospital', cost: 6000, capacity: null, jobs: null, income: null, production: null, electricity: 20, water: 10, food: null, happiness: 10, radius: 7 },
+            'power-plant': { name: 'Planta Eléctrica', cost: 10000, capacity: null, jobs: null, income: null, production: 200, electricity: null, water: null, food: null, happiness: null, radius: null },
+            'water-plant': { name: 'Planta de Agua', cost: 8000, capacity: null, jobs: null, income: null, production: 150, electricity: 20, water: null, food: null, happiness: null, radius: null },
+            'park': { name: 'Parque', cost: 1500, capacity: null, jobs: null, income: null, production: null, electricity: null, water: null, food: null, happiness: 5, radius: null },
+            'road': { name: 'Vía', cost: 100, capacity: null, jobs: null, income: null, production: null, electricity: null, water: null, food: null, happiness: null, radius: null },
         };
 
         return info[type] ?? null;
@@ -371,16 +377,16 @@ class helpers {
 
         let html = `<ul class="building-info-list">`;
 
-        if (data.costo) html += `<li>💰 Costo: $${data.costo.toLocaleString()}</li>`;
-        if (data.capacidad) html += `<li>👥 Capacidad: ${data.capacidad} ciudadanos</li>`;
-        if (data.empleos) html += `<li>💼 Empleos: ${data.empleos}</li>`;
-        if (data.ingreso) html += `<li>📈 Ingreso: $${data.ingreso}/turno</li>`;
-        if (data.produccion) html += `<li>🏭 Producción: ${data.produccion}</li>`;
-        if (data.electricidad) html += `<li>⚡ Electricidad: ${data.electricidad} u/t</li>`;
-        if (data.agua) html += `<li>💧 Agua: ${data.agua} u/t</li>`;
-        if (data.alimentos) html += `<li>🌾 Alimentos: ${data.alimentos}/turno</li>`;
-        if (data.felicidad) html += `<li>😊 Felicidad: +${data.felicidad}</li>`;
-        if (data.radio) html += `<li>📡 Radio: ${data.radio} celdas</li>`;
+        if (data.cost) html += `<li>💰 Costo: $${data.cost.toLocaleString()}</li>`;
+        if (data.capacity) html += `<li>👥 Capacidad: ${data.capacity} ciudadanos</li>`;
+        if (data.jobs) html += `<li>💼 Empleos: ${data.jobs}</li>`;
+        if (data.income) html += `<li>📈 Ingreso: $${data.income}/turno</li>`;
+        if (data.production) html += `<li>🏭 Producción: ${data.production}</li>`;
+        if (data.electricity) html += `<li>⚡ Electricidad: ${data.electricity} u/t</li>`;
+        if (data.water) html += `<li>💧 Agua: ${data.water} u/t</li>`;
+        if (data.food) html += `<li>🌾 Alimentos: ${data.food}/turno</li>`;
+        if (data.happiness) html += `<li>😊 Felicidad: +${data.happiness}</li>`;
+        if (data.radius) html += `<li>📡 Radio: ${data.radius} celdas</li>`;
 
         html += '</ul>';
         container.innerHTML = html;
@@ -415,8 +421,8 @@ class helpers {
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const datos = JSON.parse(e.target.result);
-                    CityBuilderStorage.save(datos, CityBuilderStorage.keyCity)
+                    const data = JSON.parse(e.target.result);
+                    CityBuilderStorage.save(data, CityBuilderStorage.keyCity)
                 } catch {
                     alert("Archivo inválido.")
                 }
@@ -443,7 +449,7 @@ class helpers {
                         .trim()
                         .split("\n")
                         .map(line => line.trim().split(/\s+/));
-
+                    //.split(/\s+/) hace que se revisen los espacios y se cree un arreglo de filas.
                     // Validar que todas las filas tengan el mismo ancho
                     const width = rows[0].length;
                     rows.forEach((row, i) => {
@@ -493,12 +499,6 @@ class helpers {
         input.click();
     }
 
-    static loadMapSizeDisplay() {
-
-    }
-
-    // Reemplaza tu función adjustGamePageOffset en App.js por esta:
-
     static adjustGamePageOffset() {
         const header = document.getElementById('header');
         const gamePage = document.getElementById('game-page');
@@ -510,5 +510,4 @@ class helpers {
         // Esto hace que map.css use la altura real del header
         document.documentElement.style.setProperty('--header-h', h + 'px');
     }
-
 }
