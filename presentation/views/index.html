@@ -16,39 +16,44 @@
     <link rel="stylesheet" href="../styles/responsive.css">
 
     <!-- MODELOS BASE (van primero porque los demás dependen de ellos) -->
-    <script src="../../js/models/Building.js"></script>
-    <script src="../../js/models/ResidentialBuilding.js"></script>
-    <script src="../../js/models/CommercialBuilding.js"></script>
-    <script src="../../js/models/IndustrialBuilding.js"></script>
-    <script src="../../js/models/ServiceBuilding.js"></script>
-    <script src="../../js/models/UtilityPlant.js"></script>
-    <script src="../../js/models/Park.js"></script>
-    <script src="../../js/models/Road.js"></script>
-    <script src="../../js/models/Cell.js"></script>
-    <script src="../../js/models/Grid.js"></script>
-    <script src="../../js/models/Citizen.js"></script>
-    <script src="../../js/models/City.js"></script>
-    <script src="../../js/services/CityService.js"></script>
+    <script src="../../logic/models/Building.js"></script>
+    <script src="../../logic/models/ResidentialBuilding.js"></script>
+    <script src="../../logic/models/CommercialBuilding.js"></script>
+    <script src="../../logic/models/IndustrialBuilding.js"></script>
+    <script src="../../logic/models/ServiceBuilding.js"></script>
+    <script src="../../logic/models/UtilityPlant.js"></script>
+    <script src="../../logic/models/Park.js"></script>
+    <script src="../../logic/models/Road.js"></script>
+    <script src="../../logic/models/Cell.js"></script>
+    <script src="../../logic/models/Grid.js"></script>
+    <script src="../../logic/models/Citizen.js"></script>
+    <script src="../../logic/models/City.js"></script>
+    <script src="../../logic/services/CityService.js"></script>
 
     <!-- MANAGERS (dependen de los modelos) -->
-    <script src="../../js/managers/BuildingManager.js"></script>
-    <script src="../../js/managers/CitizenManager.js"></script>
-    <script src="../../js/managers/ResourceManager.js"></script>
-    <script src="../../js/managers/ScoreManager.js"></script>
-    <script src="../../js/managers/TurnSystem.js"></script>
+    <script src="../../logic/managers/BuildingManager.js"></script>
+    <script src="../../logic/managers/CitizenManager.js"></script>
+    <script src="../../logic/managers/ResourceManager.js"></script>
+    <script src="../../logic/managers/ScoreManager.js"></script>
+    <script src="../../logic/managers/TurnSystem.js"></script>
 
     <!-- SERVICIOS -->
-    <script src="../../js/services/NewsService.js"></script>
-    <script src="../../js/services/WeatherService.js"></script>
-    <script src="../../js/services/RoutingService.js"></script>
+    <script src="../../logic/services/NewsService.js"></script>
+    <script src="../../logic/services/WeatherService.js"></script>
+    <script src="../../logic/services/RoutingService.js"></script>
+    <script src="../../logic/services/CityBuilderStorage.js"></script>
 
     <!-- UI -->
-    <script src="../../js/ui/GridRenderer.js"></script>
-    <script src="../../js/ui/EventHandler.js"></script>
+    <script src="../../logic/utils/listenerHelpers.js"></script>
+    <script src="../../logic/ui/GridRenderer.js"></script>
+    <script src="../../logic/ui/EventHandler.js"></script>
 
     <!-- UTILS -->
-    <script src="../../js/utils/helpers.js"></script>
-    <script src="../../js/services/CityBuilderStorage.js"></script>
+    <script src="../../logic/utils/UIhelpers.js"></script> 
+    <script src="../../logic/utils/ServicesHelpers.js"></script>
+    <script src="../../logic/utils/RoutingHelpers.js"></script>
+    <script src="../../logic/utils/BuildingHelpers.js"></script>
+    <script src="../../logic/utils/GameHelpers.js"></script>
 
 </head>
 
